@@ -1,0 +1,29 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+WORKSPACE_DIR="${SCRIPT_DIR%/*}"
+DUMPS_DIR="${WORKSPACE_DIR}/data/dumps/mysql"
+ENV_PATH="${WORKSPACE_DIR}/.env"
+
+# shellcheck source=scripts/parse_env.sh
+. "${SCRIPT_DIR}/scripts/parse_env.sh"
+# shellcheck source=scripts/statuses.sh
+. "${SCRIPT_DIR}/scripts/statuses.sh"
+
+if [ -z "$1" ]; then
+  read -r -p "Enter dump filename: " DUMP_FILENAME
+else
+  read -er -p "Enter dump filename: " -i "$1" DUMP_FILENAME
+fi
+
+DB_USER=$(parse_env "DB_USER" "${ENV_PATH}")
+DB_PASSWORD=$(parse_env "DB_PASSWORD" "${ENV_PATH}")
+DB_NAME=${DUMP_FILENAME%${DUMP_FILENAME:(-22)}}
+
+DUMP_PATH="${DUMPS_DIR}/${DUMP_FILENAME}"
+
+# shellcheck disable=SC2015
+cd "$WORKSPACE_DIR" \
+  && docker-compose exec -T mysql sh -c "exec mysql -u${DB_USER} -p${DB_PASSWORD} ${DB_NAME}" < "${DUMP_PATH}" \
+  && message_success "MySQL database \`${DB_NAME}\` restored from the dump ${DUMP_PATH}" \
+  || message_failure "Error restoring from MySQL dump ${DUMP_PATH}"

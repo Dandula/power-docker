@@ -1,0 +1,57 @@
+# environments
+.env
+
+# www data directories
+/www/*
+!/www/phpmemadmin
+!/www/opcache-gui
+!/www/apcu
+/www/phpmemadmin/*
+/www/opcache-gui/*
+/www/apcu/*
+
+# hosts configs
+/hosts/*
+!/hosts/phpmemadmin.conf
+!/hosts/opcache-gui.conf
+!/hosts/apcu.conf
+
+# config files
+/images/php/php7.4.ini
+/images/php/php8.0.ini
+/images/php/msmtprc
+/images/mysql/my.cnf
+/images/redis/redis.conf
+/images/rabbitmq/rabbitmq.conf
+/images/schedule/supervisord.conf
+/images/schedule/additional.ini
+
+# data directories
+/data/certs/*
+/data/mails/*
+/data/databases/mysql/*
+/data/databases/mongo/*
+/data/databases/rabbitmq/*
+/data/dumps/mysql/*
+/data/dumps/mongo/*
+/data/cron/*
+
+# logs directories
+/logs/nginx/*
+/logs/php/*
+/logs/msmtp/*
+/logs/mysql/*
+/logs/redis/*
+/logs/supervisord/*
+/logs/cron/*
+
+# IDEs and editors
+/.idea
+
+# system files
+.DS_Store
+Thumbs.db
+.directory
+
+# keep .gitkeep files
+!/**/.gitkeep
