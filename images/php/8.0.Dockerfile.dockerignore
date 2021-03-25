@@ -1,0 +1,9 @@
+# other dockerfiles
+*Dockerfile
+!8.0.Dockerfile
+
+# configs
+*.ini.example
+*.ini
+msmtprc.example
+msmtprc

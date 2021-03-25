@@ -1,0 +1,38 @@
+[PHP]
+
+; ----------------------------
+; Mail
+; ----------------------------
+
+;sendmail_path                = "/usr/sbin/sendmail -t -i"
+;sendmail_path                = "/usr/bin/msmtp -t -i"
+sendmail_path                = "/etc/fakesendmail.sh"
+
+; ----------------------------
+; Extensions
+; ----------------------------
+
+extension  = apcu
+extension  = imagick
+extension  = memcached
+extension  = mongodb
+extension  = redis
+extension  = timezonedb
+
+; ----------------------------
+; Zend extensions
+; ----------------------------
+
+zend_extension = xdebug
+
+[xdebug]
+
+;off      Nothing is enabled (0 overhead)
+;develop  Enables Development Aids + overloaded var_dump()
+;coverage Enables Code Coverage Analysis
+;debug    Enables Step Debugging
+;gcstats  Enables Garbage Collection Statistics
+;profile  Enables Profiling
+;trace    Enables the Function Trace feature
+;Example: xdebug.mode=develop,trace
+xdebug.mode                      = off

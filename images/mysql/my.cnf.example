@@ -1,0 +1,116 @@
+[client]
+
+port                            = 3306
+character_sets_dir              = "/usr/share/mysql/charsets/"
+
+[mysql]
+
+no-auto-rehash
+no-beep
+character_sets_dir              = "/usr/share/mysql/charsets/"
+
+[mysqld]
+
+# Required Settings
+
+basedir                         = "/usr/"
+#bind-address                   = 127.0.0.1
+character_sets_dir              = "/usr/share/mysql/charsets/"
+character_set_server            = utf8mb4
+collation_server                = utf8mb4_unicode_ci
+datadir                         = "/var/lib/mysql/"
+default_storage_engine          = InnoDB
+explicit_defaults_for_timestamp = 1
+ft_min_word_len                 = 3
+local_infile                    = 0
+lower_case_table_names          = 1
+max_allowed_packet              = 256M
+pid_file                        = "/var/run/mysqld/mysqld.pid"
+port                            = 3306
+secure-file-priv                = "/var/lib/mysql-files/"
+skip_name_resolve               = 1
+ssl                             = 0
+tmpdir                          = "/tmp"
+
+# Buffer Settings
+
+bulk_insert_buffer_size         = 8M
+join_buffer_size                = 2M
+read_buffer_size                = 2M
+read_rnd_buffer_size            = 4M
+sort_buffer_size                = 2M
+
+# Cache Settings
+
+query_cache_limit               = 256K
+query_cache_size                = 32M
+query_cache_type                = 1
+
+# Connection Settings
+
+max_connections                 = 64
+max_connect_errors              = 32
+back_log                        = 128
+thread_cache_size               = 8
+interactive_timeout             = 180
+wait_timeout                    = 180
+
+# InnoDB Settings
+
+innodb_adaptive_hash_index      = 0
+innodb_buffer_pool_instances    = 1
+innodb_buffer_pool_size         = 1G
+innodb_data_file_path           = ibdata1:10M:autoextend
+innodb_data_home_dir            = ""
+innodb_file_per_table           = 1
+#innodb_force_recovery          = 1
+innodb_log_file_size            = 64M
+innodb_read_io_threads          = 8
+#innodb_thread_concurrency      = 4
+innodb_write_io_threads         = 8
+
+# Logging
+
+general_log                     = 1
+general_log_file                = "/var/log/mysql/queries.log"
+log_error                       = "/var/log/mysql/error.log"
+skip-log-bin
+#log_queries_not_using_indexes  = 1
+#long_query_time                = 5
+#slow_query_log                 = 1
+#slow_query_log_file            = "/var/log/mysql/mysql-slow.log"
+
+# MyISAM Settings
+
+key_buffer_size                 = 32M
+myisam_max_sort_file_size       = 256M
+myisam_recover_options          = backup,force
+
+# Table Settings
+
+table_definition_cache          = 10000
+table_open_cache                = 10000
+open_files_limit                = 60000
+max_heap_table_size             = 128M
+tmp_table_size                  = 128M
+
+[mysqldump]
+
+quick
+quote_names
+max_allowed_packet              = 16M
+
+[myisamchk]
+
+key_buffer_size                 = 64M
+sort_buffer_size                = 64M
+read_buffer                     = 2M
+write_buffer                    = 2M
+
+[mysqlhotcopy]
+
+interactive-timeout
+
+[mysqld_safe]
+
+open_files_limit                = 60000
