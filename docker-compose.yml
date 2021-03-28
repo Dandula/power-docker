@@ -131,7 +131,7 @@ services:
     environment:
       TZ: ${TIMEZONE}
     volumes:
-      - ./data/cron:/usr/jobs
+      - ./data/cron:/home/docker/jobs
       - ./www:/var/www
       - ./images/schedule/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
       - ./images/php/php${PHP_VER}.ini:/etc/php/${PHP_VER}/cli/conf.d/30-custom.ini

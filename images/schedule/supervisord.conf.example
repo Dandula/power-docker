@@ -4,8 +4,33 @@ logfile_maxbytes = 50MB                             ; maximum size of logfile be
 logfile_backups = 10                                ; number of backed up logfiles
 loglevel = info                                     ; critical, error, warn, info, debug, trace, blather
 pidfile = /tmp/supervisord.pid                      ; pidfile location
-nodaemon = false                                    ; run supervisord as a daemon
+nodaemon = true                                     ; run supervisord as a daemon
 minfds = 1024                                       ; number of startup file descriptors
 minprocs = 200                                      ; number of process descriptors
-user = docker                                       ; default user
+user = root                                         ; default user
 childlogdir = /var/log/supervisord                  ; where child log files will live
+
+[program:cron]
+command = /usr/sbin/cron -f -L 15
+stdout_logfile = /dev/stdout
+stdout_logfile_maxbytes = 0
+stderr_logfile = /dev/stderr
+stderr_logfile_maxbytes = 0
+user = root
+autostart = true
+autorestart = true
+priority = 10
+
+#[program:laravel-worker]
+#process_name = %(program_name)s_%(process_num)02d
+#command = php /var/www/example/artisan queue:work
+#autostart = true
+#autorestart = true
+#stopasgroup = true
+#killasgroup = true
+#user = docker
+#numprocs = 8
+#redirect_stderr = true
+#stdout_logfile = /var/www/example/worker.log
+#stopwaitsecs = 3600
+#priority = 20
