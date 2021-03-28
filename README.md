@@ -101,12 +101,15 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 10. [**make_cert.sh**](./tools/make_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs`  
     _Example:_ execute `<path_to_tools>/make_cert.sh <domain>` in any directory.  
     **Important!** This command not compatible with WSL. Browser must be installed at the same host as used `mkcert`!
-11. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
+11. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
+    _Example:_ execute `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` in any directory.
+    **Important!** You must run a new php container to apply the generated SSH agent key!
+12. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
     _Example:_ execute `<path_to_tools>/cron_example.sh <example_filename>` in any directory.
-12. [**mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
-    _Example:_ execute `<path_to_tools>/wsl/mkcert_install.bat` in any directory.
-13. [**make_cert.bat**](./tools/wsl/make_cert.bat) - make SSL certificate for a domain from the Windows OS and put to the directory `./data/certs`  
-    _Example:_ execute `<path_to_tools>/wsl/make_cert.bat <domain>` in any directory.
+13. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
+    _Example:_ execute `<path_to_tools>\wsl\mkcert_install.bat` in any directory.
+14. [**wsl/make_cert.bat**](./tools/wsl/make_cert.bat) - make SSL certificate for a domain from the Windows OS and put to the directory `./data/certs`  
+    _Example:_ execute `<path_to_tools>\wsl\make_cert.bat <domain>` in any directory.
 
 
 
@@ -124,7 +127,8 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 
 ## File Structure
 `├─ data` - user data stored between runs  
-`│  ├─ certs` - SSL certificates of hosts  
+`│  ├─ certs` - SSL & SSH certificates of hosts  
+`│  │  └─ mnt` - SSH certificates mounted to container of php service  
 `│  ├─ cron` - configuration and scripts for running periodical jobs  
 `│  ├─ databases` - database files  
 `│  ├─ dumps` - generated database dump files  
@@ -207,7 +211,7 @@ Execute sequentially:
 5. `cd example`
 6. `../../tools/npm.sh install`
 7. `../../tools/npm.sh install vue`
-8. `docker-compose exec php bash`
+8. `docker-compose run --rm php bash`
 9. `cd example`
 10. `git init`
 11. `exit`
@@ -254,6 +258,7 @@ Execute from Windows command line:
 3. Uncomment SSL certificate attaching in the host config file `./hosts/<domain>.conf`. For example:
 ```
 server {
+    ...
     listen 443 ssl;
     ...
     ssl_certificate /var/certs/example.loc-cert.pem;
