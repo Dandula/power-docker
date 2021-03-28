@@ -16,7 +16,7 @@ sudo chmod 0666 /var/log/cron/cron.log
 
 # get new cron jobs
 sudo find /etc/cron.d -type f ! -name '.placeholder' -delete
-sudo cp -a /usr/jobs/. /etc/cron.d
+sudo cp -a /home/docker/jobs/. /etc/cron.d
 
 # set root:root owner (required by cron)
 sudo chown -R root:root /etc/cron.d
@@ -34,4 +34,4 @@ env | while read -r LINE; do  # read STDIN by line
   echo "${VAR} DEFAULT=\"${VAL}\"" | sudo tee -a /etc/security/pam_env.conf > /dev/null
 done
 
-sudo supervisord -n -c "/etc/supervisor/conf.d/supervisord.conf"
+sudo supervisord -c "/etc/supervisor/conf.d/supervisord.conf"
