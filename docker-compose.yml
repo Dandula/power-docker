@@ -37,6 +37,7 @@ services:
       - ./images/php/php${PHP_VER}.ini:/usr/local/etc/php/conf.d/40-custom.ini
       - ./images/php/msmtprc:/etc/msmtprc
       - ./data/mails:/var/mail/sendmail
+      - ./data/certs/mnt:/home/docker/certs
       - ./logs/php:/var/log/php
       - ./logs/msmtp:/var/log/msmtp
     networks:

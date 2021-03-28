@@ -28,6 +28,8 @@
 
 # data directories
 /data/certs/*
+!data/certs/mnt
+/data/certs/mnt/*
 /data/mails/*
 /data/databases/mysql/*
 /data/databases/mongo/*
