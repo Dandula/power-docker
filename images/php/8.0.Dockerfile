@@ -15,7 +15,7 @@ RUN chown root:root /etc/fakesendmail.sh \
 RUN apt-get update && apt-get install -y \
         mc \
         unzip \
-        openssl \
+        openssh-client \
         wget \
         curl \
 #        sendmail \
@@ -118,8 +118,15 @@ RUN sed -i '/#!\/bin\/sh/achown docker:docker /var/log/php' /usr/local/bin/docke
 #    && sed -i '/#!\/bin\/sh/asudo echo "$(hostname -i)\t$(hostname) $(hostname).localhost" >> /etc/hosts' /usr/local/bin/docker-php-entrypoint
 # mmsmtp
     && sed -i '/#!\/bin\/sh/achmod 700 /var/log/msmtp' /usr/local/bin/docker-php-entrypoint \
-    && sed -i '/#!\/bin\/sh/achown docker:msmtp /var/log/msmtp' /usr/local/bin/docker-php-entrypoint \
-    && sed -i '/#!\/bin\/sh/amkdir -p /var/log/msmtp' /usr/local/bin/docker-php-entrypoint
+    && sed -i '/#!\/bin\/sh/asudo chown docker:msmtp /var/log/msmtp' /usr/local/bin/docker-php-entrypoint \
+    && sed -i '/#!\/bin\/sh/amkdir -p /var/log/msmtp' /usr/local/bin/docker-php-entrypoint \
+    && sed -i '/#!\/bin\/sh/afind ~/.ssh -type f ! -name "*.*" ! -name ".gitkeep" ! -name "config" ! -name "known_hosts" -exec ssh-add {} +' /usr/local/bin/docker-php-entrypoint \
+    && sed -i '/#!\/bin\/sh/aeval "$(ssh-agent -s)"' /usr/local/bin/docker-php-entrypoint \
+    && sed -i '/#!\/bin\/sh/afind ~/.ssh -type f ! -name "*.pub" ! -name ".gitkeep" ! -name "config" ! -name "known_hosts" -exec chmod 600 {} +' /usr/local/bin/docker-php-entrypoint \
+    && sed -i '/#!\/bin\/sh/asudo find ~/.ssh -type f ! -name ".gitkeep" ! -name "config" ! -name "known_hosts" -exec chown docker {} +' /usr/local/bin/docker-php-entrypoint \
+    && sed -i '/#!\/bin\/sh/asudo cp -a /home/docker/certs/* ~/.ssh' /usr/local/bin/docker-php-entrypoint \
+    && sed -i '/#!\/bin\/sh/afind ~/.ssh -type f ! -name ".gitkeep" ! -name "config" ! -name "known_hosts" -delete' /usr/local/bin/docker-php-entrypoint \
+    && sed -i '/#!\/bin\/sh/amkdir -p /home/docker/.ssh' /usr/local/bin/docker-php-entrypoint
 
 RUN apt-get install -y sudo \
     && adduser -u ${USER_ID} --disabled-password --gecos '' docker \
