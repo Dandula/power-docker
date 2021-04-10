@@ -64,7 +64,7 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 
 ## Available Services
 1. WebServer: nginx
-2. PHP (v7.4/8.0) with MSMTP as an MTA (for `mail()`). Also has Midnight Commander, Wget, cURL, GIT.
+2. PHP (v7.4/8.0) with MSMTP as an MTA (for `mail()`). Also has Midnight Commander, Wget, cURL, GIT, Composer, npm.
 3. MySQL (v5.7)
 4. MongoDB
 5. Memcached
