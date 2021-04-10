@@ -98,6 +98,11 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer
 
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y \
+        nodejs \
+        build-essential
+
 RUN sed -i '/#!\/bin\/sh/achown docker:docker /var/log/php' /usr/local/bin/docker-php-entrypoint \
     && sed -i '/#!\/bin\/sh/amkdir -p /var/log/php' /usr/local/bin/docker-php-entrypoint \
 ## sendmail
