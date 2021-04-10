@@ -80,7 +80,8 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 
 ## CLI Tools
 1. [**init.sh**](./tools/init.sh) - initializing the workspace  
-   _Example:_ execute `./tools/init.sh` for the initial setup.
+   _Example:_ execute `./tools/init.sh [--clean-install]` for the initial setup.  
+   **Important!** Option `--clean-install` overwrite config and not delete user data!
 2. [**host_add.sh**](./tools/host_add.sh) - add a new host  
    _Example:_ execute `<path_to_tools>/host_add.sh example.loc`.
 3. [**host_del.sh**](./tools/host_del.sh) - delete the host  
