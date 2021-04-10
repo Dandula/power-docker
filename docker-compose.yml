@@ -38,6 +38,8 @@ services:
       - ./images/php/msmtprc:/etc/msmtprc
       - ./data/mails:/var/mail/sendmail
       - ./data/certs/mnt:/home/docker/certs
+      - ./data/cache/.composer:/home/docker/.composer
+      - ./data/cache/.npm:/home/docker/.npm
       - ./logs/php:/var/log/php
       - ./logs/msmtp:/var/log/msmtp
     networks:

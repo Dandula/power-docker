@@ -27,6 +27,8 @@
 /images/schedule/additional.ini
 
 # data directories
+/data/cache/.composer/*
+/data/cache/.npm/*
 /data/certs/*
 !data/certs/mnt
 /data/certs/mnt/*
