@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
         git \
 # apcu
     && mkdir -p /usr/src/php/ext/apcu \
-    && curl -fsSL https://pecl.php.net/get/apcu-5.1.19 | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/apcu-5.1.20 | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
     && docker-php-ext-install apcu \
 # bz2
     && apt-get install -y libbz2-dev \
@@ -60,7 +60,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install memcached \
 # mongodb
     && mkdir -p /usr/src/php/ext/mongodb \
-    && curl -fsSL https://pecl.php.net/get/mongodb-1.9.0 | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/mongodb-1.9.1 | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
     && docker-php-ext-install mongodb \
 # mysqli
     && docker-php-ext-install mysqli \
@@ -79,7 +79,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_pgsql \
 # redis
     && mkdir -p /usr/src/php/ext/redis \
-    && curl -fsSL https://pecl.php.net/get/redis-5.3.3 | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/redis-5.3.4 | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
     && docker-php-ext-install redis \
 # soap
     && apt-get install -y libxml2-dev \
@@ -92,7 +92,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install timezonedb \
 # xdebug
     && mkdir -p /usr/src/php/ext/xdebug \
-    && curl -fsSL https://pecl.php.net/get/xdebug-3.0.3 | tar xvz -C "/usr/src/php/ext/xdebug" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/xdebug-3.0.4 | tar xvz -C "/usr/src/php/ext/xdebug" --strip 1 \
     && docker-php-ext-install xdebug \
 # xmlrpc
     && apt-get install -y libxml2-dev \

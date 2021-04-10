@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y \
         msmtp \
         git \
 # apcu
-    && pecl install apcu-5.1.19 \
+    && pecl install apcu-5.1.20 \
     && docker-php-ext-enable apcu \
 # bz2
     && apt-get install -y libbz2-dev \
@@ -52,7 +52,7 @@ RUN apt-get update && apt-get install -y \
     && pecl install memcached-3.1.5 \
     && docker-php-ext-enable memcached \
 # mongodb
-    && pecl install mongodb-1.9.0 \
+    && pecl install mongodb-1.9.1 \
     && docker-php-ext-enable mongodb \
 # mysqli
     && docker-php-ext-install mysqli \
@@ -70,7 +70,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y libpq-dev \
     && docker-php-ext-install pdo_pgsql \
 # redis
-    && pecl install redis-5.3.3 \
+    && pecl install redis-5.3.4 \
     && docker-php-ext-enable redis \
 # soap
     && apt-get install -y libxml2-dev \
@@ -81,7 +81,7 @@ RUN apt-get update && apt-get install -y \
     && pecl install timezonedb-2021.1 \
     && docker-php-ext-enable timezonedb \
 # xdebug
-    && pecl install xdebug-3.0.3 \
+    && pecl install xdebug-3.0.4 \
     && docker-php-ext-enable xdebug \
 # xmlrpc
     && apt-get install -y libxml2-dev \
