@@ -1,5 +1,24 @@
 #!/bin/bash
 
+CLEAN_INSTALL=0
+
+for VAR in "$@"
+do
+  case "$VAR" in
+  --clean-install)
+    CLEAN_INSTALL=1
+    ;;
+  esac
+done
+
+function my_cp() {
+  if [ "${CLEAN_INSTALL}" -eq 0 ]; then
+    cp -n $*
+  else
+    cp $*
+  fi
+}
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_DIR="${SCRIPT_DIR%/*}"
 
@@ -14,45 +33,45 @@ cd "$WORKSPACE_DIR" || exit
 
 find tools -type f -iname "*.sh" -exec chmod +x {} \;
 
-cp .env.example .env
-cp images/php/php7.4.ini.example images/php/php7.4.ini
-cp images/php/php8.0.ini.example images/php/php8.0.ini
-cp images/php/msmtprc.example images/php/msmtprc
-cp images/mysql/my.cnf.example images/mysql/my.cnf
-cp images/redis/redis.conf.example images/redis/redis.conf
-cp images/rabbitmq/rabbitmq.conf.example images/rabbitmq/rabbitmq.conf
-cp images/schedule/supervisord.conf.example images/schedule/supervisord.conf
-cp images/schedule/additional.ini.example images/schedule/additional.ini
+my_cp .env.example .env
+my_cp images/php/php7.4.ini.example images/php/php7.4.ini
+my_cp images/php/php8.0.ini.example images/php/php8.0.ini
+my_cp images/php/msmtprc.example images/php/msmtprc
+my_cp images/mysql/my.cnf.example images/mysql/my.cnf
+my_cp images/redis/redis.conf.example images/redis/redis.conf
+my_cp images/rabbitmq/rabbitmq.conf.example images/rabbitmq/rabbitmq.conf
+my_cp images/schedule/supervisord.conf.example images/schedule/supervisord.conf
+my_cp images/schedule/additional.ini.example images/schedule/additional.ini
 
 GID=$(id -g)
 ENV_PATH="${WORKSPACE_DIR}/.env"
 
-sed -i "s/USER_ID=.*/USER_ID=$UID/" "$ENV_PATH"
+sed -i "s/^USER_ID=.*/USER_ID=$UID/" "$ENV_PATH"
 
-sed -i "s/GROUP_ID=.*/GROUP_ID=$GID/" "$ENV_PATH"
+sed -i "s/^GROUP_ID=.*/GROUP_ID=$GID/" "$ENV_PATH"
 
 DB_USER=$(parse_env "DB_USER" "${ENV_PATH}")
 read -er -p "Enter DB user: " -i "$DB_USER" DB_USER
-sed -i "s/DB_USER=.*/DB_USER=$DB_USER/" "$ENV_PATH"
+sed -i "s/^DB_USER=.*/DB_USER=$DB_USER/" "$ENV_PATH"
 
 DB_PASSWORD=$(parse_env "DB_PASSWORD" "${ENV_PATH}")
 read -er -p "Enter DB password: " -i "$DB_PASSWORD" DB_PASSWORD
-sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=$DB_PASSWORD/" "$ENV_PATH"
+sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=$DB_PASSWORD/" "$ENV_PATH"
 
 BASICAUTH_USERNAME=$(parse_env "BASICAUTH_USERNAME" "${ENV_PATH}")
 read -er -p "Enter basic authentication username: " -i "$BASICAUTH_USERNAME" BASICAUTH_USERNAME
-sed -i "s/BASICAUTH_USERNAME=.*/BASICAUTH_USERNAME=$BASICAUTH_USERNAME/" "$ENV_PATH"
+sed -i "s/^BASICAUTH_USERNAME=.*/BASICAUTH_USERNAME=$BASICAUTH_USERNAME/" "$ENV_PATH"
 
 BASICAUTH_PASSWORD=$(parse_env "BASICAUTH_PASSWORD" "${ENV_PATH}")
 read -er -p "Enter basic authentication password: " -i "$BASICAUTH_PASSWORD" BASICAUTH_PASSWORD
-sed -i "s/BASICAUTH_PASSWORD=.*/BASICAUTH_PASSWORD=$BASICAUTH_PASSWORD/" "$ENV_PATH"
+sed -i "s/^BASICAUTH_PASSWORD=.*/BASICAUTH_PASSWORD=$BASICAUTH_PASSWORD/" "$ENV_PATH"
 
 TIMEZONE=$(cat /etc/timezone)
 read -er -p "Enter timezone [UTC]: " -i "$TIMEZONE" TIMEZONE
 if [ -z "$TIMEZONE" ]; then
   TIMEZONE="UTC"
 fi
-sed -i "s%TIMEZONE=.*%TIMEZONE=$TIMEZONE%" "$ENV_PATH"
+sed -i "s%^TIMEZONE=.*%TIMEZONE=$TIMEZONE%" "$ENV_PATH"
 
 PHP_VER=$(parse_env "PHP_VER" "${ENV_PATH}")
 read -er -p "Enter PHP version (7.4/8.0) [7.4]: " -i "$PHP_VER" PHP_VER
@@ -63,7 +82,7 @@ case "$PHP_VER" in
   PHP_VER="7.4"
   ;;
 esac
-sed -i "s%PHP_VER=.*%PHP_VER=$PHP_VER%" "$ENV_PATH"
+sed -i "s%^PHP_VER=.*%PHP_VER=$PHP_VER%" "$ENV_PATH"
 
 message_success "Setup environment variables $ENV_PATH"
 
@@ -106,7 +125,7 @@ wget --no-check-certificate -c -O - "https://github.com/clickalicious/${PHPMEMAD
     -v "${PHPMEMADMIN_DIR}:/app" \
     -u "${UID}:${GID}" \
     composer install --no-scripts \
-  && cp "$PHPMEMADMIN_CONFIG_DIR/.config.dist" "$PHPMEMADMIN_CONFIG_FILEPATH" \
+  && my_cp "$PHPMEMADMIN_CONFIG_DIR/.config.dist" "$PHPMEMADMIN_CONFIG_FILEPATH" \
   && sed -i "s%.*\"username\".*%  \"username\": \"admin\",%" "$PHPMEMADMIN_CONFIG_FILEPATH" \
   && sed -i "s%.*\"password\".*%  \"password\": \"secret\",%" "$PHPMEMADMIN_CONFIG_FILEPATH" \
   && sed -i "s%.*\"host\".*%        \"host\": \"memcached\",%" "$PHPMEMADMIN_CONFIG_FILEPATH" \
