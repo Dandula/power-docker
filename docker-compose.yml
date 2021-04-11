@@ -35,6 +35,7 @@ services:
     volumes:
       - ./www:/var/www
       - ./images/php/php${PHP_VER}.ini:/usr/local/etc/php/conf.d/40-custom.ini
+      - ./data/certs/ca:/usr/local/etc/ca
       - ./images/php/msmtprc:/etc/msmtprc
       - ./data/mails:/var/mail/sendmail
       - ./data/certs/mnt:/home/docker/certs

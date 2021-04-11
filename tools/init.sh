@@ -103,6 +103,15 @@ find "${PHP_IMAGE_DIR}" -name "php*.ini" -exec sed -i "s%^date\.timezone.*%date.
   && message_success "Timezone at php.ini successfully configured" \
   || message_failure "Timezone at php.ini configuration error"
 
+CA_BUNDLE_PATH_LOCAL="${WORKSPACE_DIR}/data/certs/ca/cacert.pem"
+CA_BUNDLE_PATH_IMAGE="/usr/local/etc/ca/cacert.pem"
+# shellcheck disable=SC2015
+wget --no-check-certificate -c -N -O "${CA_BUNDLE_PATH_LOCAL}" https://curl.se/ca/cacert.pem > /dev/null 2>&1 \
+  && find "${PHP_IMAGE_DIR}" -name "php*.ini" -exec sed -i "s%^curl\.cainfo.*%curl.cainfo                  = \"$CA_BUNDLE_PATH_IMAGE\"%" {} + \
+  && find "${PHP_IMAGE_DIR}" -name "php*.ini" -exec sed -i "s%^openssl\.cafile.*%openssl.cafile               = \"$CA_BUNDLE_PATH_IMAGE\"%" {} + \
+  && message_success "Certificate Authority (CA) bundle at php.ini successfully configured" \
+  || message_failure "Certificate Authority (CA) bundle at php.ini configuration error"
+
 RABBITMQ_CONFIG_FILEPATH="${WORKSPACE_DIR}/images/rabbitmq/rabbitmq.conf"
 # shellcheck disable=SC2015
 sed -i "s/# default_user = .*/default_user = ${DB_USER}/" "$RABBITMQ_CONFIG_FILEPATH" \
