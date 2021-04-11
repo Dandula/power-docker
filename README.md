@@ -128,11 +128,10 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 
 ## File Structure
 `├─ data` - user data stored between runs  
-`│  ├─ cache` - cache directory  
-`│  │  ├─ .composer` - Composer home directory  
-`│  │  └─ .npm` - npm home directory  
-`│  ├─ certs` - SSL & SSH certificates of hosts  
-`│  │  ├─ ca` - bundle of CA Root Certificates  
+`│  ├─ cache` - cache directory
+`│  ├─ certs` - SSL & SSH certificates  
+`│  │  ├─ ca` - bundle of CA root certificates  
+`│  │  ├─ hosts` - SSL certificates for hosts  
 `│  │  └─ mnt` - SSH certificates mounted to container of php service  
 `│  ├─ cron` - configuration and scripts for running periodical jobs  
 `│  ├─ databases` - database files  
