@@ -98,6 +98,7 @@ services:
     environment:
       TZ: ${TIMEZONE}
     volumes:
+      - ./data/databases/redis:/data
       - ./images/redis/redis.conf:/usr/local/etc/redis/redis.conf
       - ./logs/redis:/var/log/redis
     ports:
