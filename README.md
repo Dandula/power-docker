@@ -206,6 +206,9 @@ Execute `docker-compose up -d`
 ### Workspace Stopping
 Execute `docker-compose stop`
 
+### Workspace Starting After Stopping
+Execute `docker-compose start`
+
 ### Typical Usage Example
 Execute sequentially:
 1. `docker-compose up -d`
@@ -255,7 +258,7 @@ on the JetBrains website.
 Set a breakpoint in the file `<filename>.php` and execute:  
 `docker-compose exec php sh -c "php <filename>.php"`
 
-### SSL certificates on WSL
+### SSL Certificates on WSL
 Execute from Windows command line:
 1. Execute once `mkcert_install.bat` in the WSL scripts directory `./tools/wsl`.
 2. Execute for each HTTPS host `make_cert.bat <domain>` in the WSL scripts directory `./tools/wsl`.
