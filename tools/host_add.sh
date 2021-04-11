@@ -206,7 +206,7 @@ fi
 
 if [ "${NEED_CERT}" -eq 1 ]; then
   # shellcheck disable=SC2015
-  bash -c "${SCRIPT_DIR}/make_cert.sh ${DOMAIN} > /dev/null 2>&1" \
+  bash -c "${SCRIPT_DIR}/make_ssl_cert.sh ${DOMAIN} > /dev/null 2>&1" \
     && message_success "SSL certificate is generated (${CERT_PEM} and ${CERT_KEY}) and put to the directory ${CERTS_DIR}" \
     || message_failure "Error when generating SSL certificate"
 fi

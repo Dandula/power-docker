@@ -29,11 +29,9 @@
 # data directories
 /data/cache/.composer/*
 /data/cache/.npm/*
-/data/certs/*
-!data/certs/mnt
-!data/certs/ca
-/data/certs/mnt/*
 /data/certs/ca/*
+/data/certs/hosts/*
+/data/certs/mnt/*
 /data/mails/*
 /data/databases/mysql/*
 /data/databases/mongo/*

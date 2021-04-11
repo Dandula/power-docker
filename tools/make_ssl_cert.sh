@@ -2,7 +2,7 @@
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_DIR="${SCRIPT_DIR%/*}"
-CERTS_DIR="${WORKSPACE_DIR}/data/certs"
+CERTS_DIR="${WORKSPACE_DIR}/data/certs/hosts"
 
 DOMAIN="$1"
 CERT_PEM="${DOMAIN}-cert.pem"

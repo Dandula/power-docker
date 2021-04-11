@@ -9,7 +9,7 @@ services:
     volumes:
       - ./hosts:/etc/nginx/conf.d
       - ./www:/var/www
-      - ./data/certs:/var/certs
+      - ./data/certs/hosts:/var/certs
       - ./logs/nginx:/var/log/nginx
     ports:
       - "80:80"
