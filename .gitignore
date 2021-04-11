@@ -36,6 +36,7 @@
 /data/databases/mysql/*
 /data/databases/mongo/*
 /data/databases/rabbitmq/*
+/data/databases/redis/*
 /data/dumps/mysql/*
 /data/dumps/mongo/*
 /data/cron/*

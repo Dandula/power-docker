@@ -1186,7 +1186,7 @@ oom-score-adj-values 0 200 800
 #
 # Please check http://redis.io/topics/persistence for more information.
 
-appendonly no
+appendonly yes
 
 # The name of the append only file (default: "appendonly.aof")
 
