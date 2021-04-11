@@ -109,8 +109,8 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
     _Example:_ execute `<path_to_tools>/cron_example.sh <example_filename>` in any directory.
 13. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\mkcert_install.bat` in any directory.
-14. [**wsl/make_cert.bat**](./tools/wsl/make_cert.bat) - make SSL certificate for a domain from the Windows OS and put to the directory `./data/certs`  
-    _Example:_ execute `<path_to_tools>\wsl\make_cert.bat <domain>` in any directory.
+14. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS and put to the directory `./data/certs/hosts`  
+    _Example:_ execute `<path_to_tools>\wsl\make_ssl_cert.bat <domain>` in any directory.
 
 
 
