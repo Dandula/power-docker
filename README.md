@@ -99,8 +99,8 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
    _Example:_ execute `<path_to_tools>/mongo_export.sh <database>` in any directory while the workspace is running.
 9. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
    _Example:_ execute `<path_to_tools>/mongo_import.sh <dump_filename>` in any directory while the workspace is running.
-10. [**make_cert.sh**](./tools/make_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs`  
-    _Example:_ execute `<path_to_tools>/make_cert.sh <domain>` in any directory.  
+10. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
+    _Example:_ execute `<path_to_tools>/make_ssl_cert.sh <domain>` in any directory.  
     **Important!** This command not compatible with WSL. Browser must be installed at the same host as used `mkcert`!
 11. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
     _Example:_ execute `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` in any directory.
@@ -128,7 +128,7 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 
 ## File Structure
 `├─ data` - user data stored between runs  
-`│  ├─ cache` - cache directory
+`│  ├─ cache` - cache directory  
 `│  ├─ certs` - SSL & SSH certificates  
 `│  │  ├─ ca` - bundle of CA root certificates  
 `│  │  ├─ hosts` - SSL certificates for hosts  
