@@ -132,6 +132,7 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 `│  │  ├─ .composer` - Composer home directory  
 `│  │  └─ .npm` - npm home directory  
 `│  ├─ certs` - SSL & SSH certificates of hosts  
+`│  │  ├─ ca` - bundle of CA Root Certificates  
 `│  │  └─ mnt` - SSH certificates mounted to container of php service  
 `│  ├─ cron` - configuration and scripts for running periodical jobs  
 `│  ├─ databases` - database files  

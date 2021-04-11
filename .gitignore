@@ -31,7 +31,9 @@
 /data/cache/.npm/*
 /data/certs/*
 !data/certs/mnt
+!data/certs/ca
 /data/certs/mnt/*
+/data/certs/ca/*
 /data/mails/*
 /data/databases/mysql/*
 /data/databases/mongo/*
