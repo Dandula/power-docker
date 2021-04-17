@@ -20,11 +20,12 @@ services:
     networks:
       - workspace
 
-  php:
+  php74:
     build:
       context: ./images/php
-      dockerfile: ${PHP_VER}.Dockerfile
+      dockerfile: 7.x.Dockerfile
       args:
+        - PHP_VER=7.4
         - USER_ID
         - GROUP_ID
     restart: unless-stopped
@@ -34,7 +35,7 @@ services:
     working_dir: /var/www
     volumes:
       - ./www:/var/www
-      - ./images/php/php${PHP_VER}.ini:/usr/local/etc/php/conf.d/40-custom.ini
+      - ./images/php/php7.4.ini:/usr/local/etc/php/conf.d/40-custom.ini
       - ./data/certs/ca:/usr/local/etc/ca
       - ./images/php/msmtprc:/etc/msmtprc
       - ./data/mails:/var/mail/sendmail
@@ -44,9 +45,40 @@ services:
       - ./logs/php:/var/log/php
       - ./logs/msmtp:/var/log/msmtp
     networks:
-      - workspace
+      workspace:
+        aliases:
+          - php
 
-  mysql:
+#  php80:
+#    build:
+#      context: ./images/php
+#      dockerfile: 8.x.Dockerfile
+#      args:
+#        - PHP_VER=8.0
+#        - USER_ID
+#        - GROUP_ID
+#    restart: unless-stopped
+#    environment:
+#      PHP_IDE_CONFIG: serverName=${XDEBUG_SERVERNAME}
+#      TZ: ${TIMEZONE}
+#    working_dir: /var/www
+#    volumes:
+#      - ./www:/var/www
+#      - ./images/php/php8.0.ini:/usr/local/etc/php/conf.d/40-custom.ini
+#      - ./data/certs/ca:/usr/local/etc/ca
+#      - ./images/php/msmtprc:/etc/msmtprc
+#      - ./data/mails:/var/mail/sendmail
+#      - ./data/certs/mnt:/home/docker/certs
+#      - ./data/cache/.composer:/home/docker/.composer
+#      - ./data/cache/.npm:/home/docker/.npm
+#      - ./logs/php:/var/log/php
+#      - ./logs/msmtp:/var/log/msmtp
+#    networks:
+#      workspace:
+#        aliases:
+#          - php
+
+  mysql57:
     image: mysql:5.7
     restart: unless-stopped
     environment:
@@ -61,7 +93,9 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - workspace
+      workspace:
+        aliases:
+          - mysql
 
   mongo:
     image: mongo
@@ -123,13 +157,14 @@ services:
     networks:
       - workspace
 
-  schedule:
+  schedule_php74:
     build:
       context: ./images/schedule
+      dockerfile: php7.x.Dockerfile
       args:
+        - PHP_VER=7.4
         - USER_ID
         - GROUP_ID
-        - PHP_VER
         - TIMEZONE
     restart: unless-stopped
     environment:
@@ -138,19 +173,46 @@ services:
       - ./data/cron:/home/docker/jobs
       - ./www:/var/www
       - ./images/schedule/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
-      - ./images/php/php${PHP_VER}.ini:/etc/php/${PHP_VER}/cli/conf.d/30-custom.ini
-      - ./images/schedule/additional.ini:/etc/php/${PHP_VER}/cli/conf.d/40-additional.ini
+      - ./images/php/php7.4.ini:/etc/php/7.4/cli/conf.d/30-custom.ini
+      - ./images/schedule/additional.ini:/etc/php/7.4/cli/conf.d/40-additional.ini
       - ./images/php/msmtprc:/etc/msmtprc
       - ./data/mails:/var/mail/sendmail
       - ./logs/supervisord:/var/log/supervisord
       - ./logs/cron:/var/log/cron
     networks:
-      - workspace
+      workspace:
+        aliases:
+          - schedule
+
+#  schedule_php80:
+#    build:
+#      context: ./images/schedule
+#      dockerfile: php8.x.Dockerfile
+#      args:
+#        - PHP_VER=8.0
+#        - USER_ID
+#        - GROUP_ID
+#        - TIMEZONE
+#    restart: unless-stopped
+#    environment:
+#      TZ: ${TIMEZONE}
+#    volumes:
+#      - ./data/cron:/home/docker/jobs
+#      - ./www:/var/www
+#      - ./images/schedule/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+#      - ./images/php/php8.0.ini:/etc/php/8.0/cli/conf.d/30-custom.ini
+#      - ./images/schedule/additional.ini:/etc/php/8.0/cli/conf.d/40-additional.ini
+#      - ./images/php/msmtprc:/etc/msmtprc
+#      - ./data/mails:/var/mail/sendmail
+#      - ./logs/supervisord:/var/log/supervisord
+#      - ./logs/cron:/var/log/cron
+#    networks:
+#      workspace:
+#        aliases:
+#          - schedule
 
   phpmyadmin:
     image: phpmyadmin
-    depends_on:
-      - "mysql"
     restart: unless-stopped
     environment:
       TZ: ${TIMEZONE}
@@ -165,8 +227,6 @@ services:
 
   adminer:
     image: adminer
-    depends_on:
-      - "mysql"
     restart: unless-stopped
     environment:
       TZ: ${TIMEZONE}

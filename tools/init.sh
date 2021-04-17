@@ -73,17 +73,6 @@ if [ -z "$TIMEZONE" ]; then
 fi
 sed -i "s%^TIMEZONE=.*%TIMEZONE=$TIMEZONE%" "$ENV_PATH"
 
-PHP_VER=$(parse_env "PHP_VER" "${ENV_PATH}")
-read -er -p "Enter PHP version (7.4/8.0) [7.4]: " -i "$PHP_VER" PHP_VER
-case "$PHP_VER" in
-8.0)
-  ;;
-7.4|*)
-  PHP_VER="7.4"
-  ;;
-esac
-sed -i "s%^PHP_VER=.*%PHP_VER=$PHP_VER%" "$ENV_PATH"
-
 message_success "Setup environment variables $ENV_PATH"
 
 PHP_IMAGE_DIR="${WORKSPACE_DIR}/images/php"
