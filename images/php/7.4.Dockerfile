@@ -45,6 +45,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y libmagickwand-dev \
     && pecl install imagick-3.4.4 \
     && docker-php-ext-enable imagick \
+# intl
+    && docker-php-ext-install intl \
 # memcached
     && apt-get install -y \
         libmemcached-dev \
