@@ -51,6 +51,8 @@ RUN apt-get update && apt-get install -y \
     && make \
     && make install \
     && docker-php-ext-install -j$(nproc) imagick \
+# intl
+    && docker-php-ext-install intl \
 # memcached
     && apt-get install -y \
         libmemcached-dev \

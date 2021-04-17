@@ -27,6 +27,7 @@ RUN apt-get update \
         cron \
         supervisor \
         nano \
+        curl \
         php${PHP_VER}-cli \
         php${PHP_VER}-dev \
         php-pear \
@@ -50,6 +51,8 @@ RUN apt-get update \
     && apt-get install -y php${PHP_VER}-gd \
 # gettext
     && apt-get install -y php${PHP_VER}-gettext \
+# intl
+    && apt-get install -y php${PHP_VER}-intl \
 # mbstring
     && apt-get install -y php${PHP_VER}-mbstring \
 # memcached
@@ -86,20 +89,20 @@ RUN apt-get update \
 
 # imagick
 RUN ["/bin/bash", "-c", "apt-get install -y libmagickwand-dev \
-    && if [[ ${PHP_VER} = 8* ]]; \
-    then apt-get install -y --no-install-recommends git \
-        && mkdir -p /usr/src/php/ext/imagick \
-        && git clone https://github.com/Imagick/imagick /usr/src/php/ext/imagick \
-        && cd /usr/src/php/ext/imagick \
-        && phpize \
-        && ./configure \
-        && make \
-        && make install \
-        && rm -r /usr/src/php/ext/imagick \
-        && apt-get purge -y git \
-        && apt-get autoremove -y; \
-    else pecl install imagick-3.4.4; \
-    fi;"]
+    && if [[ ${PHP_VER} = 8* ]]; then \
+        mkdir -p /usr/src/php/ext/imagick \
+            && curl -fsSL https://github.com/Imagick/imagick/archive/master.tar.gz | tar xvz -C /usr/src/php/ext/imagick --strip 1 \
+            && cd /usr/src/php/ext/imagick \
+            && phpize \
+            && ./configure \
+            && make \
+            && make install \
+            && rm -r /usr/src/php/ext/imagick \
+            && apt-get purge -y git \
+            && apt-get autoremove -y; \
+    else \
+        pecl install imagick-3.4.4; \
+    fi"]
 
 RUN apt-get install -y sudo \
     && adduser -u ${USER_ID} --disabled-password --gecos '' docker \
