@@ -89,7 +89,7 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
    **Important!** This command does not delete the directory with the sources of the host!
 4. [**composer.sh**](./tools/init.sh) - Composer command  
    _Example:_ execute `../../tools/composer.sh composer require <package>` in the project directory `./www/<project>`.
-5. [**npm.sh**](./tools/init.sh) - NPM command  
+5. [**npm.sh**](./tools/npm.sh) - NPM command  
    _Example:_ execute `../../tools/npm.sh install --save-dev <package>` in the project directory `./www/<project>`.
 6. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
    _Example:_ execute `<path_to_tools>/mysql_export.sh <database>` in any directory while the workspace is running.
@@ -142,8 +142,8 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 `│  ├─ mysql` - MySQL service config  
 `│  │  └─ my.cnf` - MySQL config  
 `│  ├─ php` - PHP service config  
-`│  │  ├─ 7.4.Dockerfile` - dockerfile of PHP v7.4 service  
-`│  │  ├─ 8.0.Dockerfile` - dockerfile of PHP v8.0 service  
+`│  │  ├─ 7.x.Dockerfile` - dockerfile of PHP v7.x services  
+`│  │  ├─ 8.x.Dockerfile` - dockerfile of PHP v8.x services  
 `│  │  ├─ fakesendmail.sh` - Bash script for saving emails instead of sending them _(copied into the image at build)_  
 `│  │  ├─ msmtprc` - MSMTP config  
 `│  │  ├─ php7.4.ini` - PHP v7.4 config  
@@ -155,7 +155,8 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 `│  ├─ schedule` - schedule service config: supervisor and CRON jobs  
 `│  │  ├─ additional.ini` - additional high-priority `php.ini` for CRON service  
 `│  │  ├─ docker-entrypoint.sh` - Bash script for initialization CRON jobs and supervisor _(copied into the image at build)_  
-`│  │  ├─ Dockerfile` - dockerfile of schedule service  
+`│  │  ├─ php7.x.Dockerfile` - dockerfile of schedule services with PHP v7.x  
+`│  │  ├─ php8.x.Dockerfile` - dockerfile of schedule services with PHP v8.x  
 `│  │  ├─ fakesendmail.sh` - Bash script for saving emails instead of sending them _(copied into the image at build)_  
 `│  ┴  └─ supervisord.conf` - supervisord config  
 `├─ logs` - logs of services  
@@ -223,6 +224,14 @@ Execute sequentially:
 10. `git init`
 11. `exit`
 12. `docker-compose stop`
+
+### Change the PHP version
+To change the PHP version, uncomment the service corresponding to the desired version in the
+[docker-compose.yml](docker-compose.yml) file and comment out the other services or their identical aliases.
+
+_PHP version 7.4 is enabled by default._
+
+**Important!** There can only be one service with the `php` alias in one Docker Compose project.
 
 ### Performance Enhancement
 To enhance the performance of the working environment, comment out services that are not currently in use in the

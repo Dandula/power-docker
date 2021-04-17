@@ -51,6 +51,16 @@ RUN apt-get update \
     && apt-get install -y php${PHP_VER}-gd \
 # gettext
     && apt-get install -y php${PHP_VER}-gettext \
+# imagick
+    && apt-get install -y libmagickwand-dev \
+    && mkdir -p /usr/src/php/ext/imagick \
+    && curl -fsSL https://github.com/Imagick/imagick/archive/master.tar.gz | tar xvz -C /usr/src/php/ext/imagick --strip 1 \
+    && cd /usr/src/php/ext/imagick \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && rm -r /usr/src/php/ext/imagick \
 # intl
     && apt-get install -y php${PHP_VER}-intl \
 # mbstring
@@ -86,23 +96,6 @@ RUN apt-get update \
     && apt-get install -y php${PHP_VER}-xmlrpc \
 # xsl
     && apt-get install -y php${PHP_VER}-xsl
-
-# imagick
-RUN ["/bin/bash", "-c", "apt-get install -y libmagickwand-dev \
-    && if [[ ${PHP_VER} = 8* ]]; then \
-        mkdir -p /usr/src/php/ext/imagick \
-            && curl -fsSL https://github.com/Imagick/imagick/archive/master.tar.gz | tar xvz -C /usr/src/php/ext/imagick --strip 1 \
-            && cd /usr/src/php/ext/imagick \
-            && phpize \
-            && ./configure \
-            && make \
-            && make install \
-            && rm -r /usr/src/php/ext/imagick \
-            && apt-get purge -y git \
-            && apt-get autoremove -y; \
-    else \
-        pecl install imagick-3.4.4; \
-    fi"]
 
 RUN apt-get install -y sudo \
     && adduser -u ${USER_ID} --disabled-password --gecos '' docker \

@@ -1,4 +1,6 @@
-FROM php:7.4-fpm
+ARG PHP_VER
+
+FROM php:${PHP_VER}-fpm
 
 LABEL maintainer="Vladyslav Revenko <dandular@gmail.com>"
 
