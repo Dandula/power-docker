@@ -134,6 +134,7 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 `│  │  ├─ hosts` - SSL certificates for hosts  
 `│  │  └─ mnt` - SSH certificates mounted to container of php service  
 `│  ├─ cron` - configuration and scripts for running periodical jobs  
+`│  │  └─ update_caroot` - CRON job for update of CA root certificates  
 `│  ├─ databases` - database files  
 `│  ├─ dumps` - generated database dump files  
 `│  └─ mails` - saved emails sent by [`fakesendmail`](./images/php/fakesendmail.sh)  
