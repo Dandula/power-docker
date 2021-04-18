@@ -175,6 +175,7 @@ services:
       - ./images/schedule/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
       - ./images/php/php7.4.ini:/etc/php/7.4/cli/conf.d/30-custom.ini
       - ./images/schedule/additional.ini:/etc/php/7.4/cli/conf.d/40-additional.ini
+      - ./data/certs/ca:/usr/local/etc/ca
       - ./images/php/msmtprc:/etc/msmtprc
       - ./data/mails:/var/mail/sendmail
       - ./logs/supervisord:/var/log/supervisord
@@ -202,6 +203,7 @@ services:
 #      - ./images/schedule/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
 #      - ./images/php/php8.0.ini:/etc/php/8.0/cli/conf.d/30-custom.ini
 #      - ./images/schedule/additional.ini:/etc/php/8.0/cli/conf.d/40-additional.ini
+#      - ./data/certs/ca:/usr/local/etc/ca
 #      - ./images/php/msmtprc:/etc/msmtprc
 #      - ./data/mails:/var/mail/sendmail
 #      - ./logs/supervisord:/var/log/supervisord

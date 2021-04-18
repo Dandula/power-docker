@@ -40,6 +40,7 @@
 /data/dumps/mysql/*
 /data/dumps/mongo/*
 /data/cron/*
+!/data/cron/update_caroot
 
 # logs directories
 /logs/nginx/*

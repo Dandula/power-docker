@@ -1,0 +1,1 @@
+0 12 * * * docker cd /usr/local/etc/ca && curl -O -z cacert.pem https://curl.se/ca/cacert.pem >> /var/log/cron/cron.log 2>&1
