@@ -1,6 +1,6 @@
 # other dockerfiles
 *Dockerfile
-!8.x.Dockerfile
+!7.4.Dockerfile
 
 # configs
 *.ini.example

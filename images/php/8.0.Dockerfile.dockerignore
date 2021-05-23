@@ -1,9 +1,9 @@
 # other dockerfiles
 *Dockerfile
-!php8.x.Dockerfile
+!8.0.Dockerfile
 
 # configs
-*.conf.example
-*.conf
 *.ini.example
 *.ini
+msmtprc.example
+msmtprc

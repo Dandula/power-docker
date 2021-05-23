@@ -1,9 +1,0 @@
-# other dockerfiles
-*Dockerfile
-!php7.x.Dockerfile
-
-# configs
-*.conf.example
-*.conf
-*.ini.example
-*.ini
