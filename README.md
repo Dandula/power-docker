@@ -16,9 +16,10 @@
     2. [Workspace Stopping](#workspace-stopping)
     3. [Typical Usage Example](#typical-usage-example)
     4. [Performance Enhancement](#performance-enhancement)
-    5. [Setup xDebug for PhpStorm](#setup-xdebug-for-phpstorm)
+    5. [Multiple Versions of PHP](#multiple-versions-of-php)
+    6. [Setup xDebug for PhpStorm](#setup-xdebug-for-phpstorm)
         - [For test PHP CLI xDebug](#for-test-php-cli-xdebug)
-    6. [SSL certificates on WSL](#ssl-certificates-on-wsl)
+    7. [SSL certificates on WSL](#ssl-certificates-on-wsl)
 
 
 
@@ -229,6 +230,16 @@ Execute sequentially:
 To enhance the performance of the working environment, comment out services that are not currently in use in the
 [docker-compose.yml](docker-compose.yml) file.
 
+### Multiple Versions of PHP
+To use more than one version of PHP in your project at the same time, do the following:
+1. Copy the desired service (`php` or `schedule`) in the [docker-compose.yml](docker-compose.yml).
+2. If needed, create a new PHP configuration file by copying the existing example file into the `images/<service>`
+   folder of the desired service. Specify the desired name for the configuration file.
+3. In the configuration of the copied service specify the desired Dockerfile explicitly.
+4. In the `volumes` configuration of the copied service specify the configuration file (the one you have created
+   in step 2 or the one you have already had).
+5. Specify the desired name for the copied service in the [docker-compose.yml](docker-compose.yml) file.
+
 ### Setup xDebug for PhpStorm
 Please read the [article](https://www.jetbrains.com/help/phpstorm/configuring-xdebug.html#configuring-xdebug-docker)
 on the JetBrains website.
@@ -264,7 +275,7 @@ Execute from Windows command line:
 1. Execute once `mkcert_install.bat` in the WSL scripts directory `./tools/wsl`.
 2. Execute for each HTTPS host `make_cert.bat <domain>` in the WSL scripts directory `./tools/wsl`.
 3. Uncomment SSL certificate attaching in the host config file `./hosts/<domain>.conf`. For example:
-```
+```nginx
 server {
     ...
     listen 443 ssl;
