@@ -1,9 +1,0 @@
-# other dockerfiles
-*Dockerfile
-!7.x.Dockerfile
-
-# configs
-*.ini.example
-*.ini
-msmtprc.example
-msmtprc
