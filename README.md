@@ -90,7 +90,7 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
    **Important!** This command does not delete the directory with the sources of the host!
 4. [**composer.sh**](./tools/init.sh) - Composer command  
    _Example:_ execute `../../tools/composer.sh composer require <package>` in the project directory `./www/<project>`.
-5. [**npm.sh**](./tools/init.sh) - NPM command  
+5. [**npm.sh**](./tools/npm.sh) - NPM command  
    _Example:_ execute `../../tools/npm.sh install --save-dev <package>` in the project directory `./www/<project>`.
 6. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
    _Example:_ execute `<path_to_tools>/mysql_export.sh <database>` in any directory while the workspace is running.
@@ -108,9 +108,11 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
     **Important!** You must run a new php container to apply the generated SSH agent key!
 12. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
     _Example:_ execute `<path_to_tools>/cron_example.sh <example_filename>` in any directory.
-13. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
+13. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
+    _Example:_ execute `<path_to_tools>\wsl\hosts_link.bat` in any directory.
+14. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\mkcert_install.bat` in any directory.
-14. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS and put to the directory `./data/certs/hosts`  
+15. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>\wsl\make_ssl_cert.bat <domain>` in any directory.
 
 
@@ -193,8 +195,7 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 `│  └─ phpmemadmin` - phpMemAdmin host  
 `├─ .env` - environment variables file  
 `├─ docker-compose.yml` - Docker Compose config  
-`├─ hosts - Linux.lnk` - link to file [`hosts`](<./hosts - Linux.lnk>) on Linux OS  
-`├─ hosts - Windows.lnk` - link to file [`hosts`](<./hosts - Windows.lnk>) on Windows OS  
+`├─ hosts.link` - link to file `hosts`
 `├─ LICENSE.txt` - license agreement  
 `└─ README.md` - this ReadMe  
 

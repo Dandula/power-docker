@@ -26,6 +26,12 @@ function status_fail() {
   set_color 'NORMAL'
 }
 
+function message_colored() {
+  set_color "$2"
+  echo "$1"
+  set_color 'NORMAL'
+}
+
 function message_success() {
   echo -n "$1" && status_ok
 }

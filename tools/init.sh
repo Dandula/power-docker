@@ -13,9 +13,17 @@ done
 
 function my_cp() {
   if [ "${CLEAN_INSTALL}" -eq 0 ]; then
-    cp -n $*
+    cp -n "$@"
   else
-    cp $*
+    cp "$@"
+  fi
+}
+
+function my_ln() {
+  if [ "${CLEAN_INSTALL}" -eq 0 ]; then
+    ln -sn "$@"
+  else
+    ln -snf "$@"
   fi
 }
 
@@ -158,6 +166,13 @@ wget --no-check-certificate -c -O "${WWW_DIR}/apcu/apc.php" https://raw.githubus
   || message_failure "APCu installation error"
 
 if [ "$(is_wsl)" -eq 0 ]; then
+  HOSTS_PATH="/etc/hosts"
+  HOSTS_LINK="${WORKSPACE_DIR}/hosts.link"
+  # shellcheck disable=SC2015
+  my_ln "$HOSTS_PATH" "$HOSTS_LINK" \
+    && message_success "The link ${HOSTS_LINK} to hosts file has been created" \
+    || message_failure "The link ${HOSTS_LINK} to hosts file creation error"
+
   # shellcheck disable=SC2015
   sudo sudo apt-get update > /dev/null 2>&1 \
     && sudo apt-get install -y libnss3-tools > /dev/null 2>&1 \

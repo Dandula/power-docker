@@ -1,6 +1,9 @@
 # environments
 .env
 
+# hosts link
+hosts.link
+
 # www data directories
 /www/*
 !/www/phpmemadmin

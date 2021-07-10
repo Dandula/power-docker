@@ -195,7 +195,7 @@ else
 fi
 
 HOST_RECORD="127.0.0.1	${DOMAIN}"
-HOST_RECORD_REGEX="127\.0\.0\.1\s*${DOMAIN}"
+HOST_RECORD_REGEX="127\.0\.0\.1\s*${DOMAIN}$"
 
 if ! grep -q "${HOST_RECORD_REGEX}" "${HOSTS_PATH}"; then
   sudo sh -c "echo '\n${HOST_RECORD}' >> ${HOSTS_PATH}" &&
