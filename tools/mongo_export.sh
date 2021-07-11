@@ -5,6 +5,8 @@ WORKSPACE_DIR="${SCRIPT_DIR%/*}"
 DUMPS_DIR="${WORKSPACE_DIR}/data/dumps/mongo"
 ENV_PATH="${WORKSPACE_DIR}/.env"
 
+DC="${SCRIPT_DIR}/dc.sh"
+
 # shellcheck source=scripts/parse_env.sh
 . "${SCRIPT_DIR}/scripts/parse_env.sh"
 # shellcheck source=scripts/statuses.sh
@@ -25,6 +27,6 @@ DUMP_PATH="${DUMPS_DIR}/${DUMP_FILENAME}"
 
 # shellcheck disable=SC2015
 cd "$WORKSPACE_DIR" \
-  && docker-compose exec -T mongo sh -c "exec mongodump -u${DB_USER} -p${DB_PASSWORD} -d${DB_NAME} --authenticationDatabase=admin --archive" > "${DUMP_PATH}" \
+  && ${DC} exec -T mongo sh -c "exec mongodump -u${DB_USER} -p${DB_PASSWORD} -d${DB_NAME} --authenticationDatabase=admin --archive" > "${DUMP_PATH}" \
   && message_success "Mongo dump of database \`${DB_NAME}\` created ${DUMP_PATH}" \
   || message_failure "Error creating the database \`${DB_NAME}\` Mongo dump"

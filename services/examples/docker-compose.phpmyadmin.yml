@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - "mysql"
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE}
+      PMA_HOST: mysql
+      PMA_USER: ${DB_USER}
+      PMA_PASSWORD: ${DB_PASSWORD}
+      UPLOAD_LIMIT: 50M
+    ports:
+      - "8081:80"
+    networks:
+      - workspace

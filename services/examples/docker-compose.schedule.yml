@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  schedule:
+    build:
+      context: ../images/schedule
+      args:
+        - USER_ID
+        - GROUP_ID
+        - PHP_VER
+        - TIMEZONE
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      - ../data/cron:/home/docker/jobs
+      - ../www:/var/www
+      - ../images/schedule/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+      - ../images/php/php${PHP_VER}.ini:/etc/php/${PHP_VER}/cli/conf.d/30-custom.ini
+      - ../images/schedule/additional.ini:/etc/php/${PHP_VER}/cli/conf.d/40-additional.ini
+      - ../data/certs/ca:/usr/local/etc/ca
+      - ../images/php/msmtprc:/etc/msmtprc
+      - ../data/mails:/var/mail/sendmail
+      - ../logs/supervisord:/var/log/supervisord
+      - ../logs/cron:/var/log/cron
+    networks:
+      - workspace

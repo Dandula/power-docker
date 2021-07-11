@@ -4,6 +4,8 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_DIR="${SCRIPT_DIR%/*}"
 HOSTS_DIR="${WORKSPACE_DIR}/hosts"
 
+DC="${SCRIPT_DIR}/dc.sh"
+
 # shellcheck source=scripts/statuses.sh
 . "${SCRIPT_DIR}/scripts/statuses.sh"
 # shellcheck source=scripts/detect_wsl.sh
@@ -44,7 +46,7 @@ esac
 
 if [[ -f "${CONFIG_PATH}" || -d "$LOGS_DIR" ]]; then
   if [ "$(is_wsl)" -eq 0 ]; then
-    docker-compose stop nginx
+    ${DC} stop nginx
   fi
 
   if [ -f "${CONFIG_PATH}" ]; then
@@ -62,7 +64,7 @@ if [[ -f "${CONFIG_PATH}" || -d "$LOGS_DIR" ]]; then
   fi
 
   if [ "$(is_wsl)" -eq 0 ]; then
-    docker-compose start nginx
+    ${DC} start nginx
   fi
 else
   message_failure "Host configuration ${CONFIG_PATH} not exists"

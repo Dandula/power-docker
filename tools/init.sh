@@ -2,8 +2,7 @@
 
 CLEAN_INSTALL=0
 
-for VAR in "$@"
-do
+for VAR in "$@"; do
   case "$VAR" in
   --clean-install)
     CLEAN_INSTALL=1
@@ -30,12 +29,16 @@ function my_ln() {
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_DIR="${SCRIPT_DIR%/*}"
 
+DC="${SCRIPT_DIR}/dc.sh"
+
 # shellcheck source=scripts/parse_env.sh
 . "${SCRIPT_DIR}/scripts/parse_env.sh"
 # shellcheck source=scripts/statuses.sh
 . "${SCRIPT_DIR}/scripts/statuses.sh"
 # shellcheck source=scripts/detect_wsl.sh
 . "${SCRIPT_DIR}/scripts/detect_wsl.sh"
+
+shopt -s extglob
 
 cd "$WORKSPACE_DIR" || exit
 
@@ -50,6 +53,8 @@ my_cp images/redis/redis.conf.example images/redis/redis.conf
 my_cp images/rabbitmq/rabbitmq.conf.example images/rabbitmq/rabbitmq.conf
 my_cp images/schedule/supervisord.conf.example images/schedule/supervisord.conf
 my_cp images/schedule/additional.ini.example images/schedule/additional.ini
+my_cp "$WORKSPACE_DIR/services/examples/"!(docker-compose.all.yml) "$WORKSPACE_DIR/services"
+my_cp "$WORKSPACE_DIR/services/examples/docker-compose.all.yml" "$WORKSPACE_DIR/docker-compose.yml"
 
 GID=$(id -g)
 ENV_PATH="${WORKSPACE_DIR}/.env"
@@ -169,7 +174,7 @@ if [ "$(is_wsl)" -eq 0 ]; then
   HOSTS_PATH="/etc/hosts"
   HOSTS_LINK="${WORKSPACE_DIR}/hosts.link"
   # shellcheck disable=SC2015
-  my_ln "$HOSTS_PATH" "$HOSTS_LINK" \
+  my_ln "$HOSTS_PATH" "$HOSTS_LINK" > /dev/null 2>&1 \
     && message_success "The link ${HOSTS_LINK} to hosts file has been created" \
     || message_failure "The link ${HOSTS_LINK} to hosts file creation error"
 
@@ -184,6 +189,8 @@ if [ "$(is_wsl)" -eq 0 ]; then
     || message_failure "mkcert installation error"
 fi
 
+"${SCRIPT_DIR}/config.sh"
+
 if [ "$(is_wsl)" -eq 0 ]; then
-  docker-compose build
+  ${DC} build
 fi

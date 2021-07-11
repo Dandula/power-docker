@@ -1,8 +1,7 @@
 #!/bin/bash
 
-COLOR_SUCCESS="\033[1;32m"
-COLOR_FAILURE="\033[1;31m"
-COLOR_NORMAL="\033[0;39m"
+# shellcheck source=constants/colors.sh
+. "${SCRIPT_DIR}/constants/colors.sh"
 
 function set_color() {
   local COLOR="COLOR_$1"

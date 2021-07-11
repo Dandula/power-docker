@@ -4,6 +4,8 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_DIR="${SCRIPT_DIR%/*}"
 CRON_JOBS_DIR="${WORKSPACE_DIR}/data/cron"
 
+DC="${SCRIPT_DIR}/dc.sh"
+
 # shellcheck source=scripts/statuses.sh
 . "${SCRIPT_DIR}/scripts/statuses.sh"
 # shellcheck source=scripts/detect_wsl.sh
@@ -25,5 +27,5 @@ EOF
     } && message_success "CRON job example created ${CRON_EXAMPLE_PATH}"
 
 if [ "$(is_wsl)" -eq 0 ]; then
-  docker-compose restart schedule
+  ${DC} restart schedule
 fi

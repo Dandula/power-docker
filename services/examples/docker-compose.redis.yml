@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis
+    restart: unless-stopped
+    entrypoint: ""
+    command: ["sh", "-c", "touch /var/log/redis/redis.log && chmod 666 /var/log/redis/redis.log && exec docker-entrypoint.sh redis-server /usr/local/etc/redis/redis.conf"]
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      - ../data/databases/redis:/data
+      - ../images/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ../logs/redis:/var/log/redis
+    ports:
+      - "6379:6379"
+    networks:
+      - workspace

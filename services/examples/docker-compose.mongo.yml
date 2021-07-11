@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE}
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+# only for linux and macos
+#      - ../data/databases/mongo:/data/db
+# fix for windows
+      - data_mongo:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - workspace
+
+volumes:
+  data_mongo:

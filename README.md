@@ -15,11 +15,10 @@
     1. [Workspace Run in the Background](#workspace-run-in-the-background)
     2. [Workspace Stopping](#workspace-stopping)
     3. [Typical Usage Example](#typical-usage-example)
-    4. [Performance Enhancement](#performance-enhancement)
-    5. [Multiple Versions of PHP](#multiple-versions-of-php)
-    6. [Setup xDebug for PhpStorm](#setup-xdebug-for-phpstorm)
+    4. [Multiple Versions of PHP](#multiple-versions-of-php)
+    5. [Setup xDebug for PhpStorm](#setup-xdebug-for-phpstorm)
         - [For test PHP CLI xDebug](#for-test-php-cli-xdebug)
-    7. [SSL certificates on WSL](#ssl-certificates-on-wsl)
+    6. [SSL certificates on WSL](#ssl-certificates-on-wsl)
 
 
 
@@ -83,36 +82,42 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 1. [**init.sh**](./tools/init.sh) - initializing the workspace  
    _Example:_ execute `./tools/init.sh [--clean-install]` for the initial setup.  
    **Important!** Option `--clean-install` overwrite config and not delete user data!
-2. [**host_add.sh**](./tools/host_add.sh) - add a new host  
+2. [**config.sh**](./tools/config.sh) - configure a set of services  
+   _Example:_ execute `./tools/config.sh` for form a set of services.  
+   **Important!** This command stops all currently running services!
+3. [**dc.sh**](./tools/dc.sh) - executes Docker Compose commands  
+   _Example:_ execute `./tools/dc.sh run --rm php bash` for entering to container.  
+   **Important!** Try to use docker-compose through this tool.
+4. [**host_add.sh**](./tools/host_add.sh) - add a new host  
    _Example:_ execute `<path_to_tools>/host_add.sh example.loc`.
-3. [**host_del.sh**](./tools/host_del.sh) - delete the host  
+5. [**host_del.sh**](./tools/host_del.sh) - delete the host  
    _Example:_ execute `<path_to_tools>/host_del.sh example.loc`.  
    **Important!** This command does not delete the directory with the sources of the host!
-4. [**composer.sh**](./tools/init.sh) - Composer command  
+6. [**composer.sh**](./tools/init.sh) - Composer command  
    _Example:_ execute `../../tools/composer.sh composer require <package>` in the project directory `./www/<project>`.
-5. [**npm.sh**](./tools/npm.sh) - NPM command  
+7. [**npm.sh**](./tools/npm.sh) - NPM command  
    _Example:_ execute `../../tools/npm.sh install --save-dev <package>` in the project directory `./www/<project>`.
-6. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
+8. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
    _Example:_ execute `<path_to_tools>/mysql_export.sh <database>` in any directory while the workspace is running.
-7. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
+9. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
    _Example:_ execute `<path_to_tools>/mysql_import.sh <dump_filename>` in any directory while the workspace is running.
-8. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
-   _Example:_ execute `<path_to_tools>/mongo_export.sh <database>` in any directory while the workspace is running.
-9. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
-   _Example:_ execute `<path_to_tools>/mongo_import.sh <dump_filename>` in any directory while the workspace is running.
-10. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
+10. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
+    _Example:_ execute `<path_to_tools>/mongo_export.sh <database>` in any directory while the workspace is running. 
+11. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
+    _Example:_ execute `<path_to_tools>/mongo_import.sh <dump_filename>` in any directory while the workspace is running.
+12. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>/make_ssl_cert.sh <domain>` in any directory.  
     **Important!** This command not compatible with WSL. Browser must be installed at the same host as used `mkcert`!
-11. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
+13. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
     _Example:_ execute `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` in any directory.
     **Important!** You must run a new php container to apply the generated SSH agent key!
-12. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
+14. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
     _Example:_ execute `<path_to_tools>/cron_example.sh <example_filename>` in any directory.
-13. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
+15. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\hosts_link.bat` in any directory.
-14. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
+16. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\mkcert_install.bat` in any directory.
-15. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS and put to the directory `./data/certs/hosts`  
+17. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>\wsl\make_ssl_cert.bat <domain>` in any directory.
 
 
@@ -170,12 +175,30 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 `│  ├─ php` - PHP logs  
 `│  ├─ redis` - Redis logs  
 `│  └─ supervisord` - supervisord logs  
+`├─ services` - setup for Docker Compose services  
+`│  ├─ docker-compose.adminer.yml` - Adminer service setup  
+`│  ├─ docker-compose.memcached.yml` - Memcached service setup  
+`│  ├─ docker-compose.mongo.yml` - Mongo service setup  
+`│  ├─ docker-compose.mysql.yml` - MySQL service setup  
+`│  ├─ docker-compose.nginx.yml` - nginx service setup  
+`│  ├─ docker-compose.php.yml` - PHP service setup  
+`│  ├─ docker-compose.phpmyadmin.yml` - phpMyAdmin service setup  
+`│  ├─ docker-compose.phpredisadmin.yml` - phpRedisAdmin service setup  
+`│  ├─ docker-compose.rabbitmq.yml` - RabbitMQ service setup  
+`│  ├─ docker-compose.redis.yml` - Redis service setup  
+`│  ├─ docker-compose.schedule.yml` - Schedule service setup  
+`│  └─ docker-compose.yml` - general setup of Docker Compose services  
 `├─ tools` - scripts (mostly Bash)  
+`│  ├─ constants` - determining constants  
+`│  │  ├─ colors.sh` - color codes  
+`│  │  └─ services.sh` - array of workspace services  
 `│  ├─ scripts` - scripts libraries  
 `│  │  ├─ detect_wsl.sh` - library for detecting execution under WSL  
 `│  │  ├─ parse_env.sh` - library for parsing `.env` file  
-`│  │  └─ statuses.sh` - library for pretty status messages in console  
+`│  │  ├─ statuses.sh` - library for pretty status messages in console  
+`│  │  └─ str_process.sh` - library for string handling  
 `│  ├─ wsl` - Batch scripts for Windows  
+`│  │  ├─ hosts_link.bat` - creating a link to the file `hosts`  
 `│  │  ├─ make_cert.bat` - making SSL certificates for domain  
 `│  │  └─ mkcert_install.bat` - mkcert installation for making SSL certificates  
 `│  ├─ composer.sh` - Composer command  
@@ -194,8 +217,8 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 `│  ├─ opcache-gui` - opcache-gui host  
 `│  └─ phpmemadmin` - phpMemAdmin host  
 `├─ .env` - environment variables file  
-`├─ docker-compose.yml` - Docker Compose config  
-`├─ hosts.link` - link to file `hosts`
+`├─ docker-compose.yml` - Docker Compose setup  
+`├─ hosts.link` - link to file `hosts`  
 `├─ LICENSE.txt` - license agreement  
 `└─ README.md` - this ReadMe  
 
@@ -204,32 +227,28 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 ## Helpful
 
 ### Workspace Run in the Background
-Execute `docker-compose up -d`
+Execute `./tools/dc.sh up -d`
 
 ### Workspace Stopping
-Execute `docker-compose stop`
+Execute `./tools/dc.sh stop`
 
 ### Workspace Starting After Stopping
-Execute `docker-compose start`
+Execute `./tools/dc.sh start`
 
 ### Typical Usage Example
 Execute sequentially:
-1. `docker-compose up -d`
+1. `./tools/dc.sh up -d`
 2. `./tools/host_add.sh example.loc`
 3. `cd www`
 4. `../tools/composer.sh create-project laravel/laravel example`
 5. `cd example`
 6. `../../tools/npm.sh install`
 7. `../../tools/npm.sh install vue`
-8. `docker-compose run --rm php bash`
+8. `../../tools/dc.sh run --rm php bash`
 9. `cd example`
 10. `git init`
 11. `exit`
-12. `docker-compose stop`
-
-### Performance Enhancement
-To enhance the performance of the working environment, comment out services that are not currently in use in the
-[docker-compose.yml](docker-compose.yml) file.
+12. `../../tools/dc.sh stop`
 
 ### Multiple Versions of PHP
 To use more than one version of PHP in your project at the same time, do the following:

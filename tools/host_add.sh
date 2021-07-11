@@ -4,6 +4,8 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_DIR="${SCRIPT_DIR%/*}"
 HOSTS_DIR="${WORKSPACE_DIR}/hosts"
 
+DC="${SCRIPT_DIR}/dc.sh"
+
 # shellcheck source=scripts/statuses.sh
 . "${SCRIPT_DIR}/scripts/statuses.sh"
 # shellcheck source=scripts/detect_wsl.sh
@@ -212,5 +214,5 @@ if [ "${NEED_CERT}" -eq 1 ]; then
 fi
 
 if [[ "$(is_wsl)" -eq 0 && "${IS_HOST_CONFIG_CREATED}" -eq 1 ]]; then
-  docker-compose restart nginx
+  ${DC} restart nginx
 fi

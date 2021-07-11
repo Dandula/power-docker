@@ -3,6 +3,8 @@
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_DIR="${SCRIPT_DIR%/*}"
 
+DC="${SCRIPT_DIR}/dc.sh"
+
 # shellcheck source=scripts/statuses.sh
 . "${SCRIPT_DIR}/scripts/statuses.sh"
 # shellcheck source=scripts/detect_wsl.sh
@@ -28,6 +30,6 @@ MNT_CERTS_DIR="${HOME_DIR}/certs"
 
 # shellcheck disable=SC2015
 cd "$WORKSPACE_DIR" \
-  && docker-compose run --rm php ssh-keygen -t ed25519 -C "${COMMENT_EMAIL}" -f "${MNT_CERTS_DIR}/${CERT_FILENAME}" -N "" \
+  && ${DC} run --rm php ssh-keygen -t ed25519 -C "${COMMENT_EMAIL}" -f "${MNT_CERTS_DIR}/${CERT_FILENAME}" -N "" \
   && message_success "SSH certificate is generated (${CERT_FILENAME} and ${CERT_FILENAME}.pub)" \
   || message_failure "Error when generating SSH certificate"

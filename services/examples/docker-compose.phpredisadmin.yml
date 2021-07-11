@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  phpredisadmin:
+    image: erikdubbelboer/phpredisadmin
+    depends_on:
+      - "redis"
+    restart: unless-stopped
+    ports:
+      - "8087:80"
+    environment:
+      TZ: ${TIMEZONE}
+      REDIS_1_HOST: redis
+      REDIS_1_PORT: 6379
+      ADMIN_USER: ${BASICAUTH_USERNAME}
+      ADMIN_PASS: ${BASICAUTH_PASSWORD}
+    networks:
+      - workspace

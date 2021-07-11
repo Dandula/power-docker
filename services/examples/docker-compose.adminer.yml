@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  adminer:
+    image: adminer
+    depends_on:
+      - "mysql"
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE}
+      ADMINER_DEFAULT_SERVER: mysql
+      ADMINER_PLUGINS: "tables-filter tinymce"
+    ports:
+      - "8082:8080"
+    networks:
+      - workspace

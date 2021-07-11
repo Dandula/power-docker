@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  memcached:
+    image: memcached
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE}
+    ports:
+      - "11211:11211"
+    networks:
+      - workspace
