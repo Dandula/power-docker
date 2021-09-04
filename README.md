@@ -82,42 +82,45 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 1. [**init.sh**](./tools/init.sh) - initializing the workspace  
    _Example:_ execute `./tools/init.sh [--clean-install]` for the initial setup.  
    **Important!** Option `--clean-install` overwrite config and not delete user data!
-2. [**config.sh**](./tools/config.sh) - configure a set of services  
+2. [**setup.sh**](./tools/setup.sh) - configure a set of services  
    _Example:_ execute `./tools/config.sh` for form a set of services.  
-   **Important!** This command stops all currently running services!
+   **Important!** This command stops all currently running services and remove their containers!
 3. [**dc.sh**](./tools/dc.sh) - executes Docker Compose commands  
    _Example:_ execute `./tools/dc.sh run --rm php bash` for entering to container.  
    **Important!** Try to use docker-compose through this tool.
-4. [**host_add.sh**](./tools/host_add.sh) - add a new host  
+4. [**mount_www.sh**](./tools/mount_www.sh) - create a Docker Compose setup for mounting host directories    
+   _Example:_ execute `./tools/mount_www.sh` to form a Docker Compose setup.  
+   **Important!** The formation of the setup is based on the file `hosts.map`.
+5. [**host_add.sh**](./tools/host_add.sh) - add a new host  
    _Example:_ execute `<path_to_tools>/host_add.sh example.loc`.
-5. [**host_del.sh**](./tools/host_del.sh) - delete the host  
+6. [**host_del.sh**](./tools/host_del.sh) - delete the host  
    _Example:_ execute `<path_to_tools>/host_del.sh example.loc`.  
    **Important!** This command does not delete the directory with the sources of the host!
-6. [**composer.sh**](./tools/init.sh) - Composer command  
+7. [**composer.sh**](./tools/init.sh) - Composer command  
    _Example:_ execute `../../tools/composer.sh composer require <package>` in the project directory `./www/<project>`.
-7. [**npm.sh**](./tools/npm.sh) - NPM command  
+8. [**npm.sh**](./tools/npm.sh) - NPM command  
    _Example:_ execute `../../tools/npm.sh install --save-dev <package>` in the project directory `./www/<project>`.
-8. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
+9. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
    _Example:_ execute `<path_to_tools>/mysql_export.sh <database>` in any directory while the workspace is running.
-9. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
+10. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
    _Example:_ execute `<path_to_tools>/mysql_import.sh <dump_filename>` in any directory while the workspace is running.
-10. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
+11. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
     _Example:_ execute `<path_to_tools>/mongo_export.sh <database>` in any directory while the workspace is running. 
-11. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
+12. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
     _Example:_ execute `<path_to_tools>/mongo_import.sh <dump_filename>` in any directory while the workspace is running.
-12. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
+13. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>/make_ssl_cert.sh <domain>` in any directory.  
     **Important!** This command not compatible with WSL. Browser must be installed at the same host as used `mkcert`!
-13. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
+14. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
     _Example:_ execute `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` in any directory.
     **Important!** You must run a new php container to apply the generated SSH agent key!
-14. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
+15. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
     _Example:_ execute `<path_to_tools>/cron_example.sh <example_filename>` in any directory.
-15. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
+16. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\hosts_link.bat` in any directory.
-16. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
+17. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\mkcert_install.bat` in any directory.
-17. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS and put to the directory `./data/certs/hosts`  
+18. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>\wsl\make_ssl_cert.bat <domain>` in any directory.
 
 
@@ -193,32 +196,36 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 `│  │  ├─ colors.sh` - color codes  
 `│  │  └─ services.sh` - array of workspace services  
 `│  ├─ scripts` - scripts libraries  
+`│  │  ├─ arr_process.sh` - library for arrays handling  
 `│  │  ├─ detect_wsl.sh` - library for detecting execution under WSL  
 `│  │  ├─ parse_env.sh` - library for parsing `.env` file  
 `│  │  ├─ statuses.sh` - library for pretty status messages in console  
-`│  │  └─ str_process.sh` - library for string handling  
+`│  │  └─ str_process.sh` - library for strings handling  
 `│  ├─ wsl` - Batch scripts for Windows  
 `│  │  ├─ hosts_link.bat` - creating a link to the file `hosts`  
 `│  │  ├─ make_cert.bat` - making SSL certificates for domain  
 `│  │  └─ mkcert_install.bat` - mkcert installation for making SSL certificates  
 `│  ├─ composer.sh` - Composer command  
 `│  ├─ cron_example.sh` - creating CRON job example  
+`│  ├─ dc.sh` - shell over Docker Compose   
 `│  ├─ host_add.sh` - adding host  
 `│  ├─ host_del.sh` - deleting host  
 `│  ├─ init.sh` - initialization workspace script  
 `│  ├─ make_cert.sh` - making SSL certificates for domain  
 `│  ├─ mongo_export.sh` - export MongoDB to dump  
 `│  ├─ mongo_import.sh` - import MongoDB from dump  
+`│  ├─ mount_www.sh` - creating a Docker Compose setup for mounting host directories  
 `│  ├─ mysql_export.sh` - export MySQL to dump  
 `│  ├─ mysql_import.sh` - import MySQL from dump  
-`│  └─ npm.sh` - NPM command  
+`│  ├─ npm.sh` - NPM command  
+`│  └─ setup.sh` - configuring a set of services  
 `├─ www` - hosts sources directory  
 `│  ├─ apcu` - APCu host  
 `│  ├─ opcache-gui` - opcache-gui host  
 `│  └─ phpmemadmin` - phpMemAdmin host  
 `├─ .env` - environment variables file  
-`├─ docker-compose.yml` - Docker Compose setup  
 `├─ hosts.link` - link to file `hosts`  
+`├─ hosts.map` - mapping hosts to real directories  
 `├─ LICENSE.txt` - license agreement  
 `└─ README.md` - this ReadMe  
 
@@ -252,13 +259,13 @@ Execute sequentially:
 
 ### Multiple Versions of PHP
 To use more than one version of PHP in your project at the same time, do the following:
-1. Copy the desired service (`php` or `schedule`) in the [docker-compose.yml](docker-compose.yml).
+1. Copy the desired service (`php` or `schedule`) in the [docker-compose.yml](services/docker-compose.yml).
 2. If needed, create a new PHP configuration file by copying the existing example file into the `images/<service>`
    folder of the desired service. Specify the desired name for the configuration file.
 3. In the configuration of the copied service specify the desired Dockerfile explicitly.
 4. In the `volumes` configuration of the copied service specify the configuration file (the one you have created
    in step 2 or the one you have already had).
-5. Specify the desired name for the copied service in the [docker-compose.yml](docker-compose.yml) file.
+5. Specify the desired name for the copied service in the [docker-compose.yml](services/docker-compose.yml) file.
 
 ### Setup xDebug for PhpStorm
 Please read the [article](https://www.jetbrains.com/help/phpstorm/configuring-xdebug.html#configuring-xdebug-docker)
@@ -275,7 +282,7 @@ on the JetBrains website.
     * -> _PHP language Level_: choose **7.4** or **8.0**
     * -> _CLI Interpreter_: add a new interpreter **From Docker, Vagrant, VM, WSL, Remote** with a meaningful name:
       * choose _Server_: select a previously created server
-      * set _Configuration File(s)_: set the path to the file [`docker-compose.yml`](docker-compose.yml)
+      * set _Configuration File(s)_: set the path to the file [`docker-compose.yml`](services/docker-compose.yml)
       * choose _Service_: **php**
       * set _PHP executable_: **php**
 

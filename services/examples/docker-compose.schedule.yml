@@ -14,7 +14,6 @@ services:
       TZ: ${TIMEZONE}
     volumes:
       - ../data/cron:/home/docker/jobs
-      - ../www:/var/www
       - ../images/schedule/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
       - ../images/php/php${PHP_VER}.ini:/etc/php/${PHP_VER}/cli/conf.d/30-custom.ini
       - ../images/schedule/additional.ini:/etc/php/${PHP_VER}/cli/conf.d/40-additional.ini

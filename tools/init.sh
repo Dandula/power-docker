@@ -189,7 +189,7 @@ if [ "$(is_wsl)" -eq 0 ]; then
     || message_failure "mkcert installation error"
 fi
 
-"${SCRIPT_DIR}/config.sh"
+"${SCRIPT_DIR}/setup.sh"
 
 if [ "$(is_wsl)" -eq 0 ]; then
   ${DC} build

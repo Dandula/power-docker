@@ -5,14 +5,14 @@ WORKSPACE_DIR="${SCRIPT_DIR%/*}"
 
 DC="${SCRIPT_DIR}/dc.sh"
 
+# shellcheck source=constants/services.sh
+. "${SCRIPT_DIR}/constants/services.sh"
 # shellcheck source=scripts/parse_env.sh
 . "${SCRIPT_DIR}/scripts/parse_env.sh"
 # shellcheck source=scripts/str_process.sh
 . "${SCRIPT_DIR}/scripts/str_process.sh"
-# shellcheck source=constants/services.sh
-. "${SCRIPT_DIR}/constants/services.sh"
 
-${DC} stop
+${DC} down
 
 ENV_PATH="${WORKSPACE_DIR}/.env"
 
@@ -29,7 +29,7 @@ for SERVICE_NAME in ${SERVICES[*]}; do
     ;;
   esac
 
-  read -er -p "Enable ${SERVICE_NAME} service (Y/N) [Y]: " -i "$SERVICE_STATE" SERVICE_STATE
+  read -er -p "Enable $SERVICE_NAME service (Y/N) [Y]: " -i "$SERVICE_STATE" SERVICE_STATE
   case "$SERVICE_STATE" in
   Y|y)
     SERVICE_STATE=1

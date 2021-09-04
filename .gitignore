@@ -1,8 +1,11 @@
 # environments
 .env
 
+# hosts map
+/hosts.map
+
 # hosts link
-hosts.link
+/hosts.link
 
 # www data directories
 /www/*
@@ -19,7 +22,7 @@ hosts.link
 !/hosts/opcache-gui.conf
 !/hosts/apcu.conf
 
-# config files
+# images config files
 /images/php/php7.4.ini
 /images/php/php8.0.ini
 /images/php/msmtprc
@@ -28,6 +31,10 @@ hosts.link
 /images/rabbitmq/rabbitmq.conf
 /images/schedule/supervisord.conf
 /images/schedule/additional.ini
+
+# services config files
+/services/*
+!/services/examples
 
 # data directories
 /data/cache/.composer/*

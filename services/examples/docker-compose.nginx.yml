@@ -8,7 +8,6 @@ services:
       TZ: ${TIMEZONE}
     volumes:
       - ../hosts:/etc/nginx/conf.d
-      - ../www:/var/www
       - ../data/certs/hosts:/var/certs
       - ../logs/nginx:/var/log/nginx
     ports:
