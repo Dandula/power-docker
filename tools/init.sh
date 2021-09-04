@@ -2,7 +2,7 @@
 
 CLEAN_INSTALL=0
 
-for VAR in "$@"; do
+for VAR; do
   case "$VAR" in
   --clean-install)
     CLEAN_INSTALL=1
@@ -33,10 +33,10 @@ DC="${SCRIPT_DIR}/dc.sh"
 
 # shellcheck source=scripts/parse_env.sh
 . "${SCRIPT_DIR}/scripts/parse_env.sh"
-# shellcheck source=scripts/statuses.sh
-. "${SCRIPT_DIR}/scripts/statuses.sh"
 # shellcheck source=scripts/detect_wsl.sh
 . "${SCRIPT_DIR}/scripts/detect_wsl.sh"
+# shellcheck source=scripts/statuses.sh
+. "${SCRIPT_DIR}/scripts/statuses.sh"
 
 shopt -s extglob
 
@@ -53,8 +53,7 @@ my_cp images/redis/redis.conf.example images/redis/redis.conf
 my_cp images/rabbitmq/rabbitmq.conf.example images/rabbitmq/rabbitmq.conf
 my_cp images/schedule/supervisord.conf.example images/schedule/supervisord.conf
 my_cp images/schedule/additional.ini.example images/schedule/additional.ini
-my_cp "$WORKSPACE_DIR/services/examples/"!(docker-compose.all.yml) "$WORKSPACE_DIR/services"
-my_cp "$WORKSPACE_DIR/services/examples/docker-compose.all.yml" "$WORKSPACE_DIR/docker-compose.yml"
+my_cp "$WORKSPACE_DIR/services/examples/"* "$WORKSPACE_DIR/services"
 
 GID=$(id -g)
 ENV_PATH="${WORKSPACE_DIR}/.env"
@@ -79,7 +78,10 @@ BASICAUTH_PASSWORD=$(parse_env "BASICAUTH_PASSWORD" "${ENV_PATH}")
 read -er -p "Enter basic authentication password: " -i "$BASICAUTH_PASSWORD" BASICAUTH_PASSWORD
 sed -i "s/^BASICAUTH_PASSWORD=.*/BASICAUTH_PASSWORD=$BASICAUTH_PASSWORD/" "$ENV_PATH"
 
-TIMEZONE=$(cat /etc/timezone)
+TIMEZONE=$(parse_env "TIMEZONE" "${ENV_PATH}")
+if [ "$TIMEZONE" = "UTC" ]; then
+  TIMEZONE=$(cat /etc/timezone)
+fi
 read -er -p "Enter timezone [UTC]: " -i "$TIMEZONE" TIMEZONE
 if [ -z "$TIMEZONE" ]; then
   TIMEZONE="UTC"
@@ -175,8 +177,8 @@ if [ "$(is_wsl)" -eq 0 ]; then
   HOSTS_LINK="${WORKSPACE_DIR}/hosts.link"
   # shellcheck disable=SC2015
   my_ln "$HOSTS_PATH" "$HOSTS_LINK" > /dev/null 2>&1 \
-    && message_success "The link ${HOSTS_LINK} to hosts file has been created" \
-    || message_failure "The link ${HOSTS_LINK} to hosts file creation error"
+    && message_success "The link $HOSTS_LINK to hosts file has been created" \
+    || message_failure "The link $HOSTS_LINK to hosts file creation error"
 
   # shellcheck disable=SC2015
   sudo sudo apt-get update > /dev/null 2>&1 \

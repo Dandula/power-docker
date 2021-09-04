@@ -8,7 +8,7 @@ if [ -n "$SSH_AUTH_SOCK" ]; then
   docker run --rm -it \
     -v "${PWD}:/app" \
     -v "${COMPOSER_DIR}:/tmp" \
-    -v $SSH_AUTH_SOCK:/ssh-auth.sock \
+    -v "${SSH_AUTH_SOCK}:/ssh-auth.sock" \
     -v /etc/passwd:/etc/passwd:ro \
     -v /etc/group:/etc/group:ro \
     -e SSH_AUTH_SOCK=/ssh-auth.sock \

@@ -27,5 +27,5 @@ DUMP_PATH="${DUMPS_DIR}/${DUMP_FILENAME}"
 # shellcheck disable=SC2015
 cd "$WORKSPACE_DIR" \
   && ${DC} exec -T mysql sh -c "exec mysql -u${DB_USER} -p${DB_PASSWORD} ${DB_NAME}" < "${DUMP_PATH}" \
-  && message_success "MySQL database \`${DB_NAME}\` restored from the dump ${DUMP_PATH}" \
-  || message_failure "Error restoring from MySQL dump ${DUMP_PATH}"
+  && message_success "MySQL database \`$DB_NAME\` restored from the dump $DUMP_PATH" \
+  || message_failure "Error restoring from MySQL dump $DUMP_PATH"

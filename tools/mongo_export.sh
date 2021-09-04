@@ -28,5 +28,5 @@ DUMP_PATH="${DUMPS_DIR}/${DUMP_FILENAME}"
 # shellcheck disable=SC2015
 cd "$WORKSPACE_DIR" \
   && ${DC} exec -T mongo sh -c "exec mongodump -u${DB_USER} -p${DB_PASSWORD} -d${DB_NAME} --authenticationDatabase=admin --archive" > "${DUMP_PATH}" \
-  && message_success "Mongo dump of database \`${DB_NAME}\` created ${DUMP_PATH}" \
-  || message_failure "Error creating the database \`${DB_NAME}\` Mongo dump"
+  && message_success "Mongo dump of database \`$DB_NAME\` created $DUMP_PATH" \
+  || message_failure "Error creating the database \`$DB_NAME\` Mongo dump"

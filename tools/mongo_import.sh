@@ -27,5 +27,5 @@ DUMP_PATH="${DUMPS_DIR}/${DUMP_FILENAME}"
 # shellcheck disable=SC2015
 cd "$WORKSPACE_DIR" \
   && ${DC} exec -T mongo sh -c "exec mongorestore -u${DB_USER} -p${DB_PASSWORD} --authenticationDatabase=admin --archive" < "${DUMP_PATH}" \
-  && message_success "Mongo database \`${DB_NAME}\` restored from the dump ${DUMP_PATH}" \
-  || message_failure "Error restoring from Mongo dump ${DUMP_PATH}"
+  && message_success "Mongo database \`$DB_NAME\` restored from the dump $DUMP_PATH" \
+  || message_failure "Error restoring from Mongo dump $DUMP_PATH"

@@ -28,5 +28,5 @@ DUMP_PATH="${DUMPS_DIR}/${DUMP_FILENAME}"
 # shellcheck disable=SC2015
 cd "$WORKSPACE_DIR" \
   && ${DC} exec -T mysql sh -c "exec mysqldump -u${DB_USER} -p${DB_PASSWORD} ${DB_NAME}" > "${DUMP_PATH}" \
-  && message_success "MySQL dump of database \`${DB_NAME}\` created ${DUMP_PATH}" \
-  || message_failure "Error creating the database \`${DB_NAME}\` MySQL dump"
+  && message_success "MySQL dump of database \`$DB_NAME\` created $DUMP_PATH" \
+  || message_failure "Error creating the database \`$DB_NAME\` MySQL dump"
