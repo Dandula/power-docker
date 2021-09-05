@@ -1,17 +1,20 @@
 # PowerDocker Guide
+![Logo](assets/yoda.jpg "Portrait of the Jedi Master Yoda, from Star Wars")  
+_Image: Bea.miau on [Wikimedia Commons](https://commons.wikimedia.org)_
 
 ## Contents
 1. [About PowerDocker](#about-powerdocker)
-1. [Downloading & Installation](#downloading-&-installation)
+2. [Downloading & Installation](#downloading-&-installation)
     1. [Downloading via GIT](#downloading-via-git)
     2. [Downloading via Wget](#downloading-via-wget)
     3. [Downloading via cURL](#downloading-via-curl)
     4. [Installation](#installation)
-2. [Available Services](#available-services)
-3. [CLI Tools](#cli-tools)
-4. [WEB Tools](#web-tools)
-5. [File Structure](#file-structure)
-6. [Helpful](#helpful)
+3. [Available Services](#available-services)
+4. [Yoda](#yoda)
+5. [CLI Tools](#cli-tools)
+6. [WEB Tools](#web-tools)
+7. [File Structure](#file-structure)
+8. [Helpful](#helpful)
     1. [Workspace Run in the Background](#workspace-run-in-the-background)
     2. [Workspace Stopping](#workspace-stopping)
     3. [Typical Usage Example](#typical-usage-example)
@@ -78,49 +81,71 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 
 
 
+## Yoda
+After installing PowerDocker, you can use the `yoda` command, which allows you to access all of PowerDocker's features
+through one general command.
+
+The features available from the command line can be found in the [CLI Tools](#cli-tools) section.
+
+For a list of available commands with descriptions, you can execute `yoda help`.
+
+Note that in case the command `yoda <command>` is not recognized, it will be interpreted as `yoda dc <command>`.
+
+Note that in case you cannot set an alias for the `yoda` command during workspace installation, you can execute it as
+follows: `<path_to_tools>/yoda.sh <command>`.
+
+
+
 ## CLI Tools
-1. [**init.sh**](./tools/init.sh) - initializing the workspace  
+1. [**yoda.sh**](./tools/yoda.sh) - common command interface for other tools  
+   _Example:_ execute `./tools/yoda.sh <command>` for executing desired command of `yoda`.  
+   **Important!** You can use the short reference `yoda`, instead of `./tools/yoda.sh` if the alias for it was set
+   during the installation of the workspace!
+2. [**help.sh**](./tools/help.sh) - help about `yoda`  
+   _Example:_ execute `./tools/help.sh` for a help about `yoda`.
+3. [**init.sh**](./tools/init.sh) - initializing the workspace  
    _Example:_ execute `./tools/init.sh [--clean-install]` for the initial setup.  
    **Important!** Option `--clean-install` overwrite config and not delete user data!
-2. [**setup.sh**](./tools/setup.sh) - configure a set of services  
-   _Example:_ execute `./tools/config.sh` for form a set of services.  
+4. [**setup.sh**](./tools/setup.sh) - configure a set of services  
+   _Example:_ execute `./tools/setup.sh` for form a set of services.  
    **Important!** This command stops all currently running services and remove their containers!
-3. [**dc.sh**](./tools/dc.sh) - executes Docker Compose commands  
+5. [**dc.sh**](./tools/dc.sh) - executes Docker Compose commands  
    _Example:_ execute `./tools/dc.sh run --rm php bash` for entering to container.  
    **Important!** Try to use docker-compose through this tool.
-4. [**mount_www.sh**](./tools/mount_www.sh) - create a Docker Compose setup for mounting host directories    
+6. [**mount_www.sh**](./tools/mount_www.sh) - create a Docker Compose setup for mounting host directories    
    _Example:_ execute `./tools/mount_www.sh` to form a Docker Compose setup.  
    **Important!** The formation of the setup is based on the file `hosts.map`.
-5. [**host_add.sh**](./tools/host_add.sh) - add a new host  
+7. [**host_add.sh**](./tools/host_add.sh) - add a new host  
    _Example:_ execute `<path_to_tools>/host_add.sh example.loc`.
-6. [**host_del.sh**](./tools/host_del.sh) - delete the host  
+8. [**host_del.sh**](./tools/host_del.sh) - delete the host  
    _Example:_ execute `<path_to_tools>/host_del.sh example.loc`.  
    **Important!** This command does not delete the directory with the sources of the host!
-7. [**composer.sh**](./tools/init.sh) - Composer command  
+9. [**composer.sh**](./tools/init.sh) - Composer command  
    _Example:_ execute `../../tools/composer.sh composer require <package>` in the project directory `./www/<project>`.
-8. [**npm.sh**](./tools/npm.sh) - NPM command  
-   _Example:_ execute `../../tools/npm.sh install --save-dev <package>` in the project directory `./www/<project>`.
-9. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
-   _Example:_ execute `<path_to_tools>/mysql_export.sh <database>` in any directory while the workspace is running.
-10. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
+10. [**npm.sh**](./tools/npm.sh) - NPM command  
+    _Example:_ execute `../../tools/npm.sh install --save-dev <package>` in the project directory `./www/<project>`.
+11. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
+    _Example:_ execute `<path_to_tools>/mysql_export.sh <database>` in any directory while the workspace is running.
+12. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
    _Example:_ execute `<path_to_tools>/mysql_import.sh <dump_filename>` in any directory while the workspace is running.
-11. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
+13. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
     _Example:_ execute `<path_to_tools>/mongo_export.sh <database>` in any directory while the workspace is running. 
-12. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
+14. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
     _Example:_ execute `<path_to_tools>/mongo_import.sh <dump_filename>` in any directory while the workspace is running.
-13. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
+15. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>/make_ssl_cert.sh <domain>` in any directory.  
     **Important!** This command not compatible with WSL. Browser must be installed at the same host as used `mkcert`!
-14. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
+16. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
     _Example:_ execute `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` in any directory.
     **Important!** You must run a new php container to apply the generated SSH agent key!
-15. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
+17. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
     _Example:_ execute `<path_to_tools>/cron_example.sh <example_filename>` in any directory.
-16. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
+18. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\hosts_link.bat` in any directory.
-17. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
+19. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\mkcert_install.bat` in any directory.
-18. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS and put to the directory `./data/certs/hosts`  
+20. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS
+    and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>\wsl\make_ssl_cert.bat <domain>` in any directory.
 
 
@@ -138,6 +163,9 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 
 
 ## File Structure
+`├─ assets` - assets files  
+`│  ├─ yoda.jpg` - logo image  
+`│  └─ yoda.txt` - yoda text art  
 `├─ data` - user data stored between runs  
 `│  ├─ cache` - cache directory  
 `│  ├─ certs` - SSL & SSH certificates  
@@ -218,7 +246,8 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 `│  ├─ mysql_export.sh` - export MySQL to dump  
 `│  ├─ mysql_import.sh` - import MySQL from dump  
 `│  ├─ npm.sh` - NPM command  
-`│  └─ setup.sh` - configuring a set of services  
+`│  ├─ setup.sh` - configuring a set of services  
+`│  └─ yoda.sh` - entrypoint for other scripts  
 `├─ www` - hosts sources directory  
 `│  ├─ apcu` - APCu host  
 `│  ├─ opcache-gui` - opcache-gui host  
@@ -234,28 +263,28 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 ## Helpful
 
 ### Workspace Run in the Background
-Execute `./tools/dc.sh up -d`
+Execute `yoda dc up -d`
 
 ### Workspace Stopping
-Execute `./tools/dc.sh stop`
+Execute `yoda dc stop`
 
 ### Workspace Starting After Stopping
-Execute `./tools/dc.sh start`
+Execute `yoda dc start`
 
 ### Typical Usage Example
 Execute sequentially:
-1. `./tools/dc.sh up -d`
-2. `./tools/host_add.sh example.loc`
+1. `yoda dc up -d`
+2. `yoda host:add example.loc`
 3. `cd www`
-4. `../tools/composer.sh create-project laravel/laravel example`
+4. `yoda composer create-project laravel/laravel example`
 5. `cd example`
-6. `../../tools/npm.sh install`
-7. `../../tools/npm.sh install vue`
-8. `../../tools/dc.sh run --rm php bash`
+6. `yoda npm install`
+7. `yoda npm install vue`
+8. `yoda dc run --rm php bash`
 9. `cd example`
 10. `git init`
 11. `exit`
-12. `../../tools/dc.sh stop`
+12. `yoda dc stop`
 
 ### Multiple Versions of PHP
 To use more than one version of PHP in your project at the same time, do the following:
@@ -295,7 +324,7 @@ on the JetBrains website.
 
 #### For test PHP CLI xDebug
 Set a breakpoint in the file `<filename>.php` and execute:  
-`docker-compose exec php sh -c "php <filename>.php"`
+`yoda dc exec php sh -c "php <filename>.php"`
 
 ### SSL Certificates on WSL
 Execute from Windows command line:

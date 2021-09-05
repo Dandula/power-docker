@@ -193,6 +193,42 @@ fi
 
 "${SCRIPT_DIR}/setup.sh"
 
+SHELL_CONFIG_FILEPATH="${HOME}/.bashrc"
+ALIAS_RECORD="alias yoda=\"${SCRIPT_DIR}/yoda.sh\""
+
+IS_SHELL_CONFIG_FILEPATH_DEFINED=0
+
+until [ "${IS_SHELL_CONFIG_FILEPATH_DEFINED}" -eq 1 ]; do
+  read -er -p "Enter full path to shell config (for Bash \$HOME/.bashrc; leave blank so as not to create): " -i "$SHELL_CONFIG_FILEPATH" SHELL_CONFIG_FILEPATH
+
+  if [ -n "$SHELL_CONFIG_FILEPATH" ]; then
+    if [[ $SHELL_CONFIG_FILEPATH != /* ]]; then
+      message_colored "You must enter full path!" "FAILURE" \
+        && continue
+    fi
+
+    if [ ! -f "$SHELL_CONFIG_FILEPATH" ]; then
+      message_colored "You must enter existing path!" "FAILURE" \
+        && continue
+    fi
+
+    if ! grep -q "${ALIAS_RECORD}" "${SHELL_CONFIG_FILEPATH}"; then
+      sh -c "echo '\n${ALIAS_RECORD}' >> ${SHELL_CONFIG_FILEPATH}" \
+        && message_success "Alias 'yoda' is defined in the file $SHELL_CONFIG_FILEPATH"
+
+      shopt -s expand_aliases
+
+      . "${SHELL_CONFIG_FILEPATH}"
+    else
+      message_failure "Alias 'yoda' is already defined in the file $SHELL_CONFIG_FILEPATH"
+    fi
+  else
+    message_failure "No alias 'yoda' will be created"
+  fi
+
+  IS_SHELL_CONFIG_FILEPATH_DEFINED=1
+done
+
 if [ "$(is_wsl)" -eq 0 ]; then
   ${DC} build
 fi
