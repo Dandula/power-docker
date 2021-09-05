@@ -288,13 +288,13 @@ Execute sequentially:
 
 ### Multiple Versions of PHP
 To use more than one version of PHP in your project at the same time, do the following:
-1. Copy the desired service (`php` or `schedule`) in the [docker-compose.yml](services/docker-compose.yml).
+1. Copy the desired service (`php` or `schedule`) in the `docker-compose.<php|schedule>.yml` file.
 2. If needed, create a new PHP configuration file by copying the existing example file into the `images/<service>`
    folder of the desired service. Specify the desired name for the configuration file.
 3. In the configuration of the copied service specify the desired Dockerfile explicitly.
 4. In the `volumes` configuration of the copied service specify the configuration file (the one you have created
    in step 2 or the one you have already had).
-5. Specify the desired name for the copied service in the [docker-compose.yml](services/docker-compose.yml) file.
+5. Specify the desired name for the copied service in the `docker-compose.<php|schedule>.yml` file.
 
 ### Setup xDebug for PhpStorm
 Please read the [article](https://www.jetbrains.com/help/phpstorm/configuring-xdebug.html#configuring-xdebug-docker)
@@ -311,7 +311,7 @@ on the JetBrains website.
     * -> _PHP language Level_: choose **7.4** or **8.0**
     * -> _CLI Interpreter_: add a new interpreter **From Docker, Vagrant, VM, WSL, Remote** with a meaningful name:
       * choose _Server_: select a previously created server
-      * set _Configuration File(s)_: set the path to the file [`docker-compose.yml`](services/docker-compose.yml)
+      * set _Configuration File(s)_: set the path to the file `docker-compose.php.yml`
       * choose _Service_: **php**
       * set _PHP executable_: **php**
 
