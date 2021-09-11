@@ -39,7 +39,7 @@ RUN apt-get update \
 # xml
     && apt-get install -y php${PHP_VER}-xml \
 # apcu
-    && pecl install apcu-5.1.19 \
+    && pecl install apcu-5.1.20 \
 # bz2
     && apt-get install -y php${PHP_VER}-bz2 \
 # curl
@@ -52,6 +52,9 @@ RUN apt-get update \
     && apt-get install -y php${PHP_VER}-gd \
 # gettext
     && apt-get install -y php${PHP_VER}-gettext \
+#imagick
+    && apt-get install -y libmagickwand-dev \
+    && pecl install imagick-3.5.1 \
 # intl
     && apt-get install -y php${PHP_VER}-intl \
 # mbstring
@@ -62,7 +65,7 @@ RUN apt-get update \
         zlib1g-dev \
     && pecl install memcached-3.1.5 \
 # mongodb
-    && pecl install mongodb-1.9.0 \
+    && pecl install mongodb-1.10.0 \
 # mysqli
     && apt-get install -y php${PHP_VER}-mysqli \
 # odbc

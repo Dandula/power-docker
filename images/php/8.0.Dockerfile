@@ -45,12 +45,8 @@ RUN apt-get update && apt-get install -y \
 # imagick
     && apt-get install -y libmagickwand-dev \
     && mkdir -p /usr/src/php/ext/imagick \
-    && git clone https://github.com/Imagick/imagick /usr/src/php/ext/imagick \
-    && cd /usr/src/php/ext/imagick \
-    && phpize && ./configure \
-    && make \
-    && make install \
-    && docker-php-ext-install -j$(nproc) imagick \
+    && curl -fsSL https://pecl.php.net/get/imagick-3.5.1 | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 \
+    && docker-php-ext-install imagick \
 # intl
     && docker-php-ext-install intl \
 # memcached
@@ -62,7 +58,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install memcached \
 # mongodb
     && mkdir -p /usr/src/php/ext/mongodb \
-    && curl -fsSL https://pecl.php.net/get/mongodb-1.9.1 | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/mongodb-1.10.0 | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
     && docker-php-ext-install mongodb \
 # mysqli
     && docker-php-ext-install mysqli \

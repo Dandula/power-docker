@@ -43,7 +43,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install gettext \
 # imagick
     && apt-get install -y libmagickwand-dev \
-    && pecl install imagick-3.4.4 \
+    && pecl install imagick-3.5.1 \
     && docker-php-ext-enable imagick \
 # intl
     && docker-php-ext-install intl \
@@ -54,7 +54,7 @@ RUN apt-get update && apt-get install -y \
     && pecl install memcached-3.1.5 \
     && docker-php-ext-enable memcached \
 # mongodb
-    && pecl install mongodb-1.9.1 \
+    && pecl install mongodb-1.10.0 \
     && docker-php-ext-enable mongodb \
 # mysqli
     && docker-php-ext-install mysqli \
