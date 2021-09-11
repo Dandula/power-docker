@@ -1,0 +1,22 @@
+module.exports = {
+    apps: [
+        {
+            name: "cron",
+            exec_mode: "fork",
+            script: "/bin/bash",
+            args: ["-c", "sudo /usr/sbin/cron -f -L 15"],
+            out_file: "/dev/stdout",
+            error_file: "/dev/stderr",
+            autorestart: true
+        }
+        // {
+        //     name: "laravel-worker",
+        //     exec_mode: "fork",
+        //     interpreter: "php",
+        //     script: "/var/www/example/artisan",
+        //     out_file: "/var/www/example/worker.log",
+        //     args: "queue:work",
+        //     instances: 8
+        // }
+    ]
+}

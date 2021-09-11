@@ -34,4 +34,12 @@ env | while read -r LINE; do  # read STDIN by line
   echo "${VAR} DEFAULT=\"${VAL}\"" | sudo tee -a /etc/security/pam_env.conf > /dev/null
 done
 
-sudo supervisord -c "/etc/supervisor/conf.d/supervisord.conf"
+case "$PM_UTILITY" in
+  pm2)
+    pm2 start --no-daemon "/etc/pm2/ecosystem.config.js" && \
+      pm2 save --force
+    ;;
+  supervisor|*)
+    sudo supervisord -c "/etc/supervisor/conf.d/supervisord.conf"
+    ;;
+esac

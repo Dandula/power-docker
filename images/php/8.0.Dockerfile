@@ -4,11 +4,11 @@ LABEL maintainer="Vladyslav Revenko <dandular@gmail.com>"
 
 ARG USER_ID=1000
 ARG GROUP_ID=1000
+ARG NODE_VER=14.17.6
 
-COPY fakesendmail.sh /etc/fakesendmail.sh
+COPY --chown=root:root fakesendmail.sh /etc/fakesendmail.sh
 
-RUN chown root:root /etc/fakesendmail.sh \
-    && chmod 755 /etc/fakesendmail.sh \
+RUN chmod 755 /etc/fakesendmail.sh \
     && mkdir -p /var/mail/sendmail \
     && chmod 777 /var/mail/sendmail
 
@@ -113,11 +113,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer
 
-RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
-    && apt-get install -y \
-        nodejs \
-        build-essential
-
 RUN sed -i '/#!\/bin\/sh/achown docker:docker /var/log/php' /usr/local/bin/docker-php-entrypoint \
     && sed -i '/#!\/bin\/sh/amkdir -p /var/log/php' /usr/local/bin/docker-php-entrypoint \
 ## sendmail
@@ -139,11 +134,21 @@ RUN apt-get install -y sudo \
     && adduser -u ${USER_ID} --disabled-password --gecos '' docker \
     && groupmod -g ${GROUP_ID} docker \
     && adduser docker sudo \
-    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
-    && apt-get clean \
-    && rm -r /var/lib/apt/lists/*
+    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER "${USER_ID}:${GROUP_ID}"
+
+ENV NVM_DIR=/home/docker/.nvm
+ENV NODE_VER=${NODE_VER}
+
+RUN ["/bin/bash", "-c", "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
+    && source ${NVM_DIR}/nvm.sh \
+    && nvm install ${NODE_VER} \
+    && nvm alias default ${NODE_VER} \
+    && nvm use default"]
+
+RUN sudo apt-get clean \
+    && sudo rm -r /var/lib/apt/lists/*
 
 EXPOSE 9000
 

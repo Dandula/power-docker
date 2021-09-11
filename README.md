@@ -197,7 +197,8 @@ follows: `<path_to_tools>/yoda.sh <command>`.
 `│  │  ├─ docker-entrypoint.sh` - Bash script for initialization CRON jobs and supervisor _(copied into the image at build)_  
 `│  │  ├─ Dockerfile` - dockerfile of schedule service  
 `│  │  ├─ fakesendmail.sh` - Bash script for saving emails instead of sending them _(copied into the image at build)_  
-`│  ┴  └─ supervisord.conf` - supervisord config  
+`│  │  ├─ supervisord.conf` - supervisord config  
+`│  ┴  └─ ecosystem.config.js` - PM2 config  
 `├─ logs` - logs of services  
 `│  ├─ cron` - CRON logs  
 `│  ├─ msmtp` - MSMTP logs  
@@ -212,12 +213,15 @@ follows: `<path_to_tools>/yoda.sh <command>`.
 `│  ├─ docker-compose.mongo.yml` - Mongo service setup  
 `│  ├─ docker-compose.mysql.yml` - MySQL service setup  
 `│  ├─ docker-compose.nginx.yml` - nginx service setup  
+`│  ├─ docker-compose.nginx-volumes.yml` - volumes setup of nginx service  
 `│  ├─ docker-compose.php.yml` - PHP service setup  
+`│  ├─ docker-compose.php-volumes.yml` - volumes setup of PHP service  
 `│  ├─ docker-compose.phpmyadmin.yml` - phpMyAdmin service setup  
 `│  ├─ docker-compose.phpredisadmin.yml` - phpRedisAdmin service setup  
 `│  ├─ docker-compose.rabbitmq.yml` - RabbitMQ service setup  
 `│  ├─ docker-compose.redis.yml` - Redis service setup  
 `│  ├─ docker-compose.schedule.yml` - Schedule service setup  
+`│  ├─ docker-compose.schedule-volumes.yml` - volumes setup of Schedule service  
 `│  └─ docker-compose.yml` - general setup of Docker Compose services  
 `├─ tools` - scripts (mostly Bash)  
 `│  ├─ constants` - determining constants  
@@ -253,6 +257,7 @@ follows: `<path_to_tools>/yoda.sh <command>`.
 `│  ├─ opcache-gui` - opcache-gui host  
 `│  └─ phpmemadmin` - phpMemAdmin host  
 `├─ .env` - environment variables file  
+`├─ CHANGELOG.md` - changelog  
 `├─ hosts.link` - link to file `hosts`  
 `├─ hosts.map` - mapping hosts to real directories  
 `├─ LICENSE.txt` - license agreement  

@@ -52,6 +52,7 @@ my_cp images/mysql/my.cnf.example images/mysql/my.cnf
 my_cp images/redis/redis.conf.example images/redis/redis.conf
 my_cp images/rabbitmq/rabbitmq.conf.example images/rabbitmq/rabbitmq.conf
 my_cp images/schedule/supervisord.conf.example images/schedule/supervisord.conf
+my_cp images/schedule/ecosystem.config.js.example images/schedule/ecosystem.config.js
 my_cp images/schedule/additional.ini.example images/schedule/additional.ini
 my_cp "$WORKSPACE_DIR/services/examples/"* "$WORKSPACE_DIR/services"
 
@@ -98,6 +99,24 @@ case "$PHP_VER" in
   ;;
 esac
 sed -i "s%^PHP_VER=.*%PHP_VER=$PHP_VER%" "$ENV_PATH"
+
+NODE_VER=$(parse_env "NODE_VER" "${ENV_PATH}")
+read -er -p "Enter Node version [14.17.6]: " -i "$NODE_VER" NODE_VER
+if [ -z "$NODE_VER" ]; then
+  NODE_VER="14.17.6"
+fi
+sed -i "s%^NODE_VER=.*%NODE_VER=$NODE_VER%" "$ENV_PATH"
+
+PM_UTILITY=$(parse_env "PM_UTILITY" "${ENV_PATH}")
+read -er -p "Select process manager utility (supervisor/pm2) [supervisor]: " -i "$PM_UTILITY" PM_UTILITY
+case "$PM_UTILITY" in
+pm2)
+  ;;
+supervisor|*)
+  PM_UTILITY="supervisor"
+  ;;
+esac
+sed -i "s%^PM_UTILITY=.*%PM_UTILITY=$PM_UTILITY%" "$ENV_PATH"
 
 message_success "Setup environment variables $ENV_PATH"
 

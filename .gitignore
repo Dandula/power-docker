@@ -30,6 +30,7 @@
 /images/redis/redis.conf
 /images/rabbitmq/rabbitmq.conf
 /images/schedule/supervisord.conf
+/images/schedule/ecosystem.config.js
 /images/schedule/additional.ini
 
 # services config files

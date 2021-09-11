@@ -8,13 +8,16 @@ services:
         - USER_ID
         - GROUP_ID
         - PHP_VER
+        - NODE_VER
         - TIMEZONE
     restart: unless-stopped
     environment:
       TZ: ${TIMEZONE}
+      PM_UTILITY: ${PM_UTILITY}
     volumes:
       - ../data/cron:/home/docker/jobs
       - ../images/schedule/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+      - ../images/schedule/ecosystem.config.js:/etc/pm2/ecosystem.config.js
       - ../images/php/php${PHP_VER}.ini:/etc/php/${PHP_VER}/cli/conf.d/30-custom.ini
       - ../images/schedule/additional.ini:/etc/php/${PHP_VER}/cli/conf.d/40-additional.ini
       - ../data/certs/ca:/usr/local/etc/ca

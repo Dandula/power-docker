@@ -6,6 +6,7 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 ARG TIMEZONE=UTC
 ARG PHP_VER
+ARG NODE_VER=14.17.6
 
 ENV TZ=${TIMEZONE}
 
@@ -87,37 +88,34 @@ RUN apt-get update \
 # xsl
     && apt-get install -y php${PHP_VER}-xsl
 
-# imagick
-RUN ["/bin/bash", "-c", "apt-get install -y libmagickwand-dev \
-    && if [[ ${PHP_VER} = 8* ]]; then \
-        mkdir -p /usr/src/php/ext/imagick \
-            && curl -fsSL https://github.com/Imagick/imagick/archive/master.tar.gz | tar xvz -C /usr/src/php/ext/imagick --strip 1 \
-            && cd /usr/src/php/ext/imagick \
-            && phpize \
-            && ./configure \
-            && make \
-            && make install \
-            && rm -r /usr/src/php/ext/imagick \
-            && apt-get purge -y git \
-            && apt-get autoremove -y; \
-    else \
-        pecl install imagick-3.4.4; \
-    fi"]
-
 RUN apt-get install -y sudo \
     && adduser -u ${USER_ID} --disabled-password --gecos '' docker \
     && groupmod -g ${GROUP_ID} docker \
     && adduser docker sudo \
-    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
-    && apt-get clean \
-    && rm -r /var/lib/apt/lists/*
+    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN sudo mkdir -p /var/log/supervisor \
-    && sudo mkdir -p /var/log/cron \
+RUN mkdir -p /var/log/supervisor \
+    && mkdir -p /var/log/cron \
     && mkdir -p /var/log/msmtp \
     && chown docker:msmtp /var/log/msmtp \
     && chmod 700 /var/log/msmtp
 
 USER "${USER_ID}:${GROUP_ID}"
+
+ENV NVM_DIR=/home/docker/.nvm
+ENV NODE_VER=${NODE_VER}
+
+RUN ["/bin/bash", "-c", "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
+    && source ${NVM_DIR}/nvm.sh \
+    && nvm install ${NODE_VER} \
+    && nvm alias default ${NODE_VER} \
+    && nvm use default"]
+
+ENV NODE_PATH ${NVM_DIR}/v${NODE_VER}/lib/node_modules
+ENV PATH ${NVM_DIR}/versions/node/v${NODE_VER}/bin:$PATH
+
+RUN npm install pm2@latest -g \
+    && sudo apt-get clean \
+    && sudo rm -r /var/lib/apt/lists/*
 
 CMD ["docker-entrypoint.sh"]
