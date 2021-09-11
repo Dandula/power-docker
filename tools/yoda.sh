@@ -50,6 +50,10 @@ case "$1" in
     SCRIPT="${SCRIPT_DIR}/mongo_import.sh"
     shift
     ;;
+  cron:example)
+    SCRIPT="${SCRIPT_DIR}/cron_example.sh"
+    shift
+    ;;
   *)
     SCRIPT="${DC}"
     ;;
