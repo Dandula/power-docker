@@ -1,6 +1,7 @@
 # PowerDocker Guide
 ![Logo](assets/yoda.jpg "Portrait of the Jedi Master Yoda, from Star Wars")  
 _Image: Bea.miau on [Wikimedia Commons](https://commons.wikimedia.org)_
+> **"Do or do not. There is no try."**
 
 ## Contents
 1. [About PowerDocker](#about-powerdocker)
