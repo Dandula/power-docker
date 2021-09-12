@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  node:
+    build:
+      context: ../images/node
+      args:
+        - USER_ID
+        - GROUP_ID
+        - NODE_VER
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE}
+    working_dir: /var/www
+    volumes:
+      - ../www:/var/www
+      - ../images/node/ecosystem.config.js:/etc/pm2/ecosystem.config.js
+      - ../data/certs/mnt:/home/docker/certs
+      - ../data/cache/.npm:/home/docker/.npm
+    ports:
+      - "49001-49150:49001-49150"
+    networks:
+      - workspace

@@ -97,6 +97,16 @@ else
   message_failure "Domain $DOMAIN is missing in the file $HOSTS_MAP_PATH"
 fi
 
+NODE_PORTS_MAP_PATH="${WORKSPACE_DIR}/node-ports.map"
+
+if grep -q "${DOMAIN}" "${NODE_PORTS_MAP_PATH}"; then
+  NODE_PORTS_MAP_RECORD_REGEX="^${DOMAIN//./\\.}\:"
+  sed -i "/${NODE_PORTS_MAP_RECORD_REGEX}/d" "${NODE_PORTS_MAP_PATH}" \
+    && message_success "Domain $DOMAIN deleted from the file $NODE_PORTS_MAP_PATH"
+else
+  message_failure "Domain $DOMAIN is missing in the file $NODE_PORTS_MAP_PATH"
+fi
+
 if [[ "$(is_wsl)" -eq 0 && "${IS_HOST_CONFIG_CREATED}" -eq 1 ]]; then
   for SERVICE_NAME in ${SERVICES_NEED_WWW[*]}; do
     SERVICE_VARIABLE="SERVICE_$(to_snake_case "$(to_uppercase "$SERVICE_NAME")")"

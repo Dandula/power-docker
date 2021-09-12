@@ -18,4 +18,4 @@ docker run --rm -it \
   -v "${PWD}:/usr/src/app" \
   -v "${PIP_DIR}:/home/docker/.cache/pip" \
   -v "${POETRY_DIR}:/home/docker/.cache/pypoetry" \
-  pd-python "$@"
+  ws-python "$@"

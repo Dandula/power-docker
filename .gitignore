@@ -4,6 +4,9 @@
 # hosts map
 /hosts.map
 
+# node ports map
+/node-ports.map
+
 # hosts link
 /hosts.link
 
@@ -26,6 +29,7 @@
 /images/php/php7.4.ini
 /images/php/php8.0.ini
 /images/php/msmtprc
+/images/node/ecosystem.config.js
 /images/mysql/my.cnf
 /images/redis/redis.conf
 /images/rabbitmq/rabbitmq.conf

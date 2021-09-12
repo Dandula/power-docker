@@ -1,5 +1,7 @@
 # configs
 *.conf.example
 *.conf
+*.js.example
+*.js
 *.ini.example
 *.ini

@@ -26,6 +26,6 @@ docker build \
     --build-arg USER_ID="${USER_ID}" \
     --build-arg GROUP_ID="${GROUP_ID}" \
     --build-arg PYTHON_VER="${PYTHON_VER}" \
-    -t pd-python "${PYTHON_IMAGE_DIR}" \
+    -t ws-python "${PYTHON_IMAGE_DIR}" \
   && message_success "Python are configured" \
   || message_failure "Python configuration error"

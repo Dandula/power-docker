@@ -10,11 +10,10 @@ ARG NODE_VER=14.17.6
 
 ENV TZ=${TIMEZONE}
 
-COPY fakesendmail.sh /etc/fakesendmail.sh
+COPY --chown=root:root fakesendmail.sh /etc/fakesendmail.sh
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone \
-    && chown root:root /etc/fakesendmail.sh \
     && chmod 755 /etc/fakesendmail.sh \
     && mkdir -p /var/mail/sendmail \
     && chmod 777 /var/mail/sendmail \

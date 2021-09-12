@@ -69,16 +69,17 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 ## Available Services
 1. WebServer: nginx
 2. PHP (v7.4/8.0) with MSMTP as an MTA (for `mail()`). Also has Midnight Commander, Wget, cURL, GIT, Composer, npm.
-3. MySQL (v5.7)
-4. MongoDB
-5. Memcached
-6. Redis
-7. RabbitMQ & Management Plugin
-8. Schedule: supervisor or PM2 & CRON
-9. phpMyAdmin
-10. Adminer
-11. Mongo-Express
-12. phpRedisAdmin
+3. Node
+4. MySQL (v5.7)
+5. MongoDB
+6. Memcached
+7. Redis
+8. RabbitMQ & Management Plugin
+9. Schedule: supervisor or PM2 & CRON
+10. phpMyAdmin
+11. Adminer
+12. Mongo-Express
+13. phpRedisAdmin
 
 
 
@@ -186,6 +187,9 @@ follows: `<path_to_tools>/yoda.sh <command>`.
 `├─ images` - dockerfiles and configs for services  
 `│  ├─ mysql` - MySQL service config  
 `│  │  └─ my.cnf` - MySQL config  
+`│  ├─ node` - Node service config  
+`│  │  ├─ Dockerfile` - dockerfile of Node service  
+`│  │  └─ ecosystem.config.js` - PM2 config  
 `│  ├─ php` - PHP service config  
 `│  │  ├─ 7.4.Dockerfile` - dockerfile of PHP v7.4 service  
 `│  │  ├─ 8.0.Dockerfile` - dockerfile of PHP v8.0 service  
@@ -219,6 +223,8 @@ follows: `<path_to_tools>/yoda.sh <command>`.
 `│  ├─ docker-compose.mysql.yml` - MySQL service setup  
 `│  ├─ docker-compose.nginx.yml` - nginx service setup  
 `│  ├─ docker-compose.nginx-volumes.yml` - volumes setup of nginx service  
+`│  ├─ docker-compose.node.yml` - Node service setup  
+`│  ├─ docker-compose.node-volumes.yml` - volumes setup of Node service  
 `│  ├─ docker-compose.php.yml` - PHP service setup  
 `│  ├─ docker-compose.php-volumes.yml` - volumes setup of PHP service  
 `│  ├─ docker-compose.phpmyadmin.yml` - phpMyAdmin service setup  
@@ -268,6 +274,7 @@ follows: `<path_to_tools>/yoda.sh <command>`.
 `├─ hosts.link` - link to file `hosts`  
 `├─ hosts.map` - mapping hosts to real directories  
 `├─ LICENSE.txt` - license agreement  
+`├─ node-ports.map` - mapping hosts to the ports used by the Node service  
 `└─ README.md` - this ReadMe  
 
 

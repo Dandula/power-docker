@@ -78,4 +78,8 @@ case "$1" in
     ;;
 esac
 
-"${SCRIPT}" "$ARG" $@
+if [ -n "$ARG" ]; then
+  "${SCRIPT}" "$ARG" $@
+else
+  "${SCRIPT}" $@
+fi

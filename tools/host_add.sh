@@ -115,11 +115,11 @@ EOM
   read -r -p "Choose scheme (1 - HTTP, 2 - HTTPS, 3 - HTTP + HTTPS) [1]: " SCHEME
   SCHEME=${SCHEME:-1}
 
-  read -r -p "Are you adding a Laravel host? (Y/N) [N]: " IS_LARAVEL
-  IS_LARAVEL=${IS_LARAVEL:-N}
+  read -r -p "Select a host type (common/laravel/node) [common]: " HOST_TYPE
+  HOST_TYPE=$(to_lowercase ${HOST_TYPE:-common})
 
-  case "$IS_LARAVEL" in
-  Y|y)
+  case "$HOST_TYPE" in
+  laravel)
     read -r -d '' REDIRECT_TO_HTTPS <<-EOM
 			server {
 			    listen 80;
@@ -127,10 +127,40 @@ EOM
 			    return 301 https://${DOMAIN}\$request_uri;
 			}
 EOM
-    IS_LARAVEL=1
     ;;
-  N|n|*)
-    IS_LARAVEL=0
+  node)
+    NODE_PORTS_MAP_PATH="${WORKSPACE_DIR}/node-ports.map"
+
+    touch "${NODE_PORTS_MAP_PATH}"
+
+    IS_NODE_PORT_DEFINED=0
+
+    until [ "${IS_NODE_PORT_DEFINED}" -eq 1 ]; do
+      read -r -p "Set port of Node application (49001-49150): " NODE_PORT
+
+      if [[ $NODE_PORT -lt 49001 || $NODE_PORT -gt 49150 ]]; then
+        message_colored "You must set the port in the range 49001 - 49150!" "FAILURE" \
+          && continue
+      fi
+
+      NODE_PORTS_MAP_RECORD="${DOMAIN}:${NODE_PORT}"
+
+      if ! grep -q ":$NODE_PORT$" "${NODE_PORTS_MAP_PATH}"; then
+        # shellcheck disable=SC2015
+        sh -c "echo '${NODE_PORTS_MAP_RECORD}' >> ${NODE_PORTS_MAP_PATH}" \
+          && message_success "Domain $DOMAIN is mapped to the port $NODE_PORT of node service in the file $NODE_PORTS_MAP_PATH" \
+          || message_failure "Domain $DOMAIN mapping to the port $NODE_PORT of node service in the file $NODE_PORTS_MAP_PATH error"
+      else
+        message_failure "Host with such mapped port already exists in workspace" \
+          && continue
+      fi
+
+      IS_NODE_PORT_DEFINED=1
+    done
+
+    NODE_UPSTREAM_NAME=$(to_snake_case "$WWW_BASE_DIR")
+    ;;
+  common|*)
     ;;
   esac
 
@@ -141,7 +171,7 @@ EOM
     NEED_CERT=1
     ;;
   3)
-    if [ "${IS_LARAVEL}" -eq 0 ]; then
+    if [ "${HOST_TYPE}" != "laravel" ]; then
       PORT_CONFIG=$HTTP_HTTPS_CONFIG
     else
       PORT_CONFIG=$HTTPS_CONFIG
@@ -163,30 +193,8 @@ EOM
     NEED_CERT=0
   fi
 
-  if [ "${IS_LARAVEL}" -eq 0 ]; then
-    { cat > "${CONFIG_PATH}" <<-EOF
-			server {
-			    ${PORT_CONFIG}
-			    index index.php;
-			    server_name ${DOMAIN};
-			    error_log /var/log/nginx/${CONFIG_NAME}/error.log;
-			    access_log /var/log/nginx/${CONFIG_NAME}/access.log;
-			    root ${MNT_WWW_DIR};
-			    ${CERTS_CONFIG}
-			    location ~ \.php$ {
-			        try_files \$uri =404;
-			        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-			        fastcgi_pass php:9000;
-			        fastcgi_index index.php;
-			        include fastcgi_params;
-			        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-			        fastcgi_param PATH_INFO \$fastcgi_path_info;
-			    }
-			}
-EOF
-    } && message_success "Host configuration created $CONFIG_PATH" \
-      && IS_HOST_CONFIG_CREATED=1
-  else
+  case "$HOST_TYPE" in
+  laravel)
     { cat > "${CONFIG_PATH}" <<-EOF
 			server {
 			    ${PORT_CONFIG}
@@ -229,7 +237,65 @@ EOF
 EOF
     } && message_success "Host configuration created $CONFIG_PATH" \
       && IS_HOST_CONFIG_CREATED=1
-  fi
+    ;;
+  node)
+    { cat > "${CONFIG_PATH}" <<-EOF
+			upstream ${NODE_UPSTREAM_NAME} {
+			    server node:${NODE_PORT};
+			    keepalive 64;
+			}
+
+			server {
+			    ${PORT_CONFIG}
+			    server_name ${DOMAIN};
+
+			    error_log /var/log/nginx/${CONFIG_NAME}/error.log;
+			    access_log /var/log/nginx/${CONFIG_NAME}/access.log;
+			    ${CERTS_CONFIG}
+
+			    location / {
+			        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+			        proxy_set_header X-Real-IP \$remote_addr;
+			        proxy_set_header Host \$http_host;
+
+			        proxy_http_version 1.1;
+			        proxy_set_header Upgrade \$http_upgrade;
+			        proxy_set_header Connection "upgrade";
+
+			        proxy_pass http://${NODE_UPSTREAM_NAME}/;
+			        proxy_redirect off;
+			        proxy_read_timeout 240s;
+			    }
+			}
+EOF
+    } && message_success "Host configuration created $CONFIG_PATH" \
+      && IS_HOST_CONFIG_CREATED=1
+    ;;
+  common|*)
+    { cat > "${CONFIG_PATH}" <<-EOF
+			server {
+			    ${PORT_CONFIG}
+			    index index.php;
+			    server_name ${DOMAIN};
+			    error_log /var/log/nginx/${CONFIG_NAME}/error.log;
+			    access_log /var/log/nginx/${CONFIG_NAME}/access.log;
+			    root ${MNT_WWW_DIR};
+			    ${CERTS_CONFIG}
+			    location ~ \.php$ {
+			        try_files \$uri =404;
+			        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+			        fastcgi_pass php:9000;
+			        fastcgi_index index.php;
+			        include fastcgi_params;
+			        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+			        fastcgi_param PATH_INFO \$fastcgi_path_info;
+			    }
+			}
+EOF
+    } && message_success "Host configuration created $CONFIG_PATH" \
+      && IS_HOST_CONFIG_CREATED=1
+    ;;
+  esac
 else
   message_failure "Host configuration $CONFIG_PATH already exists"
 fi
@@ -278,4 +344,12 @@ if [[ "$(is_wsl)" -eq 0 && "${IS_HOST_CONFIG_CREATED}" -eq 1 ]]; then
       ;;
     esac
   done
+fi
+
+PHP_IMAGE_DIR="${WORKSPACE_DIR}/images/node"
+PM2_CONFIG_PATH="${PHP_IMAGE_DIR}/ecosystem.config.js"
+PM2_CONFIG_EXAMPLE_PATH="${PHP_IMAGE_DIR}/ecosystem.config.js.example"
+
+if [ "${HOST_TYPE}" = "node" ]; then
+  message_colored "Attention!!! You should manually add configuration of your Node in file ${PM2_CONFIG_PATH} like in example from file ${PM2_CONFIG_EXAMPLE_PATH}" "FAILURE"
 fi
