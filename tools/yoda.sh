@@ -54,9 +54,28 @@ case "$1" in
     SCRIPT="${SCRIPT_DIR}/cron_example.sh"
     shift
     ;;
+  python)
+    SCRIPT="${SCRIPT_DIR}/python.sh"
+    ARG="python"
+    shift
+    ;;
+  pip)
+    SCRIPT="${SCRIPT_DIR}/python.sh"
+    ARG="pip"
+    shift
+    ;;
+  poetry)
+    SCRIPT="${SCRIPT_DIR}/python.sh"
+    ARG="poetry"
+    shift
+    ;;
+  python:prepare)
+    SCRIPT="${SCRIPT_DIR}/python_prepare.sh"
+    shift
+    ;;
   *)
     SCRIPT="${DC}"
     ;;
 esac
 
-"${SCRIPT}" $@
+"${SCRIPT}" "$ARG" $@

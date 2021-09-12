@@ -40,6 +40,8 @@
 # data directories
 /data/cache/.composer/*
 /data/cache/.npm/*
+/data/cache/.pip/*
+/data/cache/.pypoetry/*
 /data/certs/ca/*
 /data/certs/hosts/*
 /data/certs/mnt/*

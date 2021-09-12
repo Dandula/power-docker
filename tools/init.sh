@@ -250,4 +250,6 @@ done
 
 if [ "$(is_wsl)" -eq 0 ]; then
   ${DC} build
+
+  "${SCRIPT_DIR}/python_prepare.sh"
 fi
