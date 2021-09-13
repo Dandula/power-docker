@@ -69,10 +69,6 @@ case "$1" in
     ARG="poetry"
     shift
     ;;
-  python:prepare)
-    SCRIPT="${SCRIPT_DIR}/python_prepare.sh"
-    shift
-    ;;
   *)
     SCRIPT="${DC}"
     ;;

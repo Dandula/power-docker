@@ -4,7 +4,7 @@ LABEL maintainer="Vladyslav Revenko <dandular@gmail.com>"
 
 ARG USER_ID=1000
 ARG GROUP_ID=1000
-ARG NODE_VER=14.17.6
+ARG NODE_VER=lts
 
 COPY --chown=root:root fakesendmail.sh /etc/fakesendmail.sh
 
@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y libbz2-dev \
     && docker-php-ext-install bz2 \
 # enchant
-    && apt-get install -y libenchant-dev \
+    && apt-get install -y libenchant-2-dev \
     && docker-php-ext-install enchant \
 # exif
     && docker-php-ext-install exif \

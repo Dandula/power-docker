@@ -1,4 +1,4 @@
-ARG NODE_VER=latest
+ARG NODE_VER=lts
 
 FROM node:${NODE_VER}
 

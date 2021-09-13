@@ -126,31 +126,29 @@ follows: `<path_to_tools>/yoda.sh <command>`.
    _Example:_ execute `../../tools/composer.sh composer require <package>` in the project directory `./www/<project>`.
 10. [**npm.sh**](./tools/npm.sh) - NPM command  
     _Example:_ execute `../../tools/npm.sh install --save-dev <package>` in the project directory `./www/<project>`.
-10. [**python_prepare.sh**](./tools/python_prepare.sh) - changing Python version  
-    _Example:_ execute `../../tools/python_prepare.sh`.
-12. [**python.sh**](./tools/python.sh) - Python / pip / Poetry command  
+11. [**python.sh**](./tools/python.sh) - Python / pip / Poetry command  
     _Example:_ execute `../../tools/python.sh poetry init` in the project directory `./www/<project>`.
-13. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
+12. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
     _Example:_ execute `<path_to_tools>/mysql_export.sh <database>` in any directory while the workspace is running.
-14. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
+13. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
    _Example:_ execute `<path_to_tools>/mysql_import.sh <dump_filename>` in any directory while the workspace is running.
-15. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
+14. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
     _Example:_ execute `<path_to_tools>/mongo_export.sh <database>` in any directory while the workspace is running. 
-16. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
+15. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
     _Example:_ execute `<path_to_tools>/mongo_import.sh <dump_filename>` in any directory while the workspace is running.
-17. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
+16. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>/make_ssl_cert.sh <domain>` in any directory.  
     **Important!** This command not compatible with WSL. Browser must be installed at the same host as used `mkcert`!
-18. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
+17. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
     _Example:_ execute `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` in any directory.
     **Important!** You must run a new php container to apply the generated SSH agent key!
-19. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
+18. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
     _Example:_ execute `<path_to_tools>/cron_example.sh <example_filename>` in any directory.
-20. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
+19. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\hosts_link.bat` in any directory.
-21. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
+20. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\mkcert_install.bat` in any directory.
-22. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS
+21. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS
     and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>\wsl\make_ssl_cert.bat <domain>` in any directory.
 
@@ -261,8 +259,7 @@ follows: `<path_to_tools>/yoda.sh <command>`.
 `│  ├─ mysql_export.sh` - export MySQL to dump  
 `│  ├─ mysql_import.sh` - import MySQL from dump  
 `│  ├─ npm.sh` - NPM command  
-`│  ├─ python.sh` - running Python / pip / Poetry command  
-`│  ├─ python_prepare.sh` - change Python version  
+`│  ├─ python.sh` - running Python / pip / Poetry command   
 `│  ├─ setup.sh` - configuring a set of services  
 `│  └─ yoda.sh` - entrypoint for other scripts  
 `├─ www` - hosts sources directory  
