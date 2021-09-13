@@ -1,4 +1,7 @@
 # PowerDocker Guide
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/dandula/power-docker)
+![GitHub](https://img.shields.io/github/license/dandula/power-docker)
+
 ![Logo](assets/yoda.jpg "Portrait of the Jedi Master Yoda, from Star Wars")  
 _Image: Bea.miau on [Wikimedia Commons](https://commons.wikimedia.org)_
 > **"Do or do not. There is no try."**
