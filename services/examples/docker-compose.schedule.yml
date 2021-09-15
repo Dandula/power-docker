@@ -15,6 +15,7 @@ services:
       TZ: ${TIMEZONE}
       PM_UTILITY: ${PM_UTILITY}
     volumes:
+      - ../www:/var/www
       - ../data/cron:/home/docker/jobs
       - ../images/schedule/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
       - ../images/schedule/ecosystem.config.js:/etc/pm2/ecosystem.config.js
