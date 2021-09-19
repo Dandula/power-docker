@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v1.2.1](https://github.com/Dandula/power-docker/compare/v1.2.0...v1.2.1)
+
+> 5 Sep 2021
+
+- feat(services): added apache service [`d690de6`](https://github.com/Dandula/power-docker/commit/d690de662871ec34fd6ea4ba18da9161281c25f3)
+- feat(services): added node service [`96f85bf`](https://github.com/Dandula/power-docker/commit/96f85bfe234583238f5b2ef810ad811518583076)
+- feat: added pm2 to schedule service [`db5854c`](https://github.com/Dandula/power-docker/commit/db5854cf4c397105b1f8986f1637c77cce8a5f6c)
+- feat(scripts): added python scripts [`7a267f8`](https://github.com/Dandula/power-docker/commit/7a267f89126dc68952b31b37d95501c98fb5daee)
+- feat(scripts): revoked python prepare script [`4f0f2d5`](https://github.com/Dandula/power-docker/commit/4f0f2d5791fd055d6ed22d86c82efa6047656c95)
+- feat(pxp-ext): php extensions updated [`39eb8d5`](https://github.com/Dandula/power-docker/commit/39eb8d5ff0decef1d828a497c1f5ffa59ce80d26)
+- feat(scripts): added creating cron example script to yoda [`2fcfec0`](https://github.com/Dandula/power-docker/commit/2fcfec08fb7aa97e7106ad4dca3ac0cbb7b4d39a)
+- docs(readme): added badges [`a8cc5d0`](https://github.com/Dandula/power-docker/commit/a8cc5d01c783dc38806b4ba500b2f5fc83f4dcfe)
+- fix(services): fixed mount www directory to services by default [`0fae8f7`](https://github.com/Dandula/power-docker/commit/0fae8f7972fa89ad0b405a3edadc22567e9034c7)
+- chore: changed prefix for services names [`7d2194a`](https://github.com/Dandula/power-docker/commit/7d2194ae364dd99d023fa7c6e0439a6c192c2bb4)
+- docs(readme): added quote to readme [`7c5f097`](https://github.com/Dandula/power-docker/commit/7c5f09734ea6ef00ccc505e22273425cf82b9973)
+
 #### [v1.2.0](https://github.com/Dandula/power-docker/compare/v1.1.5...v1.2.0)
 
 > 5 Sep 2021
@@ -12,7 +28,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - refactor(scripts): refactored scripts [`7f3adea`](https://github.com/Dandula/power-docker/commit/7f3adeaa98bef353429d07c50f3951274aba03df)
 - feat(scripts): added yoda utility [`40493cc`](https://github.com/Dandula/power-docker/commit/40493cca46e271ab978d5b892f4651063970b0d9) 
 - docs(readme): fixed docker compose files paths [`a7b1db3`](https://github.com/Dandula/power-docker/commit/a7b1db3ab8b099d722d5c04a65a116ff53b0d624)
-- docs(changelog): added changelog
+- docs(changelog): added changelog [`eb493c6`](https://github.com/Dandula/power-docker/commit/eb493c667eec103a9e635af3a43355e438550bd6)
 
 #### [v1.1.5](https://github.com/Dandula/power-docker/compare/v1.1.4...v1.1.5)
 
