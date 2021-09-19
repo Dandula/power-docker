@@ -45,6 +45,7 @@ cd "$WORKSPACE_DIR" || exit
 find tools -type f -iname "*.sh" -exec chmod +x {} \;
 
 my_cp .env.example .env
+my_cp images/apache/my-httpd.conf.example images/apache/my-httpd.conf
 my_cp images/php/php7.4.ini.example images/php/php7.4.ini
 my_cp images/php/php8.0.ini.example images/php/php8.0.ini
 my_cp images/php/msmtprc.example images/php/msmtprc

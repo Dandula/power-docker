@@ -1,15 +1,16 @@
 version: "3.8"
 
 services:
-  nginx:
-    image: nginx:latest
+  apache:
+    image: httpd:latest
     restart: unless-stopped
     environment:
       TZ: ${TIMEZONE}
     volumes:
-      - ../hosts/nginx:/etc/nginx/conf.d
+      - ../images/apache:/usr/local/apache2/conf/httpd.conf
+      - ../hosts/apache:/etc/apache2/sites-available
       - ../data/certs/hosts:/var/certs
-      - ../logs/nginx:/var/log/nginx
+      - ../logs/apache:/var/log/apache
     ports:
       - "80:80"
       - "443:443"

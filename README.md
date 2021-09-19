@@ -70,7 +70,7 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 
 
 ## Available Services
-1. WebServer: nginx
+1. WebServer: Apache or nginx
 2. PHP (v7.4/8.0) with MSMTP as an MTA (for `mail()`). Also has Midnight Commander, Wget, cURL, GIT, Composer, npm.
 3. Node
 4. MySQL (v5.7)
@@ -184,8 +184,12 @@ follows: `<path_to_tools>/yoda.sh <command>`.
 `│  ├─ databases` - database files  
 `│  ├─ dumps` - generated database dump files  
 `│  └─ mails` - saved emails sent by [`fakesendmail`](./images/php/fakesendmail.sh)  
-`├─ hosts` - host configs for the web server  
+`├─ hosts` - hosts configs for the web servers  
+`│  ├─ apache` - hosts configs for Apache  
+`│  └─ nginx` - hosts configs for nginx  
 `├─ images` - dockerfiles and configs for services  
+`│  ├─ apache` - Apache service config  
+`│  │  └─ my-httpd.conf` - Apache config  
 `│  ├─ mysql` - MySQL service config  
 `│  │  └─ my.cnf` - MySQL config  
 `│  ├─ node` - Node service config  
@@ -210,6 +214,7 @@ follows: `<path_to_tools>/yoda.sh <command>`.
 `│  │  ├─ supervisord.conf` - supervisord config  
 `│  ┴  └─ ecosystem.config.js` - PM2 config  
 `├─ logs` - logs of services  
+`│  ├─ apache` - Apache and web hosts logs  
 `│  ├─ cron` - CRON logs  
 `│  ├─ msmtp` - MSMTP logs  
 `│  ├─ mysql` - MySQL logs  
@@ -219,6 +224,8 @@ follows: `<path_to_tools>/yoda.sh <command>`.
 `│  └─ supervisord` - supervisord logs  
 `├─ services` - setup for Docker Compose services  
 `│  ├─ docker-compose.adminer.yml` - Adminer service setup  
+`│  ├─ docker-compose.apache.yml` - Apache service setup  
+`│  ├─ docker-compose.apache-volumes.yml` - Apache setup of nginx service  
 `│  ├─ docker-compose.memcached.yml` - Memcached service setup  
 `│  ├─ docker-compose.mongo.yml` - Mongo service setup  
 `│  ├─ docker-compose.mysql.yml` - MySQL service setup  
@@ -350,6 +357,17 @@ Execute from Windows command line:
 1. Execute once `mkcert_install.bat` in the WSL scripts directory `./tools/wsl`.
 2. Execute for each HTTPS host `make_cert.bat <domain>` in the WSL scripts directory `./tools/wsl`.
 3. Uncomment SSL certificate attaching in the host config file `./hosts/<domain>.conf`. For example:
+* Apache:
+```apacheconf
+<VirtualHost *:443>
+    ...
+    SSLEngine on
+    SSLCertificateFile "/var/certs/example.loc-cert.pem"
+    SSLCertificateKeyFile "/var/certs/example.loc-cert.key"
+    ...
+</VirtualHost>
+```
+* nginx:
 ```nginx
 server {
     ...

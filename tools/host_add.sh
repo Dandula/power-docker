@@ -4,6 +4,8 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_DIR="${SCRIPT_DIR%/*}"
 ENV_PATH="${WORKSPACE_DIR}/.env"
 HOSTS_DIR="${WORKSPACE_DIR}/hosts"
+HOSTS_APACHE_DIR="${HOSTS_DIR}/apache"
+HOSTS_NGINX_DIR="${HOSTS_DIR}/nginx"
 
 DC="${SCRIPT_DIR}/dc.sh"
 
@@ -82,9 +84,12 @@ done
 
 CONFIG_NAME="${DOMAIN//./-}"
 CONFIG_FILE="${CONFIG_NAME}.conf"
-CONFIG_PATH="${HOSTS_DIR}/${CONFIG_FILE}"
+CONFIG_APACHE_PATH="${HOSTS_APACHE_DIR}/${CONFIG_FILE}"
+CONFIG_NGINX_PATH="${HOSTS_NGINX_DIR}/${CONFIG_FILE}"
 
-LOGS_DIR="${WORKSPACE_DIR}/logs/nginx/${CONFIG_NAME}"
+LOGS_DIR="${WORKSPACE_DIR}/logs"
+LOGS_APACHE_DIR="${LOGS_DIR}/apache/${CONFIG_NAME}"
+LOGS_NGINX_DIR="${LOGS_DIR}/nginx/${CONFIG_NAME}"
 CERTS_DIR="${WORKSPACE_DIR}/data/certs"
 
 CERT_PEM="${DOMAIN}-cert.pem"
@@ -93,34 +98,63 @@ CERT_KEY="${DOMAIN}-cert.key"
 IS_HOST_CONFIG_CREATED=0
 NEED_CERT=0
 
-if [ ! -f "${CONFIG_PATH}" ]; then
-  read -r -d '' HTTP_CONFIG <<-EOM
-		    listen 80;
-EOM
-
-  read -r -d '' HTTPS_CONFIG <<-EOM
-		    listen 443 ssl;
-EOM
-
-  read -r -d '' HTTP_HTTPS_CONFIG <<-EOM
-		    ${HTTP_CONFIG}
-		    ${HTTPS_CONFIG}
-EOM
-
-  read -r -d '' CERTS_CONFIG <<-EOM
-		    ssl_certificate /var/certs/${CERT_PEM};
-		    ssl_certificate_key /var/certs/${CERT_KEY};
-EOM
-
+if [[ ! -f "${CONFIG_APACHE_PATH}" || ! -f "${CONFIG_NGINX_PATH}" ]]; then
   read -r -p "Choose scheme (1 - HTTP, 2 - HTTPS, 3 - HTTP + HTTPS) [1]: " SCHEME
   SCHEME=${SCHEME:-1}
 
   read -r -p "Select a host type (common/laravel/node) [common]: " HOST_TYPE
-  HOST_TYPE=$(to_lowercase ${HOST_TYPE:-common})
+  HOST_TYPE=$(to_lowercase "${HOST_TYPE:-common}")
+
+  if [ ! -f "${CONFIG_APACHE_PATH}" ]; then
+    read -r -d '' APACHE_HTTP_CONFIG <<-EOM
+			<VirtualHost *:80>
+EOM
+
+    read -r -d '' APACHE_HTTPS_CONFIG <<-EOM
+			<VirtualHost *:443>
+EOM
+
+    read -r -d '' APACHE_HTTP_HTTPS_CONFIG <<-EOM
+			<VirtualHost *:80 *:443>
+EOM
+
+    read -r -d '' APACHE_CERTS_CONFIG <<-EOM
+			    SSLEngine on
+			    SSLCertificateFile "/var/certs/${CERT_PEM}"
+			    SSLCertificateKeyFile "/var/certs/${CERT_KEY}"
+EOM
+  fi
+
+  if [ ! -f "${CONFIG_NGINX_PATH}" ]; then
+    read -r -d '' NGINX_HTTP_CONFIG <<-EOM
+			    listen 80;
+EOM
+
+    read -r -d '' NGINX_HTTPS_CONFIG <<-EOM
+			    listen 443 ssl;
+EOM
+
+    read -r -d '' NGINX_HTTP_HTTPS_CONFIG <<-EOM
+			    ${HTTP_CONFIG}
+			    ${HTTPS_CONFIG}
+EOM
+
+    read -r -d '' NGINX_CERTS_CONFIG <<-EOM
+			    ssl_certificate /var/certs/${CERT_PEM};
+			    ssl_certificate_key /var/certs/${CERT_KEY};
+EOM
+  fi
 
   case "$HOST_TYPE" in
   laravel)
-    read -r -d '' REDIRECT_TO_HTTPS <<-EOM
+    read -r -d '' APACHE_REDIRECT_TO_HTTPS <<-EOM
+			<VirtualHost *:80>
+			    ServerName ${DOMAIN}
+			    Redirect permanent / https://${DOMAIN}
+			</VirtualHost>
+EOM
+
+    read -r -d '' NGINX_REDIRECT_TO_HTTPS <<-EOM
 			server {
 			    listen 80;
 			    server_name ${DOMAIN};
@@ -166,27 +200,39 @@ EOM
 
   case "$SCHEME" in
   2)
-    PORT_CONFIG=$HTTPS_CONFIG
-    REDIRECT_TO_HTTPS=''
+    APACHE_PORT_CONFIG=$APACHE_HTTPS_CONFIG
+    APACHE_REDIRECT_TO_HTTPS=''
+    NGINX_PORT_CONFIG=$HTTPS_CONFIG
+    NGINX_REDIRECT_TO_HTTPS=''
     NEED_CERT=1
     ;;
   3)
     if [ "${HOST_TYPE}" != "laravel" ]; then
-      PORT_CONFIG=$HTTP_HTTPS_CONFIG
+      APACHE_PORT_CONFIG=$APACHE_HTTP_HTTPS_CONFIG
+      NGINX_PORT_CONFIG=$NGINX_HTTP_HTTPS_CONFIG
     else
-      PORT_CONFIG=$HTTPS_CONFIG
+      APACHE_PORT_CONFIG=$APACHE_HTTPS_CONFIG
+      NGINX_PORT_CONFIG=$NGINX_HTTPS_CONFIG
     fi
     NEED_CERT=1
     ;;
   1|*)
-    PORT_CONFIG=$HTTP_CONFIG
-    REDIRECT_TO_HTTPS=''
+    NGINX_PORT_CONFIG=$NGINX_HTTP_CONFIG
+    NGINX_REDIRECT_TO_HTTPS=''
+    APACHE_PORT_CONFIG=$APACHE_HTTP_CONFIG
+    APACHE_REDIRECT_TO_HTTPS=''
     CERTS_CONFIG=''
     ;;
   esac
 
   if [ "$(is_wsl)" -eq 1 ]; then
-    read -r -d '' CERTS_CONFIG <<-EOM
+    read -r -d '' APACHE_CERTS_CONFIG <<-EOM
+			    SSLEngine on
+			#    SSLCertificateFile "/var/certs/${CERT_PEM}"
+			#    SSLCertificateKeyFile "/var/certs/${CERT_KEY}"
+EOM
+
+    read -r -d '' NGINX_CERTS_CONFIG <<-EOM
 			#    ssl_certificate /var/certs/${CERT_PEM};
 			#    ssl_certificate_key /var/certs/${CERT_KEY};
 EOM
@@ -195,15 +241,57 @@ EOM
 
   case "$HOST_TYPE" in
   laravel)
-    { cat > "${CONFIG_PATH}" <<-EOF
+    { cat > "${CONFIG_APACHE_PATH}" <<-EOF
+			${APACHE_PORT_CONFIG}
+			    ServerName ${DOMAIN}
+			    DocumentRoot "${MNT_WWW_DIR}/public"
+			    DirectoryIndex index.php
+
+			    SetEnvIf Request_URI "^/favicon\.ico$" do_not_log
+			    SetEnvIf Request_URI "^/robots\.txt$" do_not_log
+
+			    ErrorLog "/usr/local/apache2/logs/${CONFIG_NAME}/error.log"
+			    LogLevel warn
+			    CustomLog "/usr/local/apache2/logs/${CONFIG_NAME}/access.log" combined env=!do_not_log
+			    ${APACHE_CERTS_CONFIG}
+
+			    Header set X-Frame-Options "SAMEORIGIN"
+			    Header set X-XSS-Protection "1; mode=block"
+			    Header set X-Content-Type-Options "nosniff"
+
+			    ErrorDocument 404 /index.php
+
+			    AddDefaultCharset utf-8
+
+			    <Directory ~ "/\.(?!well-known\/)">
+			        Require all denied
+			    </Directory>
+
+			    <FilesMatch \.php$>
+			        SetHandler "proxy:fcgi://php:9000"
+			    </FilesMatch>
+
+			    <Directory "${MNT_WWW_DIR}">
+			        AllowOverride All
+			        Options All
+			        Require all granted
+			    </Directory>
+			</VirtualHost>
+
+			${APACHE_REDIRECT_TO_HTTPS}
+EOF
+    } && message_success "Apache host configuration created $CONFIG_APACHE_PATH" \
+      && IS_HOST_CONFIG_CREATED=1
+
+    { cat > "${CONFIG_NGINX_PATH}" <<-EOF
 			server {
-			    ${PORT_CONFIG}
+			    ${NGINX_PORT_CONFIG}
 			    server_name ${DOMAIN};
 			    root ${MNT_WWW_DIR}/public;
 
 			    error_log /var/log/nginx/${CONFIG_NAME}/error.log;
 			    access_log /var/log/nginx/${CONFIG_NAME}/access.log;
-			    ${CERTS_CONFIG}
+			    ${NGINX_CERTS_CONFIG}
 
 			    add_header X-Frame-Options "SAMEORIGIN";
 			    add_header X-XSS-Protection "1; mode=block";
@@ -233,13 +321,37 @@ EOM
 			    }
 			}
 
-			${REDIRECT_TO_HTTPS}
+			${NGINX_REDIRECT_TO_HTTPS}
 EOF
-    } && message_success "Host configuration created $CONFIG_PATH" \
+    } && message_success "nginx host configuration created $CONFIG_NGINX_PATH" \
       && IS_HOST_CONFIG_CREATED=1
     ;;
   node)
-    { cat > "${CONFIG_PATH}" <<-EOF
+    { cat > "${CONFIG_APACHE_PATH}" <<-EOF
+			${APACHE_PORT_CONFIG}
+			    ServerName ${DOMAIN}
+
+			    ErrorLog "/usr/local/apache2/logs/${CONFIG_NAME}/error.log"
+			    LogLevel warn
+			    CustomLog "/usr/local/apache2/logs/${CONFIG_NAME}/access.log" combined
+			    ${APACHE_CERTS_CONFIG}
+
+			    ProxyRequests off
+
+			    <Proxy *>
+			        Require all granted
+			    </Proxy>
+
+			    <Location />
+			        ProxyPass http://node:${NODE_PORT}
+			        ProxyPassReverse http://node:${NODE_PORT}
+			    </Location>
+			</VirtualHost>
+EOF
+    } && message_success "Apache host configuration created $CONFIG_APACHE_PATH" \
+      && IS_HOST_CONFIG_CREATED=1
+
+    { cat > "${CONFIG_NGINX_PATH}" <<-EOF
 			upstream ${NODE_UPSTREAM_NAME} {
 			    server node:${NODE_PORT};
 			    keepalive 64;
@@ -262,17 +374,42 @@ EOF
 			        proxy_set_header Upgrade \$http_upgrade;
 			        proxy_set_header Connection "upgrade";
 
-			        proxy_pass http://${NODE_UPSTREAM_NAME}/;
+			        proxy_pass http://${NODE_UPSTREAM_NAME};
 			        proxy_redirect off;
 			        proxy_read_timeout 240s;
 			    }
 			}
 EOF
-    } && message_success "Host configuration created $CONFIG_PATH" \
+    } && message_success "nginx host configuration created $CONFIG_NGINX_PATH" \
       && IS_HOST_CONFIG_CREATED=1
     ;;
   common|*)
-    { cat > "${CONFIG_PATH}" <<-EOF
+    { cat > "${CONFIG_APACHE_PATH}" <<-EOF
+			${APACHE_PORT_CONFIG}
+			    ServerName ${DOMAIN}
+			    DocumentRoot "${MNT_WWW_DIR}"
+			    DirectoryIndex index.php
+
+			    ErrorLog "/usr/local/apache2/logs/${CONFIG_NAME}/error.log"
+			    LogLevel warn
+			    CustomLog "/usr/local/apache2/logs/${CONFIG_NAME}/access.log" combined
+			    ${APACHE_CERTS_CONFIG}
+
+			    <FilesMatch \.php$>
+			        SetHandler "proxy:fcgi://php:9000"
+			    </FilesMatch>
+
+			    <Directory "${MNT_WWW_DIR}">
+			        Options All
+			        AllowOverride All
+			        Require all granted
+			    </Directory>
+			</VirtualHost>
+EOF
+    } && message_success "Apache host configuration created $CONFIG_APACHE_PATH" \
+      && IS_HOST_CONFIG_CREATED=1
+
+    { cat > "${CONFIG_NGINX_PATH}" <<-EOF
 			server {
 			    ${PORT_CONFIG}
 			    index index.php;
@@ -292,19 +429,26 @@ EOF
 			    }
 			}
 EOF
-    } && message_success "Host configuration created $CONFIG_PATH" \
+    } && message_success "nginx host configuration created $CONFIG_NGINX_PATH" \
       && IS_HOST_CONFIG_CREATED=1
     ;;
   esac
 else
-  message_failure "Host configuration $CONFIG_PATH already exists"
+  message_failure "Host configurations $CONFIG_APACHE_PATH and $CONFIG_NGINX_PATH already exists"
 fi
 
-if [ ! -d "$LOGS_DIR" ]; then
-  sudo mkdir -p "$LOGS_DIR" &&
-    message_success "Logs directory created $LOGS_DIR"
+if [ ! -d "$LOGS_APACHE_DIR" ]; then
+  mkdir -p "$LOGS_APACHE_DIR" &&
+    message_success "Apache logs directory created $LOGS_APACHE_DIR"
 else
-  message_failure "Logs directory $LOGS_DIR already exists"
+  message_failure "Apache logs directory $LOGS_APACHE_DIR already exists"
+fi
+
+if [ ! -d "$LOGS_NGINX_DIR" ]; then
+  sudo mkdir -p "$LOGS_NGINX_DIR" &&
+    message_success "nginx logs directory created $LOGS_NGINX_DIR"
+else
+  message_failure "nginx logs directory $LOGS_NGINX_DIR already exists"
 fi
 
 if [ "$(is_wsl)" -eq 1 ]; then

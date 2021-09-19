@@ -13,7 +13,6 @@ services:
       TZ: ${TIMEZONE}
     working_dir: /var/www
     volumes:
-      - ../www:/var/www
       - ../images/node/ecosystem.config.js:/etc/pm2/ecosystem.config.js
       - ../data/certs/mnt:/home/docker/certs
       - ../data/cache/.npm:/home/docker/.npm

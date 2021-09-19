@@ -20,12 +20,14 @@
 /www/apcu/*
 
 # hosts configs
-/hosts/*
-!/hosts/phpmemadmin.conf
-!/hosts/opcache-gui.conf
-!/hosts/apcu.conf
+/hosts/apache/*
+/hosts/nginx/*
+!/hosts/*/phpmemadmin.conf
+!/hosts/*/opcache-gui.conf
+!/hosts/*/apcu.conf
 
 # images config files
+/images/apache/my-httpd.conf
 /images/php/php7.4.ini
 /images/php/php8.0.ini
 /images/php/msmtprc
@@ -60,6 +62,7 @@
 !/data/cron/update_caroot
 
 # logs directories
+/logs/apache/*
 /logs/nginx/*
 /logs/php/*
 /logs/msmtp/*

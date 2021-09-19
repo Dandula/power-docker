@@ -4,6 +4,8 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_DIR="${SCRIPT_DIR%/*}"
 ENV_PATH="${WORKSPACE_DIR}/.env"
 HOSTS_DIR="${WORKSPACE_DIR}/hosts"
+HOSTS_APACHE_DIR="${HOSTS_DIR}/apache"
+HOSTS_NGINX_DIR="${HOSTS_DIR}/nginx"
 
 DC="${SCRIPT_DIR}/dc.sh"
 
@@ -26,9 +28,12 @@ fi
 
 CONFIG_NAME="${DOMAIN//./-}"
 CONFIG_FILE="${CONFIG_NAME}.conf"
-CONFIG_PATH="${HOSTS_DIR}/${CONFIG_FILE}"
+CONFIG_APACHE_PATH="${HOSTS_APACHE_DIR}/${CONFIG_FILE}"
+CONFIG_NGINX_PATH="${HOSTS_NGINX_DIR}/${CONFIG_FILE}"
 
-LOGS_DIR="${WORKSPACE_DIR}/logs/nginx/${CONFIG_NAME}"
+LOGS_DIR="${WORKSPACE_DIR}/logs"
+LOGS_APACHE_DIR="${LOGS_DIR}/apache/${CONFIG_NAME}"
+LOGS_NGINX_DIR="${LOGS_DIR}/nginx/${CONFIG_NAME}"
 CERTS_DIR="${WORKSPACE_DIR}/data/certs"
 
 CERT_PEM="${DOMAIN}-cert.pem"
@@ -51,7 +56,7 @@ N|n|*)
   ;;
 esac
 
-if [[ "$(is_wsl)" -eq 0 && "${IS_HOST_CONFIG_CREATED}" -eq 1 ]]; then
+if [ "$(is_wsl)" -eq 0 ]; then
   for SERVICE_NAME in ${SERVICES_NEED_WWW[*]}; do
     SERVICE_VARIABLE="SERVICE_$(to_snake_case "$(to_uppercase "$SERVICE_NAME")")"
     SERVICE=$(to_lowercase "$SERVICE_NAME")
@@ -67,23 +72,42 @@ if [[ "$(is_wsl)" -eq 0 && "${IS_HOST_CONFIG_CREATED}" -eq 1 ]]; then
   done
 fi
 
-if [[ -f "${CONFIG_PATH}" || -d "$LOGS_DIR" ]]; then
-  if [ -f "${CONFIG_PATH}" ]; then
-    rm "${CONFIG_PATH}" \
-      && message_success "Host configuration removed $CONFIG_PATH"
+if [[ -f "${CONFIG_APACHE_PATH}" || -d "$LOGS_APACHE_DIR" ]]; then
+  if [ -f "${CONFIG_APACHE_PATH}" ]; then
+    rm "${CONFIG_APACHE_PATH}" \
+      && message_success "Apache host configuration removed $CONFIG_APACHE_PATH"
   else
-    message_failure "Host configuration $CONFIG_PATH not exists"
+    message_failure "Apache host configuration $CONFIG_APACHE_PATH not exists"
   fi
 
-  if [ -d "$LOGS_DIR" ]; then
-    sudo rm -r "$LOGS_DIR" \
-      && message_success "Logs directory removed $LOGS_DIR"
+  if [ -d "$LOGS_APACHE_DIR" ]; then
+    sudo rm -r "${LOGS_APACHE_DIR}" \
+      && message_success "Apache logs directory removed $LOGS_APACHE_DIR"
   else
-    message_failure "Logs directory $LOGS_DIR not exists"
+    message_failure "Apache logs directory $LOGS_APACHE_DIR not exists"
   fi
 else
-  message_failure "Host configuration $CONFIG_PATH not exists"
-  message_failure "Logs directory $LOGS_DIR not exists"
+  message_failure "Apache host configuration $CONFIG_APACHE_PATH not exists"
+  message_failure "Apache logs directory $LOGS_APACHE_DIR not exists"
+fi
+
+if [[ -f "${CONFIG_NGINX_PATH}" || -d "$LOGS_NGINX_DIR" ]]; then
+  if [ -f "$CONFIG_NGINX_PATH" ]; then
+    rm "${CONFIG_NGINX_PATH}" \
+      && message_success "nginx host configuration removed $CONFIG_NGINX_PATH"
+  else
+    message_failure "nginx host configuration $CONFIG_NGINX_PATH not exists"
+  fi
+
+  if [ -d "${LOGS_NGINX_DIR}" ]; then
+    sudo rm -r "${LOGS_NGINX_DIR}" \
+      && message_success "nginx logs directory removed $LOGS_NGINX_DIR"
+  else
+    message_failure "nginx logs directory $LOGS_NGINX_DIR not exists"
+  fi
+else
+  message_failure "nginx host configuration $CONFIG_NGINX_PATH not exists"
+  message_failure "nginx logs directory $LOGS_NGINX_DIR not exists"
 fi
 
 HOSTS_MAP_PATH="${WORKSPACE_DIR}/hosts.map"
@@ -105,22 +129,6 @@ if grep -q "${DOMAIN}" "${NODE_PORTS_MAP_PATH}"; then
     && message_success "Domain $DOMAIN deleted from the file $NODE_PORTS_MAP_PATH"
 else
   message_failure "Domain $DOMAIN is missing in the file $NODE_PORTS_MAP_PATH"
-fi
-
-if [[ "$(is_wsl)" -eq 0 && "${IS_HOST_CONFIG_CREATED}" -eq 1 ]]; then
-  for SERVICE_NAME in ${SERVICES_NEED_WWW[*]}; do
-    SERVICE_VARIABLE="SERVICE_$(to_snake_case "$(to_uppercase "$SERVICE_NAME")")"
-    SERVICE=$(to_lowercase "$SERVICE_NAME")
-
-    SERVICE_STATE=$(parse_env "$SERVICE_VARIABLE" "${ENV_PATH}")
-    case "$SERVICE_STATE" in
-    0)
-      ;;
-    1|*)
-      ${DC} start "${SERVICE}"
-      ;;
-    esac
-  done
 fi
 
 if [ -f "$CERT_PEM_PATH" ]; then
@@ -150,4 +158,20 @@ if grep -q "${HOST_RECORD_REGEX}" "${HOSTS_PATH}"; then
     && message_success "Domain $DOMAIN deleted from the file $HOSTS_PATH"
 else
   message_failure "Domain $DOMAIN is missing in the file $HOSTS_PATH"
+fi
+
+if [ "$(is_wsl)" -eq 0 ]; then
+  for SERVICE_NAME in ${SERVICES_NEED_WWW[*]}; do
+    SERVICE_VARIABLE="SERVICE_$(to_snake_case "$(to_uppercase "$SERVICE_NAME")")"
+    SERVICE=$(to_lowercase "$SERVICE_NAME")
+
+    SERVICE_STATE=$(parse_env "$SERVICE_VARIABLE" "${ENV_PATH}")
+    case "$SERVICE_STATE" in
+    0)
+      ;;
+    1|*)
+      ${DC} start "${SERVICE}"
+      ;;
+    esac
+  done
 fi

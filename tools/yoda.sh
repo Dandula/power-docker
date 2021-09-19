@@ -1,7 +1,6 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-WORKSPACE_DIR="${SCRIPT_DIR%/*}"
 
 DC="${SCRIPT_DIR}/dc.sh"
 
@@ -75,7 +74,7 @@ case "$1" in
 esac
 
 if [ -n "$ARG" ]; then
-  "${SCRIPT}" "$ARG" $@
+  "${SCRIPT}" "$ARG" "$@"
 else
-  "${SCRIPT}" $@
+  "${SCRIPT}" "$@"
 fi
