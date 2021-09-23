@@ -56,6 +56,7 @@
 /data/databases/mongo/*
 /data/databases/rabbitmq/*
 /data/databases/redis/*
+/data/databases/elasticsearch/*
 /data/dumps/mysql/*
 /data/dumps/mongo/*
 /data/cron/*

@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  elasticsearch:
+    image: elasticsearch:${ELASTICSEARCH_VER}
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE}
+      discovery.type: single-node
+    volumes:
+      - ../data/databases/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - workspace

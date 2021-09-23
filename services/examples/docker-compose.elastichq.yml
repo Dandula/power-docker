@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  elastichq:
+    image: elastichq/elasticsearch-hq
+    depends_on:
+      - "elasticsearch"
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE}
+      HQ_DEFAULT_URL: "http://elasticsearch:9200"
+    ports:
+      - "8090:5000"
+    networks:
+      - workspace

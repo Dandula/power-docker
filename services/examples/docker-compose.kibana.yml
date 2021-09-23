@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  kibana:
+    image: kibana:${ELASTICSEARCH_VER}
+    depends_on:
+      - "elasticsearch"
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE}
+    ports:
+      - "8089:5601"
+    networks:
+      - workspace

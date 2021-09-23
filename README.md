@@ -81,10 +81,13 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 8. Redis
 9. RabbitMQ & Management Plugin
 10. Schedule: supervisor or PM2 & CRON
-11. phpMyAdmin
-12. Adminer
-13. Mongo-Express
-14. phpRedisAdmin
+11. Elasticsearch
+12. phpMyAdmin
+13. Adminer
+14. Mongo-Express
+15. phpRedisAdmin
+16. Kibana
+17. ElasticHQ
 
 
 
@@ -199,6 +202,8 @@ poetry               - run Poetry command
 6. http://localhost:8086 - phpMemAdmin
 7. http://localhost:8087 - phpRedisAdmin
 8. http://localhost:8088 - RabbitMQ Management
+9. http://localhost:8089 - Kibana
+10. http://localhost:8090 - ElasticHQ
 
 
 
@@ -259,6 +264,9 @@ poetry               - run Poetry command
 `│  ├─ docker-compose.adminer.yml` - Adminer service setup  
 `│  ├─ docker-compose.apache.yml` - Apache service setup  
 `│  ├─ docker-compose.apache-volumes.yml` - volumes setup of Apache service  
+`│  ├─ docker-compose.elastichq.yml` - ElasticHQ service setup  
+`│  ├─ docker-compose.elasticsearch.yml` - Elasticsearch service setup  
+`│  ├─ docker-compose.kibana.yml` - Kibana service setup  
 `│  ├─ docker-compose.memcached.yml` - Memcached service setup  
 `│  ├─ docker-compose.mongo.yml` - Mongo service setup  
 `│  ├─ docker-compose.mysql.yml` - MySQL service setup  
