@@ -1,5 +1,5 @@
 # PowerDocker Guide
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/dandula/power-docker)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Dandula/power-docker)
 ![GitHub](https://img.shields.io/github/license/dandula/power-docker)
 
 ![Logo](assets/yoda.jpg "Portrait of the Jedi Master Yoda, from Star Wars")  
@@ -15,6 +15,7 @@ _Image: Bea.miau on [Wikimedia Commons](https://commons.wikimedia.org)_
     4. [Installation](#installation)
 3. [Available Services](#available-services)
 4. [Yoda](#yoda)
+   1. [Yoda Help](#yoda-help)
 5. [CLI Tools](#cli-tools)
 6. [WEB Tools](#web-tools)
 7. [File Structure](#file-structure)
@@ -70,19 +71,20 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 
 
 ## Available Services
-1. WebServer: Apache or nginx
-2. PHP (v7.4/8.0) with MSMTP as an MTA (for `mail()`). Also has Midnight Commander, Wget, cURL, GIT, Composer, npm.
-3. Node
-4. MySQL (v5.7)
-5. MongoDB
-6. Memcached
-7. Redis
-8. RabbitMQ & Management Plugin
-9. Schedule: supervisor or PM2 & CRON
-10. phpMyAdmin
-11. Adminer
-12. Mongo-Express
-13. phpRedisAdmin
+1. Apache
+2. nginx
+3. PHP (v7.4/8.0) with MSMTP as an MTA (for `mail()`). Also has Midnight Commander, Wget, cURL, GIT, Composer, npm.
+4. Node
+5. MySQL (v5.7)
+6. MongoDB
+7. Memcached
+8. Redis
+9. RabbitMQ & Management Plugin
+10. Schedule: supervisor or PM2 & CRON
+11. phpMyAdmin
+12. Adminer
+13. Mongo-Express
+14. phpRedisAdmin
 
 
 
@@ -98,6 +100,37 @@ Note that in case the command `yoda <command>` is not recognized, it will be int
 
 Note that in case you cannot set an alias for the `yoda` command during workspace installation, you can execute it as
 follows: `<path_to_tools>/yoda.sh <command>`.
+
+### Yoda Help
+```
+PowerDocker Commands List:
+init                 - workspace initialization
+  [--clean-install]  - clean workspace initialization
+help                 - this help
+setup                - configure a set of services
+dc <command>         - 'docker-compose <command>' redirect
+composer <command>   - 'composer <command>' redirect
+npm <command>        - 'npm <command>' redirect
+host:               
+  add <domain> <dir> - add a new host
+  del <domain>       - delete the host
+mount:              
+  www                - mount WWW directories defined at hosts.map file
+make:               
+  ssh <file> <email> - make SSH certificate for SSH agent
+  ssl                - make SSL certificate for a domain
+mysql:              
+  export <db>        - export MySQL database dump
+  import <dump>      - import MySQL database dump
+mongo:              
+  export <db>        - export Mongo database dump
+  import <dump>      - import Mongo database dump
+cron:               
+  example            - add CRON job example
+python               - run Python command
+pip                  - run pip command
+poetry               - run Poetry command
+```
 
 
 
@@ -225,7 +258,7 @@ follows: `<path_to_tools>/yoda.sh <command>`.
 `├─ services` - setup for Docker Compose services  
 `│  ├─ docker-compose.adminer.yml` - Adminer service setup  
 `│  ├─ docker-compose.apache.yml` - Apache service setup  
-`│  ├─ docker-compose.apache-volumes.yml` - Apache setup of nginx service  
+`│  ├─ docker-compose.apache-volumes.yml` - volumes setup of Apache service  
 `│  ├─ docker-compose.memcached.yml` - Memcached service setup  
 `│  ├─ docker-compose.mongo.yml` - Mongo service setup  
 `│  ├─ docker-compose.mysql.yml` - MySQL service setup  
@@ -378,4 +411,4 @@ server {
     ...
 }
 ```
-4. Restart nginx service of Docker Compose.
+4. Restart web server service (`Apache` or `nginx`) of Docker Compose.
