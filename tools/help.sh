@@ -56,6 +56,7 @@ yoda_command "export <db>" "export Mongo database dump" 1
 yoda_command "import <dump>" "import Mongo database dump" 1
 yoda_command "cron:" "" 0
 yoda_command "example" "add CRON job example" 1
-yoda_command "python" "run Python command" 0
-yoda_command "pip" "run pip command" 0
-yoda_command "poetry" "run Poetry command" 0
+yoda_command "python <command>" "run Python command" 0
+yoda_command "pip <command>" "run pip command" 0
+yoda_command "poetry <command>" "run Poetry command" 0
+yoda_command "aws <command>" "LocalStack AWS-CLI command" 0

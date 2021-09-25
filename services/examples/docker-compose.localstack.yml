@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack-full:0.12.14
+    restart: unless-stopped
+    environment:
+      - SERVICES=${LOCALSTACK_SERVICES- }
+      - DEBUG=${LOCALSTACK_DEBUG- }
+      - DATA_DIR=${LOCALSTACK_DATA_DIR-/tmp/localstack/data}
+      - PORT_WEB_UI=${LOCALSTACK_PORT_WEB_UI- }
+      - LAMBDA_EXECUTOR=${LOCALSTACK_LAMBDA_EXECUTOR- }
+      - KINESIS_ERROR_PROBABILITY=${LOCALSTACK_KINESIS_ERROR_PROBABILITY- }
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - START_WEB=1
+    ports:
+      - "4566:4566"
+      - "4571:4571"
+      - "8091:${LOCALSTACK_PORT_WEB_UI-8080}"
+    volumes:
+      - "${LOCALSTACK_HOST_TMP_FOLDER:-../data/localstack}:/tmp/localstack"
+      - ../images/localstack/credentials:/root/.aws/credentials
+      - ../images/localstack/config:/root/.aws/config

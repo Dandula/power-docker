@@ -55,6 +55,8 @@ my_cp images/rabbitmq/rabbitmq.conf.example images/rabbitmq/rabbitmq.conf
 my_cp images/schedule/supervisord.conf.example images/schedule/supervisord.conf
 my_cp images/schedule/ecosystem.config.js.example images/schedule/ecosystem.config.js
 my_cp images/schedule/additional.ini.example images/schedule/additional.ini
+my_cp images/localstack/credentials.example images/localstack/credentials
+my_cp images/localstack/config.example images/localstack/config
 my_cp "$WORKSPACE_DIR/services/examples/"* "$WORKSPACE_DIR/services"
 
 GID=$(id -g)
@@ -251,6 +253,4 @@ done
 
 if [ "$(is_wsl)" -eq 0 ]; then
   ${DC} build
-
-  "${SCRIPT_DIR}/python_prepare.sh"
 fi

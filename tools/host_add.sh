@@ -219,9 +219,10 @@ EOM
   1|*)
     NGINX_PORT_CONFIG=$NGINX_HTTP_CONFIG
     NGINX_REDIRECT_TO_HTTPS=''
+    NGINX_CERTS_CONFIG=''
     APACHE_PORT_CONFIG=$APACHE_HTTP_CONFIG
     APACHE_REDIRECT_TO_HTTPS=''
-    CERTS_CONFIG=''
+    APACHE_CERTS_CONFIG=''
     ;;
   esac
 
@@ -358,12 +359,12 @@ EOF
 			}
 
 			server {
-			    ${PORT_CONFIG}
+			    ${NGINX_PORT_CONFIG}
 			    server_name ${DOMAIN};
 
 			    error_log /var/log/nginx/${CONFIG_NAME}/error.log;
 			    access_log /var/log/nginx/${CONFIG_NAME}/access.log;
-			    ${CERTS_CONFIG}
+			    ${NGINX_CERTS_CONFIG}
 
 			    location / {
 			        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
@@ -411,13 +412,13 @@ EOF
 
     { cat > "${CONFIG_NGINX_PATH}" <<-EOF
 			server {
-			    ${PORT_CONFIG}
+			    ${NGINX_PORT_CONFIG}
 			    index index.php;
 			    server_name ${DOMAIN};
 			    error_log /var/log/nginx/${CONFIG_NAME}/error.log;
 			    access_log /var/log/nginx/${CONFIG_NAME}/access.log;
 			    root ${MNT_WWW_DIR};
-			    ${CERTS_CONFIG}
+			    ${NGINX_CERTS_CONFIG}
 			    location ~ \.php$ {
 			        try_files \$uri =404;
 			        fastcgi_split_path_info ^(.+\.php)(/.+)$;

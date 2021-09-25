@@ -88,6 +88,7 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 15. phpRedisAdmin
 16. Kibana
 17. ElasticHQ
+18. LocalStack (local AWS)
 
 
 
@@ -130,9 +131,10 @@ mongo:
   import <dump>      - import Mongo database dump
 cron:               
   example            - add CRON job example
-python               - run Python command
-pip                  - run pip command
-poetry               - run Poetry command
+python <command>     - run Python command
+pip <command>        - run pip command
+poetry <command>     - run Poetry command
+aws <command>        - LocalStack AWS-CLI command
 ```
 
 
@@ -167,27 +169,29 @@ poetry               - run Poetry command
     _Example:_ execute `../../tools/npm.sh install --save-dev <package>` in the project directory `./www/<project>`.
 11. [**python.sh**](./tools/python.sh) - Python / pip / Poetry command  
     _Example:_ execute `../../tools/python.sh poetry init` in the project directory `./www/<project>`.
-12. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
+11. [**aws.sh**](./tools/aws.sh) - AWS CLI (local) command  
+    _Example:_ execute `../../tools/aws.sh s3api create-bucket --bucket my-bucket --region us-east-1`.
+13. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
     _Example:_ execute `<path_to_tools>/mysql_export.sh <database>` in any directory while the workspace is running.
-13. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
+14. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
    _Example:_ execute `<path_to_tools>/mysql_import.sh <dump_filename>` in any directory while the workspace is running.
-14. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
+15. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
     _Example:_ execute `<path_to_tools>/mongo_export.sh <database>` in any directory while the workspace is running. 
-15. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
+16. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
     _Example:_ execute `<path_to_tools>/mongo_import.sh <dump_filename>` in any directory while the workspace is running.
-16. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
+17. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>/make_ssl_cert.sh <domain>` in any directory.  
     **Important!** This command not compatible with WSL. Browser must be installed at the same host as used `mkcert`!
-17. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
+18. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
     _Example:_ execute `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` in any directory.
     **Important!** You must run a new php container to apply the generated SSH agent key!
-18. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
+19. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
     _Example:_ execute `<path_to_tools>/cron_example.sh <example_filename>` in any directory.
-19. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
+20. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\hosts_link.bat` in any directory.
-20. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
+21. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\mkcert_install.bat` in any directory.
-21. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS
+22. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS
     and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>\wsl\make_ssl_cert.bat <domain>` in any directory.
 
@@ -204,6 +208,7 @@ poetry               - run Poetry command
 8. http://localhost:8088 - RabbitMQ Management
 9. http://localhost:8089 - Kibana
 10. http://localhost:8090 - ElasticHQ
+11. http://localhost:8091 - LocalStack
 
 
 
@@ -219,8 +224,9 @@ poetry               - run Poetry command
 `│  │  └─ mnt` - SSH certificates mounted to container of php service  
 `│  ├─ cron` - configuration and scripts for running periodical jobs  
 `│  │  └─ update_caroot` - CRON job for update of CA root certificates  
-`│  ├─ databases` - database files  
+`│  ├─ databases` - databases files  
 `│  ├─ dumps` - generated database dump files  
+`│  ├─ localstack` - data of LocalStack services  
 `│  └─ mails` - saved emails sent by [`fakesendmail`](./images/php/fakesendmail.sh)  
 `├─ hosts` - hosts configs for the web servers  
 `│  ├─ apache` - hosts configs for Apache  
@@ -228,6 +234,9 @@ poetry               - run Poetry command
 `├─ images` - dockerfiles and configs for services  
 `│  ├─ apache` - Apache service config  
 `│  │  └─ my-httpd.conf` - Apache config  
+`│  ├─ localstack` - LocalStack service config  
+`│  │  ├─ config` - AWS CLI (local) config  
+`│  │  └─ credentials` - AWS CLI (local) credentials  
 `│  ├─ mysql` - MySQL service config  
 `│  │  └─ my.cnf` - MySQL config  
 `│  ├─ node` - Node service config  
@@ -267,6 +276,7 @@ poetry               - run Poetry command
 `│  ├─ docker-compose.elastichq.yml` - ElasticHQ service setup  
 `│  ├─ docker-compose.elasticsearch.yml` - Elasticsearch service setup  
 `│  ├─ docker-compose.kibana.yml` - Kibana service setup  
+`│  ├─ docker-compose.localstack.yml` - LocalStack service setup  
 `│  ├─ docker-compose.memcached.yml` - Memcached service setup  
 `│  ├─ docker-compose.mongo.yml` - Mongo service setup  
 `│  ├─ docker-compose.mysql.yml` - MySQL service setup  
@@ -297,6 +307,7 @@ poetry               - run Poetry command
 `│  │  ├─ hosts_link.bat` - creating a link to the file `hosts`  
 `│  │  ├─ make_cert.bat` - making SSL certificates for domain  
 `│  │  └─ mkcert_install.bat` - mkcert installation for making SSL certificates  
+`│  ├─ aws.sh` - AWS CLI (local) command  
 `│  ├─ composer.sh` - Composer command  
 `│  ├─ cron_example.sh` - creating CRON job example  
 `│  ├─ dc.sh` - shell over Docker Compose   
@@ -347,6 +358,7 @@ Execute sequentially:
 5. `cd example`
 6. `yoda npm install`
 7. `yoda npm install vue`
+7. `yoda aws s3api create-bucket --bucket my-bucket --region us-east-1`
 8. `yoda dc run --rm php bash`
 9. `cd example`
 10. `git init`

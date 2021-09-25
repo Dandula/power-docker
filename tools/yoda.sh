@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DC="${SCRIPT_DIR}/dc.sh"
 
 case "$1" in
-  init|setup|dc|composer|npm)
+  init|setup|dc|composer|npm|aws)
     SCRIPT="${SCRIPT_DIR}/$1.sh"
     shift
     ;;

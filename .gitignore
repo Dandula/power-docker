@@ -38,6 +38,8 @@
 /images/schedule/supervisord.conf
 /images/schedule/ecosystem.config.js
 /images/schedule/additional.ini
+/images/localstack/credentials
+/images/localstack/config
 
 # services config files
 /services/*
@@ -61,6 +63,7 @@
 /data/dumps/mongo/*
 /data/cron/*
 !/data/cron/update_caroot
+/data/localstack/*
 
 # logs directories
 /logs/apache/*
