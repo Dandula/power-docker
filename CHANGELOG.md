@@ -2,9 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v1.2.2](https://github.com/Dandula/power-docker/compare/v1.2.1...v1.2.2)
+
+> 25 Sep 2021
+
+- feat(services): added localstack service [`fd477dc`](https://github.com/Dandula/power-docker/commit/fd477dce22f1ffa15bbed3b2de18b0473a8cc365)
+- feat(services): added elasticsearch, kibana and elastic-hq [`d0ced8e`](https://github.com/Dandula/power-docker/commit/d0ced8e05fed147f46f7dbea912c6ce2de0ecddd)
+- docs(readme): corrected inaccuracies [`de7fb2c`](https://github.com/Dandula/power-docker/commit/de7fb2ccc83e32448d2bf5ab45ac553fa773b490)
+ 
 #### [v1.2.1](https://github.com/Dandula/power-docker/compare/v1.2.0...v1.2.1)
 
-> 5 Sep 2021
+> 20 Sep 2021
 
 - feat(services): added apache service [`d690de6`](https://github.com/Dandula/power-docker/commit/d690de662871ec34fd6ea4ba18da9161281c25f3)
 - feat(services): added node service [`96f85bf`](https://github.com/Dandula/power-docker/commit/96f85bfe234583238f5b2ef810ad811518583076)
