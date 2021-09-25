@@ -23,10 +23,11 @@ _Image: Bea.miau on [Wikimedia Commons](https://commons.wikimedia.org)_
     1. [Workspace Run in the Background](#workspace-run-in-the-background)
     2. [Workspace Stopping](#workspace-stopping)
     3. [Typical Usage Example](#typical-usage-example)
-    4. [Multiple Versions of PHP](#multiple-versions-of-php)
-    5. [Setup xDebug for PhpStorm](#setup-xdebug-for-phpstorm)
+    4. [Adding a New Service](#adding-a-new-service)
+    5. [Multiple Versions of PHP](#multiple-versions-of-php)
+    6. [Setup xDebug for PhpStorm](#setup-xdebug-for-phpstorm)
         - [For test PHP CLI xDebug](#for-test-php-cli-xdebug)
-    6. [SSL certificates on WSL](#ssl-certificates-on-wsl)
+    7. [SSL certificates on WSL](#ssl-certificates-on-wsl)
 
 
 
@@ -365,15 +366,28 @@ Execute sequentially:
 11. `exit`
 12. `yoda dc stop`
 
+### Adding a New Service
+To add a new service, you must:
+1. List the new service in the `CUSTOM_SERVICES` variable in the `.env` file. The service name can be in any case.
+   To separate it from other services, use a comma `,`.  
+   If the service needs access to the WWW directories, also add the service name to the `CUSTOM_SERVICES_NEED_WWWW`
+   variable.
+2. Copy one of the Docker Compose service files to the `services` directory named `docker-compose.<service_name>.yml`.  
+   The `<service_name>` is the name of the service in lowercase.  
+   Describe the service using Docker Compose syntax. It is recommended to use the same name for the service that you
+   used in the filename.  
+   To interact with the rest of the PowerDocker services, set `network: workspace`.
+3. Restart Docker Compose by executing the command: `yoda dc restart`.
+
 ### Multiple Versions of PHP
 To use more than one version of PHP in your project at the same time, do the following:
-1. Copy the desired service (`php` or `schedule`) in the `docker-compose.<php|schedule>.yml` file.
-2. If needed, create a new PHP configuration file by copying the existing example file into the `images/<service>`
-   folder of the desired service. Specify the desired name for the configuration file.
+1. Add a new service by following the instructions in [Adding a New Service](#adding-a-new-service). It is recommended
+   to copy the Docker Compose service file from the `docker-compose.<php|schedule>.yml` file.
+2. If needed, create a new PHP configuration (`php.ini`) file by copying the existing example file into the
+   `images/<service>` folder of the desired service. Specify the desired name for the configuration file.
 3. In the configuration of the copied service specify the desired Dockerfile explicitly.
 4. In the `volumes` configuration of the copied service specify the configuration file (the one you have created
    in step 2 or the one you have already had).
-5. Specify the desired name for the copied service in the `docker-compose.<php|schedule>.yml` file.
 
 ### Setup xDebug for PhpStorm
 Please read the [article](https://www.jetbrains.com/help/phpstorm/configuring-xdebug.html#configuring-xdebug-docker)

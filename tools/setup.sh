@@ -56,7 +56,7 @@ sed -i "s%^WEB_SERVER=.*%WEB_SERVER=${WEB_SERVER}%" "$ENV_PATH"
 sed -i "s%^SERVICE_APACHE=.*%SERVICE_APACHE=${APACHE_STATE}%" "$ENV_PATH"
 sed -i "s%^SERVICE_NGINX=.*%SERVICE_NGINX=${NGINX_STATE}%" "$ENV_PATH"
 
-for SERVICE_NAME in ${SERVICES[*]}; do
+for SERVICE_NAME in ${DEFAULT_SERVICES[*]}; do
   case "$SERVICE_NAME" in
   Apache|nginx)
     ;;
