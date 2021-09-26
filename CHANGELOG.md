@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v1.2.3](https://github.com/Dandula/power-docker/compare/v1.2.2...v1.2.3)
+
+> 26 Sep 2021
+
+- docs(readme): added russian readme [`d6b9b0e`](https://github.com/Dandula/power-docker/commit/d6b9b0eecb6f37a9a77b5e8d98d1b918f3e887ce)
+- feat: added support for custom services [`0b7eb0b`](https://github.com/Dandula/power-docker/commit/0b7eb0b085c582314a5c36e34af405a519628335)
+
 #### [v1.2.2](https://github.com/Dandula/power-docker/compare/v1.2.1...v1.2.2)
 
 > 25 Sep 2021
