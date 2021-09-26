@@ -6,6 +6,8 @@
 _Image: Bea.miau on [Wikimedia Commons](https://commons.wikimedia.org)_
 > **"Do or do not. There is no try."**
 
+*Read this in other languages: [English](README.md), [Русский](README.ru.md)*
+
 ## Contents
 1. [About PowerDocker](#about-powerdocker)
 2. [Downloading & Installation](#downloading-&-installation)
@@ -22,12 +24,13 @@ _Image: Bea.miau on [Wikimedia Commons](https://commons.wikimedia.org)_
 8. [Helpful](#helpful)
     1. [Workspace Run in the Background](#workspace-run-in-the-background)
     2. [Workspace Stopping](#workspace-stopping)
-    3. [Typical Usage Example](#typical-usage-example)
-    4. [Adding a New Service](#adding-a-new-service)
-    5. [Multiple Versions of PHP](#multiple-versions-of-php)
-    6. [Setup xDebug for PhpStorm](#setup-xdebug-for-phpstorm)
+    3. [Workspace Starting After Stopping](#workspace-starting-after-stopping)
+    4. [Typical Usage Example](#typical-usage-example)
+    5. [Adding a New Service](#adding-a-new-service)
+    6. [Multiple Versions of PHP](#multiple-versions-of-php)
+    7. [Setup xDebug for PhpStorm](#setup-xdebug-for-phpstorm)
         - [For test PHP CLI xDebug](#for-test-php-cli-xdebug)
-    7. [SSL certificates on WSL](#ssl-certificates-on-wsl)
+    8. [SSL certificates on WSL](#ssl-certificates-on-wsl)
 
 
 
@@ -156,7 +159,7 @@ aws <command>        - LocalStack AWS-CLI command
 5. [**dc.sh**](./tools/dc.sh) - executes Docker Compose commands  
    _Example:_ execute `./tools/dc.sh run --rm php bash` for entering to container.  
    **Important!** Try to use docker-compose through this tool.
-6. [**mount_www.sh**](./tools/mount_www.sh) - create a Docker Compose setup for mounting host directories    
+6. [**mount_www.sh**](./tools/mount_www.sh) - create a Docker Compose setup for mounting host directories  
    _Example:_ execute `./tools/mount_www.sh` to form a Docker Compose setup.  
    **Important!** The formation of the setup is based on the file `hosts.map`.
 7. [**host_add.sh**](./tools/host_add.sh) - add a new host  
@@ -177,14 +180,14 @@ aws <command>        - LocalStack AWS-CLI command
 14. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
    _Example:_ execute `<path_to_tools>/mysql_import.sh <dump_filename>` in any directory while the workspace is running.
 15. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
-    _Example:_ execute `<path_to_tools>/mongo_export.sh <database>` in any directory while the workspace is running. 
+    _Example:_ execute `<path_to_tools>/mongo_export.sh <database>` in any directory while the workspace is running.
 16. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
     _Example:_ execute `<path_to_tools>/mongo_import.sh <dump_filename>` in any directory while the workspace is running.
 17. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>/make_ssl_cert.sh <domain>` in any directory.  
     **Important!** This command not compatible with WSL. Browser must be installed at the same host as used `mkcert`!
-18. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of php service  
-    _Example:_ execute `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` in any directory.
+18. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of PHP service  
+    _Example:_ execute `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` in any directory.  
     **Important!** You must run a new php container to apply the generated SSH agent key!
 19. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
     _Example:_ execute `<path_to_tools>/cron_example.sh <example_filename>` in any directory.
@@ -216,13 +219,13 @@ aws <command>        - LocalStack AWS-CLI command
 ## File Structure
 `├─ assets` - assets files  
 `│  ├─ yoda.jpg` - logo image  
-`│  └─ yoda.txt` - yoda text art  
+`│  └─ yoda.txt` - Yoda text art  
 `├─ data` - user data stored between runs  
 `│  ├─ cache` - cache directory  
 `│  ├─ certs` - SSL & SSH certificates  
 `│  │  ├─ ca` - bundle of CA root certificates  
 `│  │  ├─ hosts` - SSL certificates for hosts  
-`│  │  └─ mnt` - SSH certificates mounted to container of php service  
+`│  │  └─ mnt` - SSH certificates mounted to container of PHP service  
 `│  ├─ cron` - configuration and scripts for running periodical jobs  
 `│  │  └─ update_caroot` - CRON job for update of CA root certificates  
 `│  ├─ databases` - databases files  
@@ -232,7 +235,7 @@ aws <command>        - LocalStack AWS-CLI command
 `├─ hosts` - hosts configs for the web servers  
 `│  ├─ apache` - hosts configs for Apache  
 `│  └─ nginx` - hosts configs for nginx  
-`├─ images` - dockerfiles and configs for services  
+`├─ images` - Dockerfiles and configs for services  
 `│  ├─ apache` - Apache service config  
 `│  │  └─ my-httpd.conf` - Apache config  
 `│  ├─ localstack` - LocalStack service config  
@@ -241,11 +244,11 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ mysql` - MySQL service config  
 `│  │  └─ my.cnf` - MySQL config  
 `│  ├─ node` - Node service config  
-`│  │  ├─ Dockerfile` - dockerfile of Node service  
+`│  │  ├─ Dockerfile` - Dockerfile of Node service  
 `│  │  └─ ecosystem.config.js` - PM2 config  
 `│  ├─ php` - PHP service config  
-`│  │  ├─ 7.4.Dockerfile` - dockerfile of PHP v7.4 service  
-`│  │  ├─ 8.0.Dockerfile` - dockerfile of PHP v8.0 service  
+`│  │  ├─ 7.4.Dockerfile` - Dockerfile of PHP v7.4 service  
+`│  │  ├─ 8.0.Dockerfile` - Dockerfile of PHP v8.0 service  
 `│  │  ├─ fakesendmail.sh` - Bash script for saving emails instead of sending them _(copied into the image at build)_  
 `│  │  ├─ msmtprc` - MSMTP config  
 `│  │  ├─ php7.4.ini` - PHP v7.4 config  
@@ -254,10 +257,10 @@ aws <command>        - LocalStack AWS-CLI command
 `│  │  └─ rabbitmq.conf` - RabbitMQ config  
 `│  ├─ redis` - Redis service config  
 `│  │  └─ redis.conf` - Redis config  
-`│  ├─ schedule` - schedule service config: supervisor and CRON jobs  
+`│  ├─ schedule` - Schedule service config: supervisor or PM2 and CRON jobs  
 `│  │  ├─ additional.ini` - additional high-priority `php.ini` for CRON service  
-`│  │  ├─ docker-entrypoint.sh` - Bash script for initialization CRON jobs and supervisor _(copied into the image at build)_  
-`│  │  ├─ Dockerfile` - dockerfile of schedule service  
+`│  │  ├─ docker-entrypoint.sh` - Bash script for initialization CRON jobs and supervisor or PM2 _(copied into the image at build)_  
+`│  │  ├─ Dockerfile` - Dockerfile of Schedule service  
 `│  │  ├─ fakesendmail.sh` - Bash script for saving emails instead of sending them _(copied into the image at build)_  
 `│  │  ├─ supervisord.conf` - supervisord config  
 `│  ┴  └─ ecosystem.config.js` - PM2 config  
@@ -311,7 +314,7 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ aws.sh` - AWS CLI (local) command  
 `│  ├─ composer.sh` - Composer command  
 `│  ├─ cron_example.sh` - creating CRON job example  
-`│  ├─ dc.sh` - shell over Docker Compose   
+`│  ├─ dc.sh` - shell over Docker Compose  
 `│  ├─ host_add.sh` - adding host  
 `│  ├─ host_del.sh` - deleting host  
 `│  ├─ init.sh` - initialization workspace script  
@@ -322,7 +325,7 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ mysql_export.sh` - export MySQL to dump  
 `│  ├─ mysql_import.sh` - import MySQL from dump  
 `│  ├─ npm.sh` - NPM command  
-`│  ├─ python.sh` - running Python / pip / Poetry command   
+`│  ├─ python.sh` - Python / pip / Poetry command   
 `│  ├─ setup.sh` - configuring a set of services  
 `│  └─ yoda.sh` - entrypoint for other scripts  
 `├─ www` - hosts sources directory  
@@ -335,7 +338,8 @@ aws <command>        - LocalStack AWS-CLI command
 `├─ hosts.map` - mapping hosts to real directories  
 `├─ LICENSE.txt` - license agreement  
 `├─ node-ports.map` - mapping hosts to the ports used by the Node service  
-`└─ README.md` - this ReadMe  
+`├─ README.md` - ReadMe in English  
+`└─ README.ru.md` - ReadMe in Russian
 
 
 
@@ -381,8 +385,8 @@ To add a new service, you must:
 
 ### Multiple Versions of PHP
 To use more than one version of PHP in your project at the same time, do the following:
-1. Add a new service by following the instructions in [Adding a New Service](#adding-a-new-service). It is recommended
-   to copy the Docker Compose service file from the `docker-compose.<php|schedule>.yml` file.
+1. Add a new service by following the instructions in [Adding a New Service](#adding-a-new-service) section.
+   It is recommended to copy the Docker Compose service file from the `docker-compose.<php|schedule>.yml` file.
 2. If needed, create a new PHP configuration (`php.ini`) file by copying the existing example file into the
    `images/<service>` folder of the desired service. Specify the desired name for the configuration file.
 3. In the configuration of the copied service specify the desired Dockerfile explicitly.
@@ -398,7 +402,7 @@ on the JetBrains website.
     * set _Host_: **\_**
     * set _Debugger_: **Xdebug**
     * check **Use path mappings (select if the server is remote or symlinks are used)**
-    * set mapping: a local directory **www** to **/var/www**
+    * set mapping. For default host directory: a local directory **www** to **/var/www**
 
 2. _File_ -> _Settings_ -> _Languages & Frameworks_ -> _PHP_
     * -> _PHP language Level_: choose **7.4** or **8.0**
