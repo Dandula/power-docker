@@ -1,6 +1,6 @@
 # Руководство по PowerDocker
-![GitHub-релиз (последний на текущую дату)](https://img.shields.io/github/v/release/Dandula/power-docker?label=%D1%80%D0%B5%D0%BB%D0%B8%D0%B7)
-![GitHub](https://img.shields.io/github/license/dandula/power-docker?label=%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F)
+[![GitHub-релиз (последний на текущую дату)](https://img.shields.io/github/v/release/Dandula/power-docker?label=%D1%80%D0%B5%D0%BB%D0%B8%D0%B7)](https://github.com/Dandula/power-docker/releases/latest)
+[![GitHub](https://img.shields.io/github/license/dandula/power-docker?label=%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F)](LICENSE.txt)
 
 ![Логотип](assets/yoda.jpg "Портрет мастера-джедая Йоды, из Звездных войн")  
 _Изображение: Bea.miau на [Wikimedia Commons](https://commons.wikimedia.org)_
@@ -153,7 +153,7 @@ aws <command>        - LocalStack AWS-CLI command
    _Пример:_ выполните `./tools/help.sh` для справки про `yoda`.
 3. [**init.sh**](./tools/init.sh) - инициализация рабочего окружения  
    _Пример:_ выполните `./tools/init.sh [--clean-install]` для начальной настройки.  
-   **Важно!** Опция `--clean-install` перезаписывает конфиг и не удалять пользовательские данные!
+   **Важно!** Опция `--clean-install` перезаписывает конфиг, но не удаляет пользовательские данные!
 4. [**setup.sh**](./tools/setup.sh) - настроить набор сервисов  
    _Пример:_ выполните `./tools/setup.sh` для формирования набора сервисов.  
    **Важно!** Эта команда останавливает все запущенные в данный момент сервисы и удаляет их контейнеры!
@@ -184,10 +184,10 @@ aws <command>        - LocalStack AWS-CLI command
     _Пример:_ выполните `<path_to_tools>/mongo_export.sh <database>` в любом каталоге, когда запущено рабочее окружение.
 16. [**mongo_import.sh**](./tools/mongo_import.sh) - импортировать дамп базы данных Mongo из каталога `./data/dumps/mongo`  
     _Пример:_ выполните `<path_to_tools>/mongo_import.sh <dump_filename>` в любом каталоге, когда запущено рабочее окружение.
-17. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - сделать SSL-сертификат для домена и положить в каталог `./data/certs/hosts`  
+17. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - сгенерировать SSL-сертификат для домена и положить в каталог `./data/certs/hosts`  
     _Пример:_ выполните `<path_to_tools>/make_ssl_cert.sh <domain>` в любом каталоге.  
     **Важно!** Эта команда не совместима с WSL. Браузер должен быть установлен на том же хосте, что и используемый `mkcert`!
-18. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - сделать SSH-сертификат для SSH-агента сервиса PHP  
+18. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - сгенерировать SSH-сертификат для SSH-агента сервиса PHP  
     _Пример:_ выполните `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` в любом каталоге.  
     **Важно!** Вы должны запустить новый контейнер php, чтобы применился сгенерированный ключ SSH-агента!
 19. [**cron_example.sh**](./tools/cron_example.sh) - добавить пример CRON-задания в каталог `./data/cron`  
@@ -196,7 +196,7 @@ aws <command>        - LocalStack AWS-CLI command
     _Пример:_ выполните `<path_to_tools>\wsl\hosts_link.bat` в любом каталоге.
 21. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - установить mkcert в ОС Windows  
     _Пример:_ выполните `<path_to_tools>\wsl\mkcert_install.bat` в любом каталоге.
-22. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - сделать SSL-сертификат для домена из ОС Windows и
+22. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - сгенерировать SSL-сертификат для домена из ОС Windows и
     положить в каталог `./data/certs/hosts`  
     _Пример:_ выполните `<path_to_tools>\wsl\make_ssl_cert.bat <domain>` в любом каталоге.
 
@@ -380,7 +380,7 @@ aws <command>        - LocalStack AWS-CLI command
    `<service_name>` - это имя сервиса в нижнем регистре.  
    Опишите сервис, используя синтаксис Docker Compose. Рекомендуется использовать то же имя для сервиса, которое вы
    использовали в имени файла.  
-   Для взаимодействия с остальными сервисами PowerDocker задайте `network: workspace.`
+   Для взаимодействия с остальными сервисами PowerDocker задайте `network: workspace`.
 3. Перезапустите Docker Compose, выполнив команду: `yoda dc restart`.
 
 ### Несколько версий PHP

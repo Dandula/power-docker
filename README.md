@@ -1,6 +1,6 @@
 # PowerDocker Guide
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/Dandula/power-docker)
-![GitHub](https://img.shields.io/github/license/dandula/power-docker)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Dandula/power-docker)](https://github.com/Dandula/power-docker/releases/latest)
+[![GitHub](https://img.shields.io/github/license/dandula/power-docker)](LICENSE.txt)
 
 ![Logo](assets/yoda.jpg "Portrait of the Jedi Master Yoda, from Star Wars")  
 _Image: Bea.miau on [Wikimedia Commons](https://commons.wikimedia.org)_
