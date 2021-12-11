@@ -8,9 +8,9 @@ services:
       TZ: ${TIMEZONE}
     volumes:
       - ../images/apache/my-httpd.conf:/usr/local/apache2/conf/httpd.conf
-      - ../hosts/apache:/etc/apache2/sites-available
+      - ../hosts/apache:/etc/apache2/sites-enabled
       - ../data/certs/hosts:/var/certs
-      - ../logs/apache:/var/log/apache
+      - ../logs/apache:/usr/local/apache2/logs
     ports:
       - "80:80"
       - "443:443"
