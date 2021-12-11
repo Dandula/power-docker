@@ -7,7 +7,7 @@ services:
     environment:
       TZ: ${TIMEZONE}
     volumes:
-      - ../images/apache:/usr/local/apache2/conf/httpd.conf
+      - ../images/apache/my-httpd.conf:/usr/local/apache2/conf/httpd.conf
       - ../hosts/apache:/etc/apache2/sites-available
       - ../data/certs/hosts:/var/certs
       - ../logs/apache:/var/log/apache

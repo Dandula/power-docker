@@ -194,6 +194,16 @@ wget --no-check-certificate -c -O "${WWW_DIR}/apcu/apc.php" https://raw.githubus
   && message_success "APCu is installed and configured" \
   || message_failure "APCu installation error"
 
+HOSTS_MAP_PATH="${WORKSPACE_DIR}/hosts.map"
+touch ${HOSTS_MAP_PATH} \
+  && message_success "The hosts map $HOSTS_MAP_PATH to real directories file has been created" \
+  || message_failure "The hosts map $HOSTS_MAP_PATH to real directories file creation error"
+
+NODE_PORTS_MAP_PATH="${WORKSPACE_DIR}/node-ports.map"
+touch ${NODE_PORTS_MAP_PATH} \
+  && message_success "The hosts map $NODE_PORTS_MAP_PATH to the ports used by the Node service file has been created" \
+  || message_failure "The hosts map $NODE_PORTS_MAP_PATH to the ports used by the Node service file creation error"
+
 if [ "$(is_wsl)" -eq 0 ]; then
   HOSTS_PATH="/etc/hosts"
   HOSTS_LINK="${WORKSPACE_DIR}/hosts.link"

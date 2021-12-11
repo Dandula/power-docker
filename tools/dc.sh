@@ -32,7 +32,7 @@ cd "$WORKSPACE_DIR" || exit
 
 ENV_PATH="${WORKSPACE_DIR}/.env"
 
-CONFIG_FILES_STR=" -f services/docker-compose.yml"
+CONFIG_FILES_STR=" --env-file ${ENV_PATH} -f services/docker-compose.yml"
 
 # shellcheck disable=SC2153
 for SERVICE_NAME in ${SERVICES[*]}; do

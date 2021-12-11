@@ -10,6 +10,7 @@ HOSTS_MAP_PATH="${WORKSPACE_DIR}/hosts.map"
 # shellcheck source=constants/services.sh
 . "${SCRIPT_DIR}/constants/services.sh"
 
+touch ${HOSTS_MAP_PATH}
 MNT_WWW_DIRS="
       - ${WORKSPACE_DIR}/www/opcache-gui:/var/www/opcache-gui
       - ${WORKSPACE_DIR}/www/apcu:/var/www/apcu

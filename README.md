@@ -58,7 +58,9 @@ or
 `sudo apt-get update && sudo apt-get install -y wget tar curl`.
 
 And of course, you need to have Docker installed:
-https://www.docker.com/products/docker-desktop.
+https://www.docker.com/products/docker-desktop
+and Docker Compose:
+https://docs.docker.com/compose/.
 
 ### Downloading via GIT
 Execute: `git clone https://github.com/Dandula/power-docker.git`

@@ -112,6 +112,8 @@ fi
 
 HOSTS_MAP_PATH="${WORKSPACE_DIR}/hosts.map"
 
+touch ${HOSTS_MAP_PATH}
+
 if grep -q "${DOMAIN}" "${HOSTS_MAP_PATH}"; then
   HOSTS_MAP_RECORD_REGEX="^${DOMAIN//./\\.}\:"
   sed -i "/${HOSTS_MAP_RECORD_REGEX}/d" "${HOSTS_MAP_PATH}" \
@@ -122,6 +124,8 @@ else
 fi
 
 NODE_PORTS_MAP_PATH="${WORKSPACE_DIR}/node-ports.map"
+
+touch ${NODE_PORTS_MAP_PATH}
 
 if grep -q "${DOMAIN}" "${NODE_PORTS_MAP_PATH}"; then
   NODE_PORTS_MAP_RECORD_REGEX="^${DOMAIN//./\\.}\:"

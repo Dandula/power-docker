@@ -58,7 +58,9 @@ _Изображение: Bea.miau на [Wikimedia Commons](https://commons.wikim
 `sudo apt-get update && sudo apt-get install -y wget tar curl`.
 
 И, конечно же, у вас должен быть установлен Docker:
-https://www.docker.com/products/docker-desktop.
+https://www.docker.com/products/docker-desktop
+и Docker Compose:
+https://docs.docker.com/compose/.
 
 ### Загрузка через GIT
 Выполните: `git clone https://github.com/Dandula/power-docker.git`
