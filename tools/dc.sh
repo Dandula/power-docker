@@ -19,7 +19,7 @@ function enable_service() {
 
     CONFIG_FILES_STR="${CONFIG_FILES_STR} -f ${SERVICE_CONFIG_FILE}"
 
-    in_array "$1" "${ALL_SERVICES_NEED_WWW[@]}"
+    in_array "$1" "${SERVICES_NEED_WWW[@]}"
     local SERVICE_NEED_WWW_STATUS=$?
 
     if [ $SERVICE_NEED_WWW_STATUS -eq 0 ]; then

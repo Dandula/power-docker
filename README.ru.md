@@ -125,6 +125,7 @@ npm <command>        - 'npm <command>' redirect
 host:               
   add <domain> <dir> - add a new host
   del <domain>       - delete the host
+  pub <domain>       - give access to the host from the Internet via ngrok
 mount:              
   www                - mount WWW directories defined at hosts.map file
 make:               
@@ -170,35 +171,37 @@ aws <command>        - LocalStack AWS-CLI command
 8. [**host_del.sh**](./tools/host_del.sh) - удалить хост  
    _Пример:_ выполните `<path_to_tools>/host_del.sh example.loc`.  
    **Важно!** Эта команда не удаляет каталог с исходными файлами хоста!
-9. [**composer.sh**](./tools/init.sh) - команда Composer  
-   _Пример:_ выполните `../../tools/composer.sh composer require <package>` в каталоге проекта `./www/<project>`.
-10. [**npm.sh**](./tools/npm.sh) - команда NPM  
+9. [**host_pub.sh**](./tools/host_pub.sh) - предоставление доступа к хосту из Интернета через ngrok  
+   _Пример:_ выполните `<path_to_tools>/host_pub.sh example.loc`.
+10. [**composer.sh**](./tools/init.sh) - команда Composer  
+    _Пример:_ выполните `../../tools/composer.sh composer require <package>` в каталоге проекта `./www/<project>`.
+11. [**npm.sh**](./tools/npm.sh) - команда NPM  
     _Пример:_ выполните `../../tools/npm.sh install --save-dev <package>` в каталоге проекта `./www/<project>`.
-11. [**python.sh**](./tools/python.sh) - команда Python / pip / Poetry  
+12. [**python.sh**](./tools/python.sh) - команда Python / pip / Poetry  
     _Пример:_ выполните `../../tools/python.sh poetry init` в каталоге проекта `./www/<project>`.
-12. [**aws.sh**](./tools/aws.sh) - команда AWS CLI (локального)  
+13. [**aws.sh**](./tools/aws.sh) - команда AWS CLI (локального)  
     _Пример:_ выполните `../../tools/aws.sh s3api create-bucket --bucket my-bucket --region us-east-1`.
-13. [**mysql_export.sh**](./tools/mysql_export.sh) - экспортировать дамп базы данных MySQL в каталог `./data/dumps/mysql`  
+14. [**mysql_export.sh**](./tools/mysql_export.sh) - экспортировать дамп базы данных MySQL в каталог `./data/dumps/mysql`  
     _Пример:_ выполните `<path_to_tools>/mysql_export.sh <database>` в любом каталоге, когда запущено рабочее окружение.
-14. [**mysql_import.sh**](./tools/mysql_import.sh) - импортировать дамп базы данных MySQL из каталога `./data/dumps/mysql`  
+15. [**mysql_import.sh**](./tools/mysql_import.sh) - импортировать дамп базы данных MySQL из каталога `./data/dumps/mysql`  
    _Пример:_ выполните `<path_to_tools>/mysql_import.sh <dump_filename>` в любом каталоге, когда запущено рабочее окружение.
-15. [**mongo_export.sh**](./tools/mongo_export.sh) - экспортировать дамп базы данных Mongo в каталог `./data/dumps/mongo`  
+16. [**mongo_export.sh**](./tools/mongo_export.sh) - экспортировать дамп базы данных Mongo в каталог `./data/dumps/mongo`  
     _Пример:_ выполните `<path_to_tools>/mongo_export.sh <database>` в любом каталоге, когда запущено рабочее окружение.
-16. [**mongo_import.sh**](./tools/mongo_import.sh) - импортировать дамп базы данных Mongo из каталога `./data/dumps/mongo`  
+17. [**mongo_import.sh**](./tools/mongo_import.sh) - импортировать дамп базы данных Mongo из каталога `./data/dumps/mongo`  
     _Пример:_ выполните `<path_to_tools>/mongo_import.sh <dump_filename>` в любом каталоге, когда запущено рабочее окружение.
-17. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - сгенерировать SSL-сертификат для домена и положить в каталог `./data/certs/hosts`  
+18. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - сгенерировать SSL-сертификат для домена и положить в каталог `./data/certs/hosts`  
     _Пример:_ выполните `<path_to_tools>/make_ssl_cert.sh <domain>` в любом каталоге.  
     **Важно!** Эта команда не совместима с WSL. Браузер должен быть установлен на том же хосте, что и используемый `mkcert`!
-18. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - сгенерировать SSH-сертификат для SSH-агента сервиса PHP  
+19. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - сгенерировать SSH-сертификат для SSH-агента сервиса PHP  
     _Пример:_ выполните `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` в любом каталоге.  
     **Важно!** Вы должны запустить новый контейнер php, чтобы применился сгенерированный ключ SSH-агента!
-19. [**cron_example.sh**](./tools/cron_example.sh) - добавить пример CRON-задания в каталог `./data/cron`  
+20. [**cron_example.sh**](./tools/cron_example.sh) - добавить пример CRON-задания в каталог `./data/cron`  
     _Пример:_ выполните `<path_to_tools>/cron_example.sh <example_filename>` в любом каталоге.
-20. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - создать ссылку на файл hosts для ОС Windows  
+21. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - создать ссылку на файл hosts для ОС Windows  
     _Пример:_ выполните `<path_to_tools>\wsl\hosts_link.bat` в любом каталоге.
-21. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - установить mkcert в ОС Windows  
+22. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - установить mkcert в ОС Windows  
     _Пример:_ выполните `<path_to_tools>\wsl\mkcert_install.bat` в любом каталоге.
-22. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - сгенерировать SSL-сертификат для домена из ОС Windows и
+23. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - сгенерировать SSL-сертификат для домена из ОС Windows и
     положить в каталог `./data/certs/hosts`  
     _Пример:_ выполните `<path_to_tools>\wsl\make_ssl_cert.bat <domain>` в любом каталоге.
 
@@ -216,6 +219,7 @@ aws <command>        - LocalStack AWS-CLI command
 9. http://localhost:8089 - Kibana
 10. http://localhost:8090 - ElasticHQ
 11. http://localhost:8091 - LocalStack
+12. http://localhost:8092 - WEB-инспектор ngrok
 
 
 
@@ -320,6 +324,7 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ dc.sh` - оболочка над Docker Compose  
 `│  ├─ host_add.sh` - добавление хоста  
 `│  ├─ host_del.sh` - удаление хоста  
+`│  ├─ host_pub.sh` - предоставление доступа к хосту из Интернета через ngrok  
 `│  ├─ init.sh` - скрипт инициализации рабочего окружения  
 `│  ├─ make_cert.sh` - создание SSL-сертификатов для домена  
 `│  ├─ mongo_export.sh` - экспортировать MongoDB в дамп  

@@ -40,6 +40,7 @@
 /images/schedule/additional.ini
 /images/localstack/credentials
 /images/localstack/config
+/images/ngrok/ngrok.yml
 
 # services config files
 /services/*
@@ -74,6 +75,7 @@
 /logs/redis/*
 /logs/supervisord/*
 /logs/cron/*
+/logs/ngrok/*
 
 # IDEs and editors
 /.idea

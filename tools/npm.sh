@@ -16,4 +16,5 @@ docker run --rm -it \
   -v "${PWD}:/usr/src/app" \
   -v "${NPM_DIR}:/home/node/.npm" \
   -u "${UID}:$(id -g)" \
+  --network="host" \
   node:${NODE_VER} npm "$@"

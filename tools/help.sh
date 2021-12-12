@@ -43,6 +43,7 @@ yoda_command "npm <command>" "'npm <command>' redirect" 0
 yoda_command "host:" "" 0
 yoda_command "add <domain> <dir>" "add a new host" 1
 yoda_command "del <domain>" "delete the host" 1
+yoda_command "pub <domain>" "give access to the host from the Internet via ngrok" 1
 yoda_command "mount:" "" 0
 yoda_command "www" "mount WWW directories defined at hosts.map file" 1
 yoda_command "make:" "" 0

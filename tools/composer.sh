@@ -13,11 +13,13 @@ if [ -n "$SSH_AUTH_SOCK" ]; then
     -v /etc/group:/etc/group:ro \
     -e SSH_AUTH_SOCK=/ssh-auth.sock \
     -u "${UID}:$(id -g)" \
+    --network="host" \
     composer "$@" --ignore-platform-reqs
 else
   docker run --rm -it \
     -v "${PWD}:/app" \
     -v "${COMPOSER_DIR}:/tmp" \
     -u "${UID}:$(id -g)" \
+    --network="host" \
     composer "$@" --ignore-platform-reqs
 fi

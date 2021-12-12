@@ -124,6 +124,7 @@ npm <command>        - 'npm <command>' redirect
 host:               
   add <domain> <dir> - add a new host
   del <domain>       - delete the host
+  pub <domain>       - give access to the host from the Internet via ngrok
 mount:              
   www                - mount WWW directories defined at hosts.map file
 make:               
@@ -169,35 +170,37 @@ aws <command>        - LocalStack AWS-CLI command
 8. [**host_del.sh**](./tools/host_del.sh) - delete the host  
    _Example:_ execute `<path_to_tools>/host_del.sh example.loc`.  
    **Important!** This command does not delete the directory with the sources of the host!
-9. [**composer.sh**](./tools/init.sh) - Composer command  
-   _Example:_ execute `../../tools/composer.sh composer require <package>` in the project directory `./www/<project>`.
-10. [**npm.sh**](./tools/npm.sh) - NPM command  
+9. [**host_pub.sh**](./tools/host_pub.sh) - give access to the host from the Internet via ngrok  
+   _Example:_ execute `<path_to_tools>/host_pub.sh example.loc`.
+10. [**composer.sh**](./tools/init.sh) - Composer command  
+    _Example:_ execute `../../tools/composer.sh composer require <package>` in the project directory `./www/<project>`.
+11. [**npm.sh**](./tools/npm.sh) - NPM command  
     _Example:_ execute `../../tools/npm.sh install --save-dev <package>` in the project directory `./www/<project>`.
-11. [**python.sh**](./tools/python.sh) - Python / pip / Poetry command  
+12. [**python.sh**](./tools/python.sh) - Python / pip / Poetry command  
     _Example:_ execute `../../tools/python.sh poetry init` in the project directory `./www/<project>`.
-11. [**aws.sh**](./tools/aws.sh) - AWS CLI (local) command  
+13. [**aws.sh**](./tools/aws.sh) - AWS CLI (local) command  
     _Example:_ execute `../../tools/aws.sh s3api create-bucket --bucket my-bucket --region us-east-1`.
-13. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
+14. [**mysql_export.sh**](./tools/mysql_export.sh) - export MySQL database dump to the directory `./data/dumps/mysql`  
     _Example:_ execute `<path_to_tools>/mysql_export.sh <database>` in any directory while the workspace is running.
-14. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
+15. [**mysql_import.sh**](./tools/mysql_import.sh) - import MySQL database dump from the directory `./data/dumps/mysql`  
    _Example:_ execute `<path_to_tools>/mysql_import.sh <dump_filename>` in any directory while the workspace is running.
-15. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
+16. [**mongo_export.sh**](./tools/mongo_export.sh) - export Mongo database dump to the directory `./data/dumps/mongo`  
     _Example:_ execute `<path_to_tools>/mongo_export.sh <database>` in any directory while the workspace is running.
-16. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
+17. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
     _Example:_ execute `<path_to_tools>/mongo_import.sh <dump_filename>` in any directory while the workspace is running.
-17. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
+18. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>/make_ssl_cert.sh <domain>` in any directory.  
     **Important!** This command not compatible with WSL. Browser must be installed at the same host as used `mkcert`!
-18. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of PHP service  
+19. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of PHP service  
     _Example:_ execute `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` in any directory.  
     **Important!** You must run a new php container to apply the generated SSH agent key!
-19. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
+20. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
     _Example:_ execute `<path_to_tools>/cron_example.sh <example_filename>` in any directory.
-20. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
+21. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\hosts_link.bat` in any directory.
-21. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
+22. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\mkcert_install.bat` in any directory.
-22. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS
+23. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS
     and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>\wsl\make_ssl_cert.bat <domain>` in any directory.
 
@@ -215,6 +218,7 @@ aws <command>        - LocalStack AWS-CLI command
 9. http://localhost:8089 - Kibana
 10. http://localhost:8090 - ElasticHQ
 11. http://localhost:8091 - LocalStack
+12. http://localhost:8092 - ngrok web inspector
 
 
 
@@ -319,6 +323,7 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ dc.sh` - shell over Docker Compose  
 `│  ├─ host_add.sh` - adding host  
 `│  ├─ host_del.sh` - deleting host  
+`│  ├─ host_pub.sh` - giving access to the host from the Internet via ngrok  
 `│  ├─ init.sh` - initialization workspace script  
 `│  ├─ make_cert.sh` - making SSL certificates for domain  
 `│  ├─ mongo_export.sh` - export MongoDB to dump  

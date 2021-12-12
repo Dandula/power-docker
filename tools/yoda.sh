@@ -21,6 +21,10 @@ case "$1" in
     SCRIPT="${SCRIPT_DIR}/host_del.sh"
     shift
     ;;
+  host:pub)
+    SCRIPT="${SCRIPT_DIR}/host_pub.sh"
+    shift
+    ;;
   mount:www)
     SCRIPT="${SCRIPT_DIR}/mount_www.sh"
     shift
