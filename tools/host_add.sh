@@ -135,8 +135,8 @@ EOM
 EOM
 
     read -r -d '' NGINX_HTTP_HTTPS_CONFIG <<-EOM
-			    ${HTTP_CONFIG}
-			    ${HTTPS_CONFIG}
+			    ${NGINX_HTTP_CONFIG}
+			    ${NGINX_HTTPS_CONFIG}
 EOM
 
     read -r -d '' NGINX_CERTS_CONFIG <<-EOM
