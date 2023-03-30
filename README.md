@@ -10,7 +10,7 @@ _Image: Bea.miau on [Wikimedia Commons](https://commons.wikimedia.org)_
 
 ## Contents
 1. [About PowerDocker](#about-powerdocker)
-2. [Downloading & Installation](#downloading-&-installation)
+2. [Downloading & Installation](#downloading--installation)
     1. [Downloading via GIT](#downloading-via-git)
     2. [Downloading via Wget](#downloading-via-wget)
     3. [Downloading via cURL](#downloading-via-curl)
@@ -118,7 +118,7 @@ init                 - workspace initialization
   [--clean-install]  - clean workspace initialization
 help                 - this help
 setup                - configure a set of services
-dc <command>         - 'docker-compose <command>' redirect
+dc <command>         - 'docker compose <command>' redirect
 composer <command>   - 'composer <command>' redirect
 npm <command>        - 'npm <command>' redirect
 host:               
@@ -161,7 +161,7 @@ aws <command>        - LocalStack AWS-CLI command
    **Important!** This command stops all currently running services and remove their containers!
 5. [**dc.sh**](./tools/dc.sh) - executes Docker Compose commands  
    _Example:_ execute `./tools/dc.sh run --rm php bash` for entering to container.  
-   **Important!** Try to use docker-compose through this tool.
+   **Important!** Try to use docker compose through this tool.
 6. [**mount_www.sh**](./tools/mount_www.sh) - create a Docker Compose setup for mounting host directories  
    _Example:_ execute `./tools/mount_www.sh` to form a Docker Compose setup.  
    **Important!** The formation of the setup is based on the file `hosts.map`.

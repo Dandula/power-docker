@@ -119,7 +119,7 @@ init                 - workspace initialization
   [--clean-install]  - clean workspace initialization
 help                 - this help
 setup                - configure a set of services
-dc <command>         - 'docker-compose <command>' redirect
+dc <command>         - 'docker compose <command>' redirect
 composer <command>   - 'composer <command>' redirect
 npm <command>        - 'npm <command>' redirect
 host:               
@@ -162,7 +162,7 @@ aws <command>        - LocalStack AWS-CLI command
    **Важно!** Эта команда останавливает все запущенные в данный момент сервисы и удаляет их контейнеры!
 5. [**dc.sh**](./tools/dc.sh) - выполнить команду Docker Compose  
    _Пример:_ выполните `./tools/dc.sh run --rm php bash` для входа в контейнер.  
-   **Важно!** Используйте docker-compose только через эту утилиту.
+   **Важно!** Используйте docker compose только через эту утилиту.
 6. [**mount_www.sh**](./tools/mount_www.sh) - создать настройки Docker Compose для монтирования каталогов хостов  
    _Пример:_ выполните `./tools/mount_www.sh` чтобы сформировать настройки Docker Compose.  
    **Важно!** Формирование настроек основано на файле `hosts.map`.

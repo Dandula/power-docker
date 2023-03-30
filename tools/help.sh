@@ -37,7 +37,7 @@ yoda_command "init" "workspace initialization" 0
 yoda_command "[--clean-install]" "clean workspace initialization" 1
 yoda_command "help" "this help" 0
 yoda_command "setup" "configure a set of services" 0
-yoda_command "dc <command>" "'docker-compose <command>' redirect" 0
+yoda_command "dc <command>" "'docker compose <command>' redirect" 0
 yoda_command "composer <command>" "'composer <command>' redirect" 0
 yoda_command "npm <command>" "'npm <command>' redirect" 0
 yoda_command "host:" "" 0

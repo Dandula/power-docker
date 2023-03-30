@@ -60,7 +60,7 @@ for SERVICE_NAME in ${SERVICES[*]}; do
   fi
 done
 
-DC_CMD="docker-compose ${CONFIG_FILES_STR}"
+DC_CMD="docker compose ${CONFIG_FILES_STR}"
 
 "${SCRIPT_DIR}/mount_www.sh"
 
