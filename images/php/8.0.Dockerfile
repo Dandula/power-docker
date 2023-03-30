@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
         git \
 # apcu
     && mkdir -p /usr/src/php/ext/apcu \
-    && curl -fsSL https://pecl.php.net/get/apcu-5.1.20 | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/apcu-5.1.22 | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
     && docker-php-ext-install apcu \
 # bz2
     && apt-get install -y libbz2-dev \
@@ -45,7 +45,7 @@ RUN apt-get update && apt-get install -y \
 # imagick
     && apt-get install -y libmagickwand-dev \
     && mkdir -p /usr/src/php/ext/imagick \
-    && curl -fsSL https://pecl.php.net/get/imagick-3.5.1 | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/imagick-3.7.0 | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 \
     && docker-php-ext-install imagick \
 # intl
     && docker-php-ext-install intl \
@@ -54,11 +54,11 @@ RUN apt-get update && apt-get install -y \
         libmemcached-dev \
         zlib1g-dev \
     && mkdir -p /usr/src/php/ext/memcached \
-    && curl -fsSL https://pecl.php.net/get/memcached-3.1.5 | tar xvz -C "/usr/src/php/ext/memcached" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/memcached-3.2.0 | tar xvz -C "/usr/src/php/ext/memcached" --strip 1 \
     && docker-php-ext-install memcached \
 # mongodb
     && mkdir -p /usr/src/php/ext/mongodb \
-    && curl -fsSL https://pecl.php.net/get/mongodb-1.10.0 | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/mongodb-1.15.0 | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
     && docker-php-ext-install mongodb \
 # mysqli
     && docker-php-ext-install mysqli \
@@ -77,7 +77,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_pgsql \
 # redis
     && mkdir -p /usr/src/php/ext/redis \
-    && curl -fsSL https://pecl.php.net/get/redis-5.3.4 | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/redis-5.3.7 | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
     && docker-php-ext-install redis \
 # soap
     && apt-get install -y libxml2-dev \
@@ -86,16 +86,16 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install sockets \
 # timezonedb
     && mkdir -p /usr/src/php/ext/timezonedb \
-    && curl -fsSL https://pecl.php.net/get/timezonedb-2021.1 | tar xvz -C "/usr/src/php/ext/timezonedb" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/timezonedb-2023.3 | tar xvz -C "/usr/src/php/ext/timezonedb" --strip 1 \
     && docker-php-ext-install timezonedb \
 # xdebug
     && mkdir -p /usr/src/php/ext/xdebug \
-    && curl -fsSL https://pecl.php.net/get/xdebug-3.0.4 | tar xvz -C "/usr/src/php/ext/xdebug" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/xdebug-3.1.6 | tar xvz -C "/usr/src/php/ext/xdebug" --strip 1 \
     && docker-php-ext-install xdebug \
 # xmlrpc
     && apt-get install -y libxml2-dev \
     && mkdir -p /usr/src/php/ext/xmlrpc \
-    && curl -fsSL https://pecl.php.net/get/xmlrpc-1.0.0RC2 | tar xvz -C "/usr/src/php/ext/xmlrpc" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/xmlrpc-1.0.0RC3 | tar xvz -C "/usr/src/php/ext/xmlrpc" --strip 1 \
     && docker-php-ext-install xmlrpc \
 # xsl
     && apt-get install -y libxslt-dev \
@@ -104,7 +104,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-source delete
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+    && php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer
@@ -130,14 +130,14 @@ RUN apt-get install -y sudo \
     && adduser -u ${USER_ID} --disabled-password --gecos '' docker \
     && groupmod -g ${GROUP_ID} docker \
     && adduser docker sudo \
-    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+    && echo 'docker ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER "${USER_ID}:${GROUP_ID}"
 
 ENV NVM_DIR=/home/docker/.nvm
 ENV NODE_VER=${NODE_VER}
 
-RUN ["/bin/bash", "-c", "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
+RUN ["/bin/bash", "-c", "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
     && source ${NVM_DIR}/nvm.sh \
     && nvm install ${NODE_VER} \
     && nvm alias default ${NODE_VER} \
