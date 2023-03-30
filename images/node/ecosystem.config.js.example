@@ -2,7 +2,10 @@ module.exports = {
     apps: [
         {
             name: "app",
-            script: "/var/www/example/app.js"
+            script: "/var/www/example/app.js",
+            watch: true,
+            ignore_watch: ["node_modules"],
+            autorestart: true
         }
     ]
 }
