@@ -12,7 +12,7 @@ RUN apt-get update \
     && adduser -u ${USER_ID} --disabled-password --gecos '' docker \
     && groupmod -g ${GROUP_ID} docker \
     && adduser docker sudo \
-    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+    && echo 'docker ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER "${USER_ID}:${GROUP_ID}"
 
