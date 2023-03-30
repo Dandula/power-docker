@@ -23,7 +23,7 @@ RUN apt-get update \
     && apt-get install -y software-properties-common \
     && add-apt-repository ppa:ondrej/php \
     && apt-get update \
-    && apt-get install -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         cron \
         supervisor \
         nano \
@@ -38,7 +38,7 @@ RUN apt-get update \
 # xml
     && apt-get install -y php${PHP_VER}-xml \
 # apcu
-    && pecl install apcu-5.1.20 \
+    && pecl install apcu-5.1.22 \
 # bz2
     && apt-get install -y php${PHP_VER}-bz2 \
 # curl
@@ -53,7 +53,7 @@ RUN apt-get update \
     && apt-get install -y php${PHP_VER}-gettext \
 #imagick
     && apt-get install -y libmagickwand-dev \
-    && pecl install imagick-3.5.1 \
+    && pecl install imagick-3.7.0 \
 # intl
     && apt-get install -y php${PHP_VER}-intl \
 # mbstring
@@ -62,9 +62,9 @@ RUN apt-get update \
     && apt-get install -y \
         libmemcached-dev \
         zlib1g-dev \
-    && pecl install memcached-3.1.5 \
+    && pecl install memcached-3.2.0 \
 # mongodb
-    && pecl install mongodb-1.10.0 \
+    && pecl install mongodb-1.15.1 \
 # mysqli
     && apt-get install -y php${PHP_VER}-mysqli \
 # odbc
@@ -74,7 +74,7 @@ RUN apt-get update \
 # pdo_pgsql
     && apt-get install -y php${PHP_VER}-pgsql \
 # redis
-    && pecl install redis-5.3.3 \
+    && pecl install redis-5.3.7 \
 # soap
     && apt-get install -y php${PHP_VER}-soap \
 # sockets
@@ -82,9 +82,9 @@ RUN apt-get update \
 # sqlite3
     && apt-get install -y php${PHP_VER}-sqlite3 \
 # timezonedb
-    && pecl install timezonedb-2021.1 \
+    && pecl install timezonedb-2023.3 \
 # xdebug
-    && pecl install xdebug-3.0.3 \
+    && pecl install xdebug-3.1.6 \
 # xmlrpc
     && apt-get install -y php${PHP_VER}-xmlrpc \
 # xsl
@@ -94,7 +94,7 @@ RUN apt-get install -y sudo \
     && adduser -u ${USER_ID} --disabled-password --gecos '' docker \
     && groupmod -g ${GROUP_ID} docker \
     && adduser docker sudo \
-    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+    && echo 'docker ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 RUN mkdir -p /var/log/supervisor \
     && mkdir -p /var/log/cron \
@@ -107,7 +107,7 @@ USER "${USER_ID}:${GROUP_ID}"
 ENV NVM_DIR=/home/docker/.nvm
 ENV NODE_VER=${NODE_VER}
 
-RUN ["/bin/bash", "-c", "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
+RUN ["/bin/bash", "-c", "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
     && source ${NVM_DIR}/nvm.sh \
     && nvm install ${NODE_VER} \
     && nvm alias default ${NODE_VER} \
