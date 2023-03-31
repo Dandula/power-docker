@@ -114,10 +114,6 @@ EOM
 			<VirtualHost *:443>
 EOM
 
-    read -r -d '' APACHE_HTTP_HTTPS_CONFIG <<-EOM
-			<VirtualHost *:80 *:443>
-EOM
-
     read -r -d '' APACHE_CERTS_CONFIG <<-EOM
 			    SSLEngine on
 			    SSLCertificateFile "/var/certs/${CERT_PEM}"
@@ -208,7 +204,6 @@ EOM
     ;;
   3)
     if [ "${HOST_TYPE}" != "laravel" ]; then
-      APACHE_PORT_CONFIG=$APACHE_HTTP_HTTPS_CONFIG
       NGINX_PORT_CONFIG=$NGINX_HTTP_HTTPS_CONFIG
     else
       APACHE_PORT_CONFIG=$APACHE_HTTPS_CONFIG
@@ -328,26 +323,56 @@ EOF
       && IS_HOST_CONFIG_CREATED=1
     ;;
   node)
+    if [ "${SCHEME}" -ne 2 ]; then
+      read -r -d '' APACHE_CONFIG_CONTENT <<-EOM
+				${APACHE_HTTP_CONFIG}
+				    ServerName ${DOMAIN}
+
+				    ErrorLog "/usr/local/apache2/logs/${CONFIG_NAME}/error.log"
+				    LogLevel warn
+				    CustomLog "/usr/local/apache2/logs/${CONFIG_NAME}/access.log" combined
+
+				    ProxyRequests off
+
+				    <Proxy *>
+				        Require all granted
+				    </Proxy>
+
+				    <Location />
+				        ProxyPass http://node:${NODE_PORT}
+				        ProxyPassReverse http://node:${NODE_PORT}
+				    </Location>
+				</VirtualHost>
+EOM
+    fi
+
+    if [[ "${SCHEME}" -eq 2 || "${SCHEME}" -eq 3 ]]; then
+      read -r -d '' APACHE_CONFIG_CONTENT <<-EOM
+				${APACHE_CONFIG_CONTENT}
+				${APACHE_HTTPS_CONFIG}
+				    ServerName ${DOMAIN}
+
+				    ErrorLog "/usr/local/apache2/logs/${CONFIG_NAME}/error.log"
+				    LogLevel warn
+				    CustomLog "/usr/local/apache2/logs/${CONFIG_NAME}/access.log" combined
+				    ${APACHE_CERTS_CONFIG}
+
+				    ProxyRequests off
+
+				    <Proxy *>
+				        Require all granted
+				    </Proxy>
+
+				    <Location />
+				        ProxyPass http://node:${NODE_PORT}
+				        ProxyPassReverse http://node:${NODE_PORT}
+				    </Location>
+				</VirtualHost>
+EOM
+    fi
+
     { cat > "${CONFIG_APACHE_PATH}" <<-EOF
-			${APACHE_PORT_CONFIG}
-			    ServerName ${DOMAIN}
-
-			    ErrorLog "/usr/local/apache2/logs/${CONFIG_NAME}/error.log"
-			    LogLevel warn
-			    CustomLog "/usr/local/apache2/logs/${CONFIG_NAME}/access.log" combined
-			    ${APACHE_CERTS_CONFIG}
-
-			    ProxyRequests off
-
-			    <Proxy *>
-			        Require all granted
-			    </Proxy>
-
-			    <Location />
-			        ProxyPass http://node:${NODE_PORT}
-			        ProxyPassReverse http://node:${NODE_PORT}
-			    </Location>
-			</VirtualHost>
+				${APACHE_CONFIG_CONTENT}
 EOF
     } && message_success "Apache host configuration created $CONFIG_APACHE_PATH" \
       && IS_HOST_CONFIG_CREATED=1
@@ -385,27 +410,58 @@ EOF
       && IS_HOST_CONFIG_CREATED=1
     ;;
   common|*)
+    if [ "${SCHEME}" -ne 2 ]; then
+      read -r -d '' APACHE_CONFIG_CONTENT <<-EOM
+				${APACHE_HTTP_CONFIG}
+				    ServerName ${DOMAIN}
+				    DocumentRoot "${MNT_WWW_DIR}"
+				    DirectoryIndex index.php
+
+				    ErrorLog "/usr/local/apache2/logs/${CONFIG_NAME}/error.log"
+				    LogLevel warn
+				    CustomLog "/usr/local/apache2/logs/${CONFIG_NAME}/access.log" combined
+
+				    <FilesMatch \.php$>
+				        SetHandler "proxy:fcgi://php:9000"
+				    </FilesMatch>
+
+				    <Directory "${MNT_WWW_DIR}">
+				        Options All
+				        AllowOverride All
+				        Require all granted
+				    </Directory>
+				</VirtualHost>
+EOM
+    fi
+
+    if [[ "${SCHEME}" -eq 2 || "${SCHEME}" -eq 3 ]]; then
+      read -r -d '' APACHE_CONFIG_CONTENT <<-EOM
+				${APACHE_CONFIG_CONTENT}
+				${APACHE_HTTPS_CONFIG}
+				    ServerName ${DOMAIN}
+				    DocumentRoot "${MNT_WWW_DIR}"
+				    DirectoryIndex index.php
+
+				    ErrorLog "/usr/local/apache2/logs/${CONFIG_NAME}/error.log"
+				    LogLevel warn
+				    CustomLog "/usr/local/apache2/logs/${CONFIG_NAME}/access.log" combined
+				    ${APACHE_CERTS_CONFIG}
+
+				    <FilesMatch \.php$>
+				        SetHandler "proxy:fcgi://php:9000"
+				    </FilesMatch>
+
+				    <Directory "${MNT_WWW_DIR}">
+				        Options All
+				        AllowOverride All
+				        Require all granted
+				    </Directory>
+				</VirtualHost>
+EOM
+    fi
+
     { cat > "${CONFIG_APACHE_PATH}" <<-EOF
-			${APACHE_PORT_CONFIG}
-			    ServerName ${DOMAIN}
-			    DocumentRoot "${MNT_WWW_DIR}"
-			    DirectoryIndex index.php
-
-			    ErrorLog "/usr/local/apache2/logs/${CONFIG_NAME}/error.log"
-			    LogLevel warn
-			    CustomLog "/usr/local/apache2/logs/${CONFIG_NAME}/access.log" combined
-			    ${APACHE_CERTS_CONFIG}
-
-			    <FilesMatch \.php$>
-			        SetHandler "proxy:fcgi://php:9000"
-			    </FilesMatch>
-
-			    <Directory "${MNT_WWW_DIR}">
-			        Options All
-			        AllowOverride All
-			        Require all granted
-			    </Directory>
-			</VirtualHost>
+				${APACHE_CONFIG_CONTENT}
 EOF
     } && message_success "Apache host configuration created $CONFIG_APACHE_PATH" \
       && IS_HOST_CONFIG_CREATED=1
