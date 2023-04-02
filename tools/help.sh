@@ -55,6 +55,9 @@ yoda_command "import <dump>" "import MySQL database dump" 1
 yoda_command "mongo:" "" 0
 yoda_command "export <db>" "export Mongo database dump" 1
 yoda_command "import <dump>" "import Mongo database dump" 1
+yoda_command "redis:" "" 0
+yoda_command "export" "export Redis database dump" 1
+yoda_command "import <dump>" "import Redis database dump" 1
 yoda_command "cron:" "" 0
 yoda_command "example" "add CRON job example" 1
 yoda_command "python <command>" "run Python command" 0

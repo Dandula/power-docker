@@ -53,6 +53,14 @@ case "$1" in
     SCRIPT="${SCRIPT_DIR}/mongo_import.sh"
     shift
     ;;
+  redis:export)
+    SCRIPT="${SCRIPT_DIR}/redis_export.sh"
+    shift
+    ;;
+  redis:import)
+    SCRIPT="${SCRIPT_DIR}/redis_import.sh"
+    shift
+    ;;
   cron:example)
     SCRIPT="${SCRIPT_DIR}/cron_example.sh"
     shift

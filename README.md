@@ -136,6 +136,9 @@ mysql:
 mongo:              
   export <db>        - export Mongo database dump
   import <dump>      - import Mongo database dump
+redis:              
+  export             - export Redis database dump
+  import <dump>      - import Redis database dump
 cron:               
   example            - add CRON job example
 python <command>     - run Python command
@@ -188,19 +191,23 @@ aws <command>        - LocalStack AWS-CLI command
     _Example:_ execute `<path_to_tools>/mongo_export.sh <database>` in any directory while the workspace is running.
 17. [**mongo_import.sh**](./tools/mongo_import.sh) - import Mongo database dump from the directory `./data/dumps/mongo`  
     _Example:_ execute `<path_to_tools>/mongo_import.sh <dump_filename>` in any directory while the workspace is running.
-18. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
+18. [**redis_export.sh**](./tools/redis_export.sh) - export Redis database dump to the directory `./data/dumps/redis`  
+    _Example:_ execute `<path_to_tools>/redis_export.sh` in any directory while the workspace is running.
+19. [**redis_import.sh**](./tools/redis_import.sh) - import Redis database dump from the directory `./data/dumps/redis`  
+    _Example:_ execute `<path_to_tools>/redis_import.sh <dump_filename>` in any directory while the workspace is running.
+20. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - make SSL certificate for a domain and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>/make_ssl_cert.sh <domain>` in any directory.  
     **Important!** This command not compatible with WSL. Browser must be installed at the same host as used `mkcert`!
-19. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of PHP service  
+21. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - make SSH certificate for SSH agent of PHP service  
     _Example:_ execute `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` in any directory.  
     **Important!** You must run a new php container to apply the generated SSH agent key!
-20. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
+22. [**cron_example.sh**](./tools/cron_example.sh) - add CRON job example to the directory `./data/cron`  
     _Example:_ execute `<path_to_tools>/cron_example.sh <example_filename>` in any directory.
-21. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
+23. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - link to hosts file for the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\hosts_link.bat` in any directory.
-22. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
+24. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - install mkcert to the Windows OS  
     _Example:_ execute `<path_to_tools>\wsl\mkcert_install.bat` in any directory.
-23. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS
+25. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - make SSL certificate for a domain from the Windows OS
     and put to the directory `./data/certs/hosts`  
     _Example:_ execute `<path_to_tools>\wsl\make_ssl_cert.bat <domain>` in any directory.
 
@@ -333,6 +340,8 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ mysql_import.sh` - import MySQL from dump  
 `│  ├─ npm.sh` - NPM command  
 `│  ├─ python.sh` - Python / pip / Poetry command   
+`│  ├─ redis_export.sh` - export Redis to dump   
+`│  ├─ redis_import.sh` - import Redis from dump   
 `│  ├─ setup.sh` - configuring a set of services  
 `│  └─ yoda.sh` - entrypoint for other scripts  
 `├─ www` - hosts sources directory  
@@ -370,12 +379,12 @@ Execute sequentially:
 5. `cd example`
 6. `yoda npm install`
 7. `yoda npm install vue`
-7. `yoda aws s3api create-bucket --bucket my-bucket --region us-east-1`
-8. `yoda dc run --rm php bash`
-9. `cd example`
-10. `git init`
-11. `exit`
-12. `yoda dc stop`
+8. `yoda aws s3api create-bucket --bucket my-bucket --region us-east-1`
+9. `yoda dc run --rm php bash`
+10. `cd example`
+11. `git init`
+12. `exit`
+13. `yoda dc stop`
 
 ### Adding a New Service
 To add a new service, you must:

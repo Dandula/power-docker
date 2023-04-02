@@ -137,6 +137,9 @@ mysql:
 mongo:              
   export <db>        - export Mongo database dump
   import <dump>      - import Mongo database dump
+redis:              
+  export             - export Redis database dump
+  import <dump>      - import Redis database dump
 cron:               
   example            - add CRON job example
 python <command>     - run Python command
@@ -189,19 +192,23 @@ aws <command>        - LocalStack AWS-CLI command
     _Пример:_ выполните `<path_to_tools>/mongo_export.sh <database>` в любом каталоге, когда запущено рабочее окружение.
 17. [**mongo_import.sh**](./tools/mongo_import.sh) - импортировать дамп базы данных Mongo из каталога `./data/dumps/mongo`  
     _Пример:_ выполните `<path_to_tools>/mongo_import.sh <dump_filename>` в любом каталоге, когда запущено рабочее окружение.
-18. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - сгенерировать SSL-сертификат для домена и положить в каталог `./data/certs/hosts`  
+18. [**redis_export.sh**](./tools/redis_export.sh) - экспортировать дамп базы данных Redis в каталог `./data/dumps/redis`  
+    _Пример:_ выполните `<path_to_tools>/redis_export.sh` в любом каталоге, когда запущено рабочее окружение.
+19. [**redis_import.sh**](./tools/redis_import.sh) - импортировать дамп базы данных Redis из каталога `./data/dumps/redis`  
+    _Пример:_ выполните `<path_to_tools>/redis_import.sh <dump_filename>` в любом каталоге, когда запущено рабочее окружение.
+20. [**make_ssl_cert.sh**](./tools/make_ssl_cert.sh) - сгенерировать SSL-сертификат для домена и положить в каталог `./data/certs/hosts`  
     _Пример:_ выполните `<path_to_tools>/make_ssl_cert.sh <domain>` в любом каталоге.  
     **Важно!** Эта команда не совместима с WSL. Браузер должен быть установлен на том же хосте, что и используемый `mkcert`!
-19. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - сгенерировать SSH-сертификат для SSH-агента сервиса PHP  
+21. [**make_ssh_cert.sh**](./tools/make_ssh_cert.sh) - сгенерировать SSH-сертификат для SSH-агента сервиса PHP  
     _Пример:_ выполните `<path_to_tools>/make_ssh_cert.sh <cert_filename> <comment_email>` в любом каталоге.  
     **Важно!** Вы должны запустить новый контейнер php, чтобы применился сгенерированный ключ SSH-агента!
-20. [**cron_example.sh**](./tools/cron_example.sh) - добавить пример CRON-задания в каталог `./data/cron`  
+22. [**cron_example.sh**](./tools/cron_example.sh) - добавить пример CRON-задания в каталог `./data/cron`  
     _Пример:_ выполните `<path_to_tools>/cron_example.sh <example_filename>` в любом каталоге.
-21. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - создать ссылку на файл hosts для ОС Windows  
+23. [**wsl/hosts_link.bat**](./tools/wsl/hosts_link.bat) - создать ссылку на файл hosts для ОС Windows  
     _Пример:_ выполните `<path_to_tools>\wsl\hosts_link.bat` в любом каталоге.
-22. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - установить mkcert в ОС Windows  
+24. [**wsl/mkcert_install.bat**](./tools/wsl/mkcert_install.bat) - установить mkcert в ОС Windows  
     _Пример:_ выполните `<path_to_tools>\wsl\mkcert_install.bat` в любом каталоге.
-23. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - сгенерировать SSL-сертификат для домена из ОС Windows и
+25. [**wsl/make_ssl_cert.bat**](./tools/wsl/make_ssl_cert.bat) - сгенерировать SSL-сертификат для домена из ОС Windows и
     положить в каталог `./data/certs/hosts`  
     _Пример:_ выполните `<path_to_tools>\wsl\make_ssl_cert.bat <domain>` в любом каталоге.
 
@@ -334,6 +341,8 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ mysql_import.sh` - импортировать MySQL из дампа  
 `│  ├─ npm.sh` - команда NPM  
 `│  ├─ python.sh` - команда Python / pip / Poetry   
+`│  ├─ redis_export.sh` - экспортировать Redis в дамп  
+`│  ├─ redis_import.sh` - импортировать Redis из дампа  
 `│  ├─ setup.sh` - настройка набора сервисов  
 `│  └─ yoda.sh` - точка входа для других скриптов  
 `├─ www` - каталог исходных файлов хостов  
@@ -371,12 +380,12 @@ aws <command>        - LocalStack AWS-CLI command
 5. `cd example`
 6. `yoda npm install`
 7. `yoda npm install vue`
-7. `yoda aws s3api create-bucket --bucket my-bucket --region us-east-1`
-8. `yoda dc run --rm php bash`
-9. `cd example`
-10. `git init`
-11. `exit`
-12. `yoda dc stop`
+8. `yoda aws s3api create-bucket --bucket my-bucket --region us-east-1`
+9. `yoda dc run --rm php bash`
+10. `cd example`
+11. `git init`
+12. `exit`
+13. `yoda dc stop`
 
 ### Добавление нового сервиса
 Чтобы добавить новый сервис, вам нужно:

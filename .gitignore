@@ -62,6 +62,7 @@
 /data/databases/elasticsearch/*
 /data/dumps/mysql/*
 /data/dumps/mongo/*
+/data/dumps/redis/*
 /data/cron/*
 !/data/cron/update_caroot
 /data/localstack/*
