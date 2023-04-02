@@ -105,9 +105,9 @@ esac
 sed -i "s%^PHP_VER=.*%PHP_VER=$PHP_VER%" "$ENV_PATH"
 
 NODE_VER=$(parse_env "NODE_VER" "${ENV_PATH}")
-read -er -p "Enter Node version [14.17.6]: " -i "$NODE_VER" NODE_VER
+read -er -p "Enter Node version [18.15.0]: " -i "$NODE_VER" NODE_VER
 if [ -z "$NODE_VER" ]; then
-  NODE_VER="14.17.6"
+  NODE_VER="18.15.0"
 fi
 sed -i "s%^NODE_VER=.*%NODE_VER=$NODE_VER%" "$ENV_PATH"
 
