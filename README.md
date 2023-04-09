@@ -280,6 +280,7 @@ aws <command>        - LocalStack AWS-CLI command
 `├─ logs` - logs of services  
 `│  ├─ apache` - Apache and web hosts logs  
 `│  ├─ cron` - CRON logs  
+`│  ├─ elasticsearch` - Elasticsearch logs  
 `│  ├─ msmtp` - MSMTP logs  
 `│  ├─ mysql` - MySQL logs  
 `│  ├─ nginx` - nginx and web hosts logs  

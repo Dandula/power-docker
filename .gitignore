@@ -76,6 +76,7 @@
 /logs/redis/*
 /logs/supervisord/*
 /logs/cron/*
+/logs/elasticsearch/*
 /logs/ngrok/*
 
 # IDEs and editors

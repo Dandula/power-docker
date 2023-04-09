@@ -281,6 +281,7 @@ aws <command>        - LocalStack AWS-CLI command
 `├─ logs` - логи сервисов  
 `│  ├─ apache` - логи Apache и WEB-хостов  
 `│  ├─ cron` - логи CRON  
+`│  ├─ elasticsearch` - логи Elasticsearch  
 `│  ├─ msmtp` - логи MSMTP  
 `│  ├─ mysql` - логи MySQL  
 `│  ├─ nginx` - логи nginx и WEB-хостов  
