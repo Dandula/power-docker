@@ -89,13 +89,14 @@ https://docs.docker.com/compose/.
 9. RabbitMQ & Management Plugin
 10. Schedule: supervisor или PM2 и CRON
 11. Elasticsearch
-12. phpMyAdmin
-13. Adminer
-14. Mongo-Express
-15. phpRedisAdmin
-16. Kibana
-17. ElasticHQ
-18. LocalStack (локальный AWS)
+12. Logstash
+13. Kibana
+14. phpMyAdmin
+15. Adminer
+16. Mongo-Express
+17. phpRedisAdmin
+18. ElasticHQ
+19. LocalStack (локальный AWS)
 
 
 
@@ -255,6 +256,10 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ localstack` - конфиг сервиса LocalStack  
 `│  │  ├─ config` - конфиг AWS CLI (локального)  
 `│  │  └─ credentials` - данные для входа AWS CLI (локального)  
+`│  ├─ logstash` - конфиг сервиса Logstash  
+`│  │  ├─ config` - конфиги Logstash  
+`│  │  │  └─ pipelines.yml` - конфиг pipelines Logstash  
+`│  │  └─ pipelines` - pipelines Logstash  
 `│  ├─ mysql` - конфиг сервиса MySQL  
 `│  │  └─ my.cnf` - конфиг MySQL  
 `│  ├─ node` - конфиг сервиса Node  

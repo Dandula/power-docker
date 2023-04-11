@@ -38,6 +38,8 @@
 /images/schedule/supervisord.conf
 /images/schedule/ecosystem.config.js
 /images/schedule/additional.ini
+/images/logstash/config/*
+/images/logstash/pipeline/*
 /images/localstack/credentials
 /images/localstack/config
 /images/ngrok/ngrok.yml

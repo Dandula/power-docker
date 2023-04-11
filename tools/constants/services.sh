@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC2034
 DEFAULT_SERVICES=(Apache nginx PHP Node MySQL Mongo Memcached Redis RabbitMQ Schedule Elasticsearch phpMyAdmin Adminer \
-Mongo-Express phpRedisAdmin Kibana ElasticHQ LocalStack)
+Mongo-Express phpRedisAdmin Kibana ElasticHQ Logstash LocalStack)
 # shellcheck disable=SC2034
 DEFAULT_SERVICES_NEED_WWW=(Apache nginx PHP Node Schedule)
 

@@ -87,14 +87,15 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 8. Redis
 9. RabbitMQ & Management Plugin
 10. Schedule: supervisor or PM2 & CRON
-11. Elasticsearch
-12. phpMyAdmin
-13. Adminer
-14. Mongo-Express
-15. phpRedisAdmin
-16. Kibana
-17. ElasticHQ
-18. LocalStack (local AWS)
+11. Elasticsearch 
+12. Logstash
+13. Kibana
+14. phpMyAdmin
+15. Adminer
+16. Mongo-Express
+17. phpRedisAdmin
+18. ElasticHQ
+19. LocalStack (local AWS)
 
 
 
@@ -254,6 +255,10 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ localstack` - LocalStack service config  
 `│  │  ├─ config` - AWS CLI (local) config  
 `│  │  └─ credentials` - AWS CLI (local) credentials  
+`│  ├─ logstash` - Logstash service config  
+`│  │  ├─ config` - Logstash configs  
+`│  │  │  └─ pipelines.yml` - Logstash pipelines config  
+`│  │  └─ pipelines` - Logstash pipelines  
 `│  ├─ mysql` - MySQL service config  
 `│  │  └─ my.cnf` - MySQL config  
 `│  ├─ node` - Node service config  

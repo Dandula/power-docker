@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  logstash:
+    image: logstash:${ELASTICSEARCH_VER}
+    depends_on:
+      - "elasticsearch"
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      - ../images/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ../images/logstash/pipeline:/usr/share/logstash/pipeline
+      - ../logs:/logs
+    ports:
+      - "5044:5044"
+      - "9600-9700:9600-9700"
+    networks:
+      - workspace

@@ -55,6 +55,10 @@ my_cp images/rabbitmq/rabbitmq.conf.example images/rabbitmq/rabbitmq.conf
 my_cp images/schedule/supervisord.conf.example images/schedule/supervisord.conf
 my_cp images/schedule/ecosystem.config.js.example images/schedule/ecosystem.config.js
 my_cp images/schedule/additional.ini.example images/schedule/additional.ini
+my_cp images/logstash/examples/config/pipelines.yml images/logstash/config/pipelines.yml
+my_cp images/logstash/examples/pipeline/native/pipeline_heartbeat.conf images/logstash/pipeline/pipeline_heartbeat.conf
+my_cp images/schedule/additional.ini.example images/schedule/additional.ini
+
 my_cp images/localstack/credentials.example images/localstack/credentials
 my_cp images/localstack/config.example images/localstack/config
 my_cp images/ngrok/ngrok.yml.example images/ngrok/ngrok.yml

@@ -1,0 +1,4 @@
+- pipeline.id: "Pipeline HeartBeat"
+  pipeline.workers: 1
+  pipeline.batch.size: 1
+  path.config: "./pipeline/pipeline_heartbeat.conf"
