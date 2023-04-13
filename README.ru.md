@@ -91,12 +91,13 @@ https://docs.docker.com/compose/.
 11. Elasticsearch
 12. Logstash
 13. Kibana
-14. phpMyAdmin
-15. Adminer
-16. Mongo-Express
-17. phpRedisAdmin
-18. ElasticHQ
-19. LocalStack (локальный AWS)
+14. Filebeat
+15. phpMyAdmin
+16. Adminer
+17. Mongo-Express
+18. phpRedisAdmin
+19. ElasticHQ
+20. LocalStack (локальный AWS)
 
 
 
@@ -252,14 +253,16 @@ aws <command>        - LocalStack AWS-CLI command
 `│  └─ nginx` - конфиги хостов для nginx  
 `├─ images` - dockerfiles и конфиги для сервисов  
 `│  ├─ apache` - конфиг сервиса Apache  
-`│  │  └─ my-httpd.conf` - Apache конфиг  
+`│  │  └─ my-httpd.conf` - конфиг Apache  
+`│  ├─ filebeat` - конфиг сервиса Filebeat  
+`│  │  └─ filebeat.yml` - Filebeat конфиг  
 `│  ├─ localstack` - конфиг сервиса LocalStack  
 `│  │  ├─ config` - конфиг AWS CLI (локального)  
 `│  │  └─ credentials` - данные для входа AWS CLI (локального)  
 `│  ├─ logstash` - конфиг сервиса Logstash  
 `│  │  ├─ config` - конфиги Logstash  
-`│  │  │  └─ pipelines.yml` - конфиг pipelines Logstash  
-`│  │  └─ pipelines` - pipelines Logstash  
+`│  │  │  └─ pipelines.yml` - конфиг конвейеров Logstash  
+`│  │  └─ pipeline` - конвейеры Logstash  
 `│  ├─ mysql` - конфиг сервиса MySQL  
 `│  │  └─ my.cnf` - конфиг MySQL  
 `│  ├─ node` - конфиг сервиса Node  
@@ -299,8 +302,10 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ docker-compose.apache-volumes.yml` - настройки разделов сервиса Apache  
 `│  ├─ docker-compose.elastichq.yml` - настройки сервиса ElasticHQ  
 `│  ├─ docker-compose.elasticsearch.yml` - настройки сервиса Elasticsearch  
+`│  ├─ docker-compose.filebeat.yml` - настройки сервиса Filebeat  
 `│  ├─ docker-compose.kibana.yml` - настройки сервиса Kibana  
 `│  ├─ docker-compose.localstack.yml` - настройки сервиса LocalStack  
+`│  ├─ docker-compose.logstash.yml` - настройки сервиса Logstash  
 `│  ├─ docker-compose.memcached.yml` - настройки сервиса Memcached  
 `│  ├─ docker-compose.mongo.yml` - настройки сервиса Mongo  
 `│  ├─ docker-compose.mysql.yml` - настройки сервиса MySQL  

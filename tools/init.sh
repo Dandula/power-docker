@@ -57,6 +57,7 @@ my_cp images/schedule/ecosystem.config.js.example images/schedule/ecosystem.conf
 my_cp images/schedule/additional.ini.example images/schedule/additional.ini
 my_cp images/logstash/examples/config/pipelines.yml images/logstash/config/pipelines.yml
 my_cp images/logstash/examples/pipeline/native/pipeline_heartbeat.conf images/logstash/pipeline/pipeline_heartbeat.conf
+my_cp images/filebeat.yml.example images/filebeat.yml
 my_cp images/schedule/additional.ini.example images/schedule/additional.ini
 
 my_cp images/localstack/credentials.example images/localstack/credentials

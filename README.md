@@ -90,12 +90,13 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 11. Elasticsearch 
 12. Logstash
 13. Kibana
-14. phpMyAdmin
-15. Adminer
-16. Mongo-Express
-17. phpRedisAdmin
-18. ElasticHQ
-19. LocalStack (local AWS)
+14. Filebeat
+15. phpMyAdmin
+16. Adminer
+17. Mongo-Express
+18. phpRedisAdmin
+19. ElasticHQ
+20. LocalStack (local AWS)
 
 
 
@@ -252,13 +253,15 @@ aws <command>        - LocalStack AWS-CLI command
 `├─ images` - Dockerfiles and configs for services  
 `│  ├─ apache` - Apache service config  
 `│  │  └─ my-httpd.conf` - Apache config  
+`│  ├─ filebeat` - конфиг сервиса Filebeat  
+`│  │  └─ filebeat.yml` - Filebeat config  
 `│  ├─ localstack` - LocalStack service config  
 `│  │  ├─ config` - AWS CLI (local) config  
 `│  │  └─ credentials` - AWS CLI (local) credentials  
 `│  ├─ logstash` - Logstash service config  
 `│  │  ├─ config` - Logstash configs  
 `│  │  │  └─ pipelines.yml` - Logstash pipelines config  
-`│  │  └─ pipelines` - Logstash pipelines  
+`│  │  └─ pipeline` - Logstash pipelines  
 `│  ├─ mysql` - MySQL service config  
 `│  │  └─ my.cnf` - MySQL config  
 `│  ├─ node` - Node service config  
@@ -298,8 +301,10 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ docker-compose.apache-volumes.yml` - volumes setup of Apache service  
 `│  ├─ docker-compose.elastichq.yml` - ElasticHQ service setup  
 `│  ├─ docker-compose.elasticsearch.yml` - Elasticsearch service setup  
+`│  ├─ docker-compose.filebeat.yml` - Filebeat service setup  
 `│  ├─ docker-compose.kibana.yml` - Kibana service setup  
 `│  ├─ docker-compose.localstack.yml` - LocalStack service setup  
+`│  ├─ docker-compose.logstash.yml` - Logstash service setup  
 `│  ├─ docker-compose.memcached.yml` - Memcached service setup  
 `│  ├─ docker-compose.mongo.yml` - Mongo service setup  
 `│  ├─ docker-compose.mysql.yml` - MySQL service setup  

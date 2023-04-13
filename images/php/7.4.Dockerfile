@@ -121,8 +121,6 @@ RUN sed -i '/#!\/bin\/sh/achown docker:docker /var/log/php' /usr/local/bin/docke
     && sed -i '/#!\/bin\/sh/afind ~/.ssh -type f ! -name ".gitkeep" ! -name "config" ! -name "known_hosts" -delete' /usr/local/bin/docker-php-entrypoint \
     && sed -i '/#!\/bin\/sh/amkdir -p /home/docker/.ssh' /usr/local/bin/docker-php-entrypoint
 
-RUN echo 123
-
 RUN apt-get install -y sudo \
     && adduser -u ${USER_ID} --disabled-password --gecos '' docker \
     && groupmod -g ${GROUP_ID} docker \

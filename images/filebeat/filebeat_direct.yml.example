@@ -1,0 +1,26 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /logs/apache/**/access.log
+    tags: ["apache"]
+    fields:
+      log_type: apache-access
+  - type: log
+    enabled: true
+    paths:
+      - /logs/nginx/**/access.log
+    tags: ["nginx"]
+    fields:
+      log_type: nginx-access
+
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  index: "logs-%{[fields.log_type]}-%{+yyyy.MM.dd}"
+
+setup:
+  ilm:
+    enabled: false
+  template:
+    name: "logs"
+    pattern: "logs-*-*"

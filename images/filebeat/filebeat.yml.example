@@ -1,0 +1,18 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /logs/apache/**/access.log
+    tags: ["apache"]
+    fields:
+      log_type: apache-access
+  - type: log
+    enabled: true
+    paths:
+      - /logs/nginx/**/access.log
+    tags: ["nginx"]
+    fields:
+      log_type: nginx-access
+
+output.logstash:
+  hosts: ["logstash:5044"]

@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  filebeat:
+    image: elastic/filebeat:${ELASTICSEARCH_VER}
+    depends_on:
+      - "elasticsearch"
+    restart: unless-stopped
+    entrypoint: ""
+    command: [ "sh", "-c", "chmod go-w /usr/share/filebeat/filebeat.yml && filebeat -e -c /usr/share/filebeat/filebeat.yml" ]
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      - ../images/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ../logs:/logs
+    networks:
+      - workspace
