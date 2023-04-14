@@ -57,6 +57,8 @@ N|n|*)
 esac
 
 if [ "$(is_wsl)" -eq 0 ]; then
+  RELOADING_SERVICES=""
+
   for SERVICE_NAME in ${SERVICES_NEED_WWW[*]}; do
     SERVICE_VARIABLE="SERVICE_$(to_snake_case "$(to_uppercase "$SERVICE_NAME")")"
     SERVICE=$(to_lowercase "$SERVICE_NAME")
@@ -66,10 +68,14 @@ if [ "$(is_wsl)" -eq 0 ]; then
     0)
       ;;
     1|*)
-      ${DC} stop "${SERVICE}"
+      RELOADING_SERVICES="${RELOADING_SERVICES} ${SERVICE}"
       ;;
     esac
   done
+
+  if [ -n "$RELOADING_SERVICES" ]; then
+    ${DC} rm -fs "${SERVICE}"
+  fi
 fi
 
 if [[ -f "${CONFIG_APACHE_PATH}" || -d "$LOGS_APACHE_DIR" ]]; then
@@ -165,6 +171,8 @@ else
 fi
 
 if [ "$(is_wsl)" -eq 0 ]; then
+  RELOADING_SERVICES=""
+
   for SERVICE_NAME in ${SERVICES_NEED_WWW[*]}; do
     SERVICE_VARIABLE="SERVICE_$(to_snake_case "$(to_uppercase "$SERVICE_NAME")")"
     SERVICE=$(to_lowercase "$SERVICE_NAME")
@@ -174,8 +182,13 @@ if [ "$(is_wsl)" -eq 0 ]; then
     0)
       ;;
     1|*)
+      RELOADING_SERVICES="${RELOADING_SERVICES} ${SERVICE}"
       ${DC} start "${SERVICE}"
       ;;
     esac
   done
+fi
+
+if [[ "$(is_wsl)" -eq 0 && "${IS_HOST_CONFIG_CREATED}" -eq 1 && -n "$RELOADING_SERVICES" ]]; then
+  ${DC} up -d "${SERVICE}"
 fi

@@ -4,7 +4,7 @@
 DEFAULT_SERVICES=(Apache nginx PHP Node MySQL Mongo Memcached Redis RabbitMQ Schedule Elasticsearch Logstash Kibana \
 Filebeat phpMyAdmin Adminer Mongo-Express phpRedisAdmin ElasticHQ LocalStack)
 # shellcheck disable=SC2034
-DEFAULT_SERVICES_NEED_WWW=(Apache nginx PHP Node Schedule)
+DEFAULT_SERVICES_NEED_WWW=(Apache nginx PHP Node Schedule Logstash Filebeat)
 
 # shellcheck source=../parse_env.sh
 . "${SCRIPT_DIR}/scripts/parse_env.sh"

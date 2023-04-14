@@ -532,6 +532,8 @@ if [ "${NEED_CERT}" -eq 1 ]; then
 fi
 
 if [[ "$(is_wsl)" -eq 0 && "${IS_HOST_CONFIG_CREATED}" -eq 1 ]]; then
+  RELOADING_SERVICES=""
+
   for SERVICE_NAME in ${SERVICES_NEED_WWW[*]}; do
     SERVICE_VARIABLE="SERVICE_$(to_snake_case "$(to_uppercase "$SERVICE_NAME")")"
     SERVICE=$(to_lowercase "$SERVICE_NAME")
@@ -541,10 +543,14 @@ if [[ "$(is_wsl)" -eq 0 && "${IS_HOST_CONFIG_CREATED}" -eq 1 ]]; then
     0)
       ;;
     1|*)
-      ${DC} restart "${SERVICE}"
+      RELOADING_SERVICES="${RELOADING_SERVICES} ${SERVICE}"
       ;;
     esac
   done
+
+  if [ -n "$RELOADING_SERVICES" ]; then
+    ${DC} rm -fs "${SERVICE}" && ${DC} up -d "${SERVICE}"
+  fi
 fi
 
 PHP_IMAGE_DIR="${WORKSPACE_DIR}/images/node"
