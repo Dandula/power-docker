@@ -13,9 +13,12 @@ services:
     environment:
       PHP_IDE_CONFIG: serverName=${XDEBUG_SERVERNAME}
       TZ: ${TIMEZONE}
+      BLACKFIRE_CLIENT_ID: ${BLACKFIRE_CLIENT_ID}
+      BLACKFIRE_CLIENT_TOKEN: ${BLACKFIRE_CLIENT_TOKEN}
+      BLACKFIRE_ENVIRONMENT: ${BLACKFIRE_ENVIRONMENT}
     working_dir: /var/www
     volumes:
-      - ../images/php/php${PHP_VER}.ini:/usr/local/etc/php/conf.d/40-custom.ini
+      - ../images/php/php${PHP_VER}.ini:/usr/local/etc/php/conf.d/30-custom.ini
       - ../data/certs/ca:/usr/local/etc/ca
       - ../images/php/msmtprc:/etc/msmtprc
       - ../data/mails:/var/mail/sendmail

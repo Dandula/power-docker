@@ -98,6 +98,17 @@ RUN apt-get update && apt-get install -y \
 # removing temporary files
     && docker-php-source delete
 
+RUN VERSION=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
+    && ARCHITECTURE=$(uname -m) \
+    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/$ARCHITECTURE/$VERSION \
+    && mkdir -p /tmp/blackfire \
+    && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp/blackfire \
+    && mv /tmp/blackfire/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
+    && mkdir -p /tmp/blackfire-cli \
+    && curl -A "Docker" -L https://blackfire.io/api/v1/releases/cli/linux/$ARCHITECTURE | tar zxp -C /tmp/blackfire-cli \
+    && mv /tmp/blackfire-cli/blackfire /usr/bin/blackfire \
+    && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz /tmp/blackfire-cli
+
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     && php composer-setup.php \
@@ -117,7 +128,7 @@ RUN sed -i '/#!\/bin\/sh/achown docker:docker /var/log/php' /usr/local/bin/docke
     && sed -i '/#!\/bin\/sh/aeval "$(ssh-agent -s)"' /usr/local/bin/docker-php-entrypoint \
     && sed -i '/#!\/bin\/sh/afind ~/.ssh -type f ! -name "*.pub" ! -name ".gitkeep" ! -name "config" ! -name "known_hosts" -exec chmod 600 {} +' /usr/local/bin/docker-php-entrypoint \
     && sed -i '/#!\/bin\/sh/asudo find ~/.ssh -type f ! -name ".gitkeep" ! -name "config" ! -name "known_hosts" -exec chown docker {} +' /usr/local/bin/docker-php-entrypoint \
-    && sed -i '/#!\/bin\/sh/asudo cp -a /home/docker/certs/* ~/.ssh' /usr/local/bin/docker-php-entrypoint \
+    && sed -i '/#!\/bin\/sh/asudo cp -a /home/docker/certs/* ~/.ssh 2>/dev/null' /usr/local/bin/docker-php-entrypoint \
     && sed -i '/#!\/bin\/sh/afind ~/.ssh -type f ! -name ".gitkeep" ! -name "config" ! -name "known_hosts" -delete' /usr/local/bin/docker-php-entrypoint \
     && sed -i '/#!\/bin\/sh/amkdir -p /home/docker/.ssh' /usr/local/bin/docker-php-entrypoint
 

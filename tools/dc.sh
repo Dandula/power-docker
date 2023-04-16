@@ -60,6 +60,14 @@ for SERVICE_NAME in ${SERVICES[*]}; do
   fi
 done
 
+PHP_SERVICE_STATE=$(parse_env "SERVICE_PHP" "${ENV_PATH}")
+BLACKFIRE_SERVICE_STATE=$(parse_env "SERVICE_BLACKFIRE" "${ENV_PATH}")
+
+if [[ "$PHP_SERVICE_STATE" -ne 0 && "$BLACKFIRE_SERVICE_STATE" -ne 0 ]]; then
+  PHP_BLACKFIRE_CONFIG_FILE="services/docker-compose.php-blackfire.yml"
+  CONFIG_FILES_STR="${CONFIG_FILES_STR} -f ${PHP_BLACKFIRE_CONFIG_FILE}"
+fi
+
 DC_CMD="docker compose ${CONFIG_FILES_STR}"
 
 "${SCRIPT_DIR}/mount_www.sh"

@@ -48,6 +48,7 @@ my_cp .env.example .env
 my_cp images/apache/my-httpd.conf.example images/apache/my-httpd.conf
 my_cp images/php/php7.4.ini.example images/php/php7.4.ini
 my_cp images/php/php8.0.ini.example images/php/php8.0.ini
+my_cp images/php/blackfire.ini.example images/php/blackfire.ini
 my_cp images/php/msmtprc.example images/php/msmtprc
 my_cp images/mysql/my.cnf.example images/mysql/my.cnf
 my_cp images/redis/redis.conf.example images/redis/redis.conf

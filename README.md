@@ -91,12 +91,13 @@ Execute: `cd power-docker && chmod +x ./tools/init.sh && ./tools/init.sh`
 12. Logstash
 13. Kibana
 14. Filebeat
-15. phpMyAdmin
-16. Adminer
-17. Mongo-Express
-18. phpRedisAdmin
-19. ElasticHQ
-20. LocalStack (local AWS)
+15. Blackfire
+16. phpMyAdmin
+17. Adminer
+18. Mongo-Express
+19. phpRedisAdmin
+20. ElasticHQ
+21. LocalStack (local AWS)
 
 
 
@@ -270,6 +271,7 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ php` - PHP service config  
 `│  │  ├─ 7.4.Dockerfile` - Dockerfile of PHP v7.4 service  
 `│  │  ├─ 8.0.Dockerfile` - Dockerfile of PHP v8.0 service  
+`│  │  └─ blackfire.ini` - PHP config for Blackfire  
 `│  │  ├─ fakesendmail.sh` - Bash script for saving emails instead of sending them _(copied into the image at build)_  
 `│  │  ├─ msmtprc` - MSMTP config  
 `│  │  ├─ php7.4.ini` - PHP v7.4 config  
@@ -299,6 +301,7 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ docker-compose.adminer.yml` - Adminer service setup  
 `│  ├─ docker-compose.apache.yml` - Apache service setup  
 `│  ├─ docker-compose.apache-volumes.yml` - volumes setup of Apache service  
+`│  ├─ docker-compose.blackfire.yml` - Blackfire service setup  
 `│  ├─ docker-compose.elastichq.yml` - ElasticHQ service setup  
 `│  ├─ docker-compose.elasticsearch.yml` - Elasticsearch service setup  
 `│  ├─ docker-compose.filebeat.yml` - Filebeat service setup  
@@ -395,9 +398,11 @@ Execute sequentially:
 8. `yoda aws s3api create-bucket --bucket my-bucket --region us-east-1`
 9. `yoda dc run --rm php bash`
 10. `cd example`
-11. `git init`
-12. `exit`
-13. `yoda dc stop`
+11. `echo '<?php echo "Hello World".PHP_EOL;' > test.php`
+12. `blackfire run php test.php`
+13. `git init`
+14. `exit`
+15. `yoda dc stop`
 
 ### Adding a New Service
 To add a new service, you must:

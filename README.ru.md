@@ -92,12 +92,13 @@ https://docs.docker.com/compose/.
 12. Logstash
 13. Kibana
 14. Filebeat
-15. phpMyAdmin
-16. Adminer
-17. Mongo-Express
-18. phpRedisAdmin
-19. ElasticHQ
-20. LocalStack (локальный AWS)
+15. Blackfire
+16. phpMyAdmin
+17. Adminer
+18. Mongo-Express
+19. phpRedisAdmin
+20. ElasticHQ
+21. LocalStack (локальный AWS)
 
 
 
@@ -271,6 +272,7 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ php` - конфиг сервиса PHP  
 `│  │  ├─ 7.4.Dockerfile` - Dockerfile сервиса PHP версии 7.4  
 `│  │  ├─ 8.0.Dockerfile` - Dockerfile сервиса PHP версии 8.0  
+`│  │  ├─ blackfire.ini` - конфиг PHP для Blackfire  
 `│  │  ├─ fakesendmail.sh` - Bash-скрипт для сохранения emails вместо их отправки _(копируется в образ при сборке)_  
 `│  │  ├─ msmtprc` - конфиг MSMTP  
 `│  │  ├─ php7.4.ini` - конфиг PHP версии 7.4  
@@ -300,6 +302,7 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ docker-compose.adminer.yml` - настройки сервиса Adminer  
 `│  ├─ docker-compose.apache.yml` - настройки сервиса Apache  
 `│  ├─ docker-compose.apache-volumes.yml` - настройки разделов сервиса Apache  
+`│  ├─ docker-compose.blackfire.yml` - настройки сервиса Blackfire  
 `│  ├─ docker-compose.elastichq.yml` - настройки сервиса ElasticHQ  
 `│  ├─ docker-compose.elasticsearch.yml` - настройки сервиса Elasticsearch  
 `│  ├─ docker-compose.filebeat.yml` - настройки сервиса Filebeat  
@@ -396,9 +399,11 @@ aws <command>        - LocalStack AWS-CLI command
 8. `yoda aws s3api create-bucket --bucket my-bucket --region us-east-1`
 9. `yoda dc run --rm php bash`
 10. `cd example`
-11. `git init`
-12. `exit`
-13. `yoda dc stop`
+11. `echo '<?php echo "Hello World".PHP_EOL;' > test.php`
+12. `blackfire run php test.php`
+13. `git init`
+14. `exit`
+15. `yoda dc stop`
 
 ### Добавление нового сервиса
 Чтобы добавить новый сервис, вам нужно:

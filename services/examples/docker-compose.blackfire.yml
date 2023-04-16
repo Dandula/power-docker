@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  blackfire:
+    image: blackfire/blackfire:2
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE}
+      BLACKFIRE_SERVER_ID: ${BLACKFIRE_SERVER_ID}
+      BLACKFIRE_SERVER_TOKEN: ${BLACKFIRE_SERVER_TOKEN}
+      BLACKFIRE_CLIENT_ID: ${BLACKFIRE_CLIENT_ID}
+      BLACKFIRE_CLIENT_TOKEN: ${BLACKFIRE_CLIENT_TOKEN}
+    ports:
+      - "8307:8307"
+    networks:
+      - workspace

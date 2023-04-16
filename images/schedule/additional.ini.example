@@ -25,6 +25,10 @@ extension  = timezonedb
 
 zend_extension = xdebug
 
+; ----------------------------
+; Zend extensions settings
+; ----------------------------
+
 [xdebug]
 
 ;off      Nothing is enabled (0 overhead)
