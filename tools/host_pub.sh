@@ -35,8 +35,10 @@ REFERENCE="${HOST}:${PORT}"
 
 CMD="http ${REFERENCE}"
 if [ "${HOST}" != "localhost" ]; then
-  CMD="${CMD} -host-header=${REFERENCE}"
+  CMD="${CMD} --host-header=${REFERENCE}"
 fi
+
+echo "${CMD}"
 
 docker run --rm -it \
   -e "NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}" \

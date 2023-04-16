@@ -1,3 +1,4 @@
+version: 2
 web_addr: localhost:8092
 log_level: info
 log: /var/log/ngrok/ngrok.log
