@@ -302,9 +302,11 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ docker-compose.elastichq.yml` - ElasticHQ service setup  
 `│  ├─ docker-compose.elasticsearch.yml` - Elasticsearch service setup  
 `│  ├─ docker-compose.filebeat.yml` - Filebeat service setup  
+`│  ├─ docker-compose.filebeat-volumes.yml` - volumes setup of Filebeat service  
 `│  ├─ docker-compose.kibana.yml` - Kibana service setup  
 `│  ├─ docker-compose.localstack.yml` - LocalStack service setup  
 `│  ├─ docker-compose.logstash.yml` - Logstash service setup  
+`│  ├─ docker-compose.logstash-volumes.yml` - volumes setup of Logstash service  
 `│  ├─ docker-compose.memcached.yml` - Memcached service setup  
 `│  ├─ docker-compose.mongo.yml` - Mongo service setup  
 `│  ├─ docker-compose.mysql.yml` - MySQL service setup  

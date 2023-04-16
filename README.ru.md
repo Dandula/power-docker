@@ -303,9 +303,11 @@ aws <command>        - LocalStack AWS-CLI command
 `│  ├─ docker-compose.elastichq.yml` - настройки сервиса ElasticHQ  
 `│  ├─ docker-compose.elasticsearch.yml` - настройки сервиса Elasticsearch  
 `│  ├─ docker-compose.filebeat.yml` - настройки сервиса Filebeat  
+`│  ├─ docker-compose.filebeat-volumes.yml` - настройки разделов сервиса Filebeat  
 `│  ├─ docker-compose.kibana.yml` - настройки сервиса Kibana  
 `│  ├─ docker-compose.localstack.yml` - настройки сервиса LocalStack  
 `│  ├─ docker-compose.logstash.yml` - настройки сервиса Logstash  
+`│  ├─ docker-compose.logstash-volumes.yml` - настройки разделов сервиса Logstash  
 `│  ├─ docker-compose.memcached.yml` - настройки сервиса Memcached  
 `│  ├─ docker-compose.mongo.yml` - настройки сервиса Mongo  
 `│  ├─ docker-compose.mysql.yml` - настройки сервиса MySQL  
