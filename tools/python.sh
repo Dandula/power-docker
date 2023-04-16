@@ -16,7 +16,7 @@ GROUP_ID=$(parse_env "GROUP_ID" "${ENV_PATH}")
 PYTHON_VER=$(parse_env "PYTHON_VER" "${ENV_PATH}")
 TIMEZONE=$(parse_env "TIMEZONE" "${ENV_PATH}")
 
-$EXISTING_PYTHON_CONTAINER_ID=$(docker images -f reference=ws-python:${PYTHON_VER} --format "{{.ID}}")
+EXISTING_PYTHON_CONTAINER_ID=$(docker images -f reference=ws-python:${PYTHON_VER} --format "{{.ID}}")
 
 if [ -z "$EXISTING_PYTHON_CONTAINER_ID" ]; then
   docker build \
