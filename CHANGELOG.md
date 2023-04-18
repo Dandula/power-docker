@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v1.3.0](https://github.com/Dandula/power-docker/compare/v1.2.3...v1.3.0)
+
+> 18 Apr 2023
+
+- feat(services): added blackfire service [`2bd7525`](https://github.com/Dandula/power-docker/commit/2bd75250e19518f27a521262b0ba1115af2c2d3b)
+- feat(scripts): added scripts for export and import redis database [`357d46d`](https://github.com/Dandula/power-docker/commit/357d46d8352f3946765dea0e2f4e0a2156f455b8)
+- feat(services): added filebeat service [`e949024`](https://github.com/Dandula/power-docker/commit/e9490242913704b695e9e747d65d13f52515a9cc)
+- feat(scripts): added ngrok [`f8a28e1`](https://github.com/Dandula/power-docker/commit/f8a28e1f25066926e95b6c1721688b6c85d66b99)
+- fix(scripts): fixed host_add script for apache http with https [`6d36e09`](https://github.com/Dandula/power-docker/commit/6d36e09f5482c26247c344ca23493423c002685e)
+- feat(services): added logstash service [`2bfe4ba`](https://github.com/Dandula/power-docker/commit/2bfe4baf33ebd89860ec9e153d3a2a57f603fdb1)
+- fix(services): fixed the build [`e87a022`](https://github.com/Dandula/power-docker/commit/e87a022535b4963fb44d73c52b5fbec6342efdca)
+- fix(services): fixed php 7.4 docker file [`78b3b79`](https://github.com/Dandula/power-docker/commit/78b3b797be88b52d271d5ef867f60f9eef000d22)
+- fix(scripts): fixed host handling in scripts [`7ec3c4a`](https://github.com/Dandula/power-docker/commit/7ec3c4ad56e6b79325f9f6014ac21ba9a29ebbcf)
+- fix(services): fixed php 8.0 docker file [`765c510`](https://github.com/Dandula/power-docker/commit/765c5104deff757731e60f4bfe07a0821ca5b676)
+- fix(services): fixed schedule docker file [`048bec7`](https://github.com/Dandula/power-docker/commit/048bec7c21ca42a2b7c8ed6e7a92f10845348cdb)
+- docs(readme): added links on badges [`db1aa5e`](https://github.com/Dandula/power-docker/commit/db1aa5e979e12b669d7d930152da4c710b877ed8)
+- fix(scripts): fixed dc script [`6b1cd7c`](https://github.com/Dandula/power-docker/commit/6b1cd7c6c879c7a38b2a54c4b90af4004479b41d)
+- fix(services): updated node version [`d381700`](https://github.com/Dandula/power-docker/commit/d3817004a5bdee4b39a7224394bed27a0a021efc)
+- fix(services): fixed apache config [`e7cabc2`](https://github.com/Dandula/power-docker/commit/e7cabc2d92c3f5bdbf40e603ed4fddcd539299e1)
+- fix(scripts): fixed ngrok [`13f7bfa`](https://github.com/Dandula/power-docker/commit/13f7bfa15bc9176a44dcbb6905150c221f4c66ff)
+- fix(services): fixed node application example [`1d3a41f`](https://github.com/Dandula/power-docker/commit/1d3a41fe584a2335a9b50d37c13af3289b725b31)
+- docs(readme): added info about logstash and filebeat volumes [`3b58f1b`](https://github.com/Dandula/power-docker/commit/3b58f1bb6a2ad57fc1bb4c798f64dae267cdba9c)
+- fix(scripts): renamed python container variable [`547358a`](https://github.com/Dandula/power-docker/commit/547358a7de44a173bb3404dc30081af81c151e22)
+- fix(scripts): fixed adding host [`8f5f0c9`](https://github.com/Dandula/power-docker/commit/8f5f0c90504a48a739abe7f13af48900c02c3c26)
+- feat(services): added logs for elasticsearch [`c67e9c6`](https://github.com/Dandula/power-docker/commit/c67e9c6e653749508b550f166ac9d8943b94d7c7)
+- fix(scripts): fixed python [`5bcda8c`](https://github.com/Dandula/power-docker/commit/5bcda8cf4cd95c1071b9afa7663f22f87fa0eced)
+- fix(scripts): fixed python docker file [`8159c47`](https://github.com/Dandula/power-docker/commit/8159c47137eb4cb56a5ee185bd8588b02d224cff)
+- fix(services): fixed node docker file [`8936f8d`](https://github.com/Dandula/power-docker/commit/8936f8da260b3dd51ceeed7c7c0f952d1a630ec8)
+- fix(scripts): fixed deleting host [`9d0d502`](https://github.com/Dandula/power-docker/commit/9d0d50208fc837e9a8a47d751607751289b9269f)
+- chore(env): deleted non-existent service python [`af19a3e`](https://github.com/Dandula/power-docker/commit/af19a3e4cbf5f3be71d438921ac0a2affd2490d0)
+
 #### [v1.2.3](https://github.com/Dandula/power-docker/compare/v1.2.2...v1.2.3)
 
 > 26 Sep 2021
